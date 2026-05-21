@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- lang="en" tells screen readers and search engines the page language is English -->
 <html lang="en">
-<head>
+  <head>
     <!-- UTF-8 character encoding supports all standard characters and symbols -->
     <meta charset="UTF-8">
 
@@ -13,15 +13,15 @@
 
     <!-- Font Awesome CDN: provides social media and general-purpose icon fonts -->
     <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        crossorigin="anonymous"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
     >
 
     <!-- External stylesheet: all visual styles live in styles.css -->
     <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  </head>
+  <body>
 
     <!-- =====================================================================
          NAVIGATION BAR
@@ -31,23 +31,23 @@
     ===================================================================== -->
     <nav id="main-nav" aria-label="Main navigation">
 
-        <!-- Desktop link list — hidden on mobile via CSS media query -->
-        <!-- role="list" restores list semantics stripped by list-style:none in CSS -->
-        <ul class="nav-links" role="list">
-            <!-- Each <li> wraps one jump-link to a page section -->
+      <!-- Desktop link list — hidden on mobile via CSS media query -->
+      <!-- role="list" restores list semantics stripped by list-style:none in CSS -->
+      <ul class="nav-links" role="list">
+        <!-- Each <li> wraps one jump-link to a page section -->
             <li><a href="#hero-section"        class="nav-link">Home</a></li>
-            <li><a href="#coverletter-section" class="nav-link">About</a></li>
+        <li><a href="#coverletter-section" class="nav-link">About</a></li>
             <li><a href="#resume-section"      class="nav-link">Resume</a></li>
             <li><a href="#media-section"       class="nav-link">Media</a></li>
             <li><a href="#contact-section"     class="nav-link">Contact</a></li>
-        </ul>
+      </ul>
 
-        <!-- Mobile-only contact button — the only nav item visible on small screens.
+      <!-- Mobile-only contact button — the only nav item visible on small screens.
              Positioned top-right via flexbox on the parent <nav> element. -->
-        <a
-            href="#contact-section"
-            class="nav-mobile-contact"
-            aria-label="Jump to Contact section"
+      <a
+        href="#contact-section"
+        class="nav-mobile-contact"
+        aria-label="Jump to Contact section"
         >Contact</a>
 
     </nav><!-- /#main-nav -->
@@ -60,148 +60,148 @@
     ===================================================================== -->
     <main>
 
-        <!-- ==============================================================
+      <!-- ==============================================================
              HERO SECTION
              Full-viewport section. A fixed <div> acts as the background
              image, sitting behind everything via z-index. Social icon links
              are pinned 25% up from the bottom of the section.
         ============================================================== -->
-        <section class="page" id="hero-section" aria-label="Hero — introduction">
+      <section class="page" id="hero-section" aria-label="Hero — introduction">
 
-            <!-- Background image element:
+        <!-- Background image element:
                  position:fixed in CSS so it stays stationary while scrolling.
                  role="img" + aria-label makes it meaningful to screen readers. -->
-            <div
-                class="hero-bg"
-                role="img"
-                aria-label="Background portrait of Gabriel Davis"
-            ></div>
+        <div
+          class="hero-bg"
+          role="img"
+          aria-label="Background portrait of Gabriel Davis"
+        ></div>
 
-            <!-- Social icon links:
+        <!-- Social icon links:
                  <nav> is correct here — it is a navigation region for external links.
                  aria-label differentiates it from the main-nav above. -->
-            <nav class="social-icons" aria-label="Social media links">
+        <nav class="social-icons" aria-label="Social media links">
 
-                <!-- LinkedIn link — opens in a new tab.
+          <!-- LinkedIn link — opens in a new tab.
                      rel="noopener noreferrer" prevents tab-napping security risk.
                      aria-label names the destination since the icon alone has no text. -->
-                <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="icon-link"
-                    aria-label="LinkedIn profile (opens in new tab)"
-                >
-                    <!-- aria-hidden="true" hides the decorative icon from screen readers;
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="icon-link"
+            aria-label="LinkedIn profile (opens in new tab)"
+          >
+            <!-- aria-hidden="true" hides the decorative icon from screen readers;
                          the parent anchor's aria-label already describes the purpose. -->
-                    <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-                </a>
+            <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+          </a>
 
-                <!-- GitHub profile link -->
-                <a
-                    href="https://github.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="icon-link"
-                    aria-label="GitHub profile (opens in new tab)"
-                >
-                    <i class="fa-brands fa-github" aria-hidden="true"></i>
-                </a>
+          <!-- GitHub profile link -->
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="icon-link"
+            aria-label="GitHub profile (opens in new tab)"
+          >
+            <i class="fa-brands fa-github" aria-hidden="true"></i>
+          </a>
 
-                <!-- Email link — mailto: opens the user's default email client -->
-                <a
-                    href="mailto:gabrieldavis1901@gmail.com"
-                    class="icon-link"
-                    aria-label="Send email to Gabriel Davis"
-                >
-                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                </a>
+          <!-- Email link — mailto: opens the user's default email client -->
+          <a
+            href="mailto:gabrieldavis1901@gmail.com"
+            class="icon-link"
+            aria-label="Send email to Gabriel Davis"
+          >
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          </a>
 
             </nav><!-- /.social-icons -->
 
         </section><!-- /#hero-section -->
 
 
-        <!-- ==============================================================
+      <!-- ==============================================================
              COVER LETTER / ABOUT SECTION
              Solid dark-red background (z-index: 0 — sits above hero photo).
              Contains a viewable version of the cover letter document.
         ============================================================== -->
         <section class="page" id="coverletter-section" aria-label="Cover letter and about me">
 
-            <!-- .section-inner: reusable centering wrapper for section content -->
-            <div class="section-inner">
-                <!-- h2: the first heading level below the implicit h1-level hero -->
-                <h2>About Me</h2>
+        <!-- .section-inner: reusable centering wrapper for section content -->
+        <div class="section-inner">
+          <!-- h2: the first heading level below the implicit h1-level hero -->
+          <h2>About Me</h2>
 
-                <!-- Cover letter body text — replace with actual content -->
-                <!-- max-width keeps line length comfortable for reading -->
-                <p class="coverletter-body">
+          <!-- Cover letter body text — replace with actual content -->
+          <!-- max-width keeps line length comfortable for reading -->
+          <p class="coverletter-body">
                     Cover letter content goes here. Replace this placeholder with
                     the embedded document or written text.
-                </p>
+          </p>
             </div><!-- /.section-inner -->
 
         </section><!-- /#coverletter-section -->
 
 
-        <!-- ==============================================================
+      <!-- ==============================================================
              RESUME SECTION
              Background: gradient + backdrop-filter blur layered over the
              fixed hero photo that shows through because this section has
              no opaque background of its own.
         ============================================================== -->
-        <section class="page" id="resume-section" aria-label="Resume">
+      <section class="page" id="resume-section" aria-label="Resume">
 
-            <div class="section-inner">
-                <h2>Resume</h2>
-                <!-- Placeholder — replace with an <iframe>, embedded PDF, or content -->
-                <p>Resume content or embedded document goes here.</p>
-            </div>
+        <div class="section-inner">
+          <h2>Resume</h2>
+          <!-- Placeholder — replace with an <iframe>, embedded PDF, or content -->
+          <p>Resume content or embedded document goes here.</p>
+        </div>
 
         </section><!-- /#resume-section -->
 
 
-        <!-- ==============================================================
+      <!-- ==============================================================
              MEDIA SECTION
              CSS grid layout. Gradient blur background over hero photo.
              Each grid card has a mahogany background and black border.
         ============================================================== -->
-        <section class="page" id="media-section" aria-label="Media gallery">
+      <section class="page" id="media-section" aria-label="Media gallery">
 
-            <div class="section-inner">
-                <h2>Media</h2>
+        <div class="section-inner">
+          <h2>Media</h2>
 
-                <!-- .media-grid: the CSS grid container.
+          <!-- .media-grid: the CSS grid container.
                      role="list" so assistive tech announces item count;
                      pairs with role="listitem" on each child <article>. -->
-                <div class="media-grid" role="list">
+          <div class="media-grid" role="list">
 
-                    <!-- Each <article> is a self-contained media card.
+            <!-- Each <article> is a self-contained media card.
                          <article> is semantically correct for independent content pieces. -->
-                    <article class="media-item" role="listitem">
-                        <p>Media item 1</p>
-                    </article>
+            <article class="media-item" role="listitem">
+              <p>Media item 1</p>
+            </article>
 
-                    <article class="media-item" role="listitem">
-                        <p>Media item 2</p>
-                    </article>
+            <article class="media-item" role="listitem">
+              <p>Media item 2</p>
+            </article>
 
-                    <article class="media-item" role="listitem">
-                        <p>Media item 3</p>
-                    </article>
+            <article class="media-item" role="listitem">
+              <p>Media item 3</p>
+            </article>
 
-                    <article class="media-item" role="listitem">
-                        <p>Media item 4</p>
-                    </article>
+            <article class="media-item" role="listitem">
+              <p>Media item 4</p>
+            </article>
 
-                    <article class="media-item" role="listitem">
-                        <p>Media item 5</p>
-                    </article>
+            <article class="media-item" role="listitem">
+              <p>Media item 5</p>
+            </article>
 
-                    <article class="media-item" role="listitem">
-                        <p>Media item 6</p>
-                    </article>
+            <article class="media-item" role="listitem">
+              <p>Media item 6</p>
+            </article>
 
                 </div><!-- /.media-grid -->
             </div><!-- /.section-inner -->
@@ -209,25 +209,25 @@
         </section><!-- /#media-section -->
 
 
-        <!-- ==============================================================
+      <!-- ==============================================================
              CONTACT / SOCIALS SECTION
              1/3 viewport height (uses .page-third instead of .page).
              Contains contact details and social links.
         ============================================================== -->
         <section class="page-third" id="contact-section" aria-label="Contact and socials">
 
-            <div class="section-inner">
-                <h2>Contact</h2>
+        <div class="section-inner">
+          <h2>Contact</h2>
 
-                <!-- <address> is the semantic HTML element for contact information.
+          <!-- <address> is the semantic HTML element for contact information.
                      Screen readers announce its content as contact details. -->
-                <address>
-                    <!-- Email link inside address — full mailto: URI -->
-                    <a
-                        href="mailto:gabrieldavis1901@gmail.com"
-                        aria-label="Send email to gabrieldavis1901@gmail.com"
+          <address>
+            <!-- Email link inside address — full mailto: URI -->
+            <a
+              href="mailto:gabrieldavis1901@gmail.com"
+              aria-label="Send email to gabrieldavis1901@gmail.com"
                     >gabrieldavis1901@gmail.com</a>
-                </address>
+          </address>
 
             </div><!-- /.section-inner -->
 
@@ -242,10 +242,10 @@
          as copyright, legal links, or supplementary information.
     ===================================================================== -->
     <footer aria-label="Site footer">
-        <!-- Copyright line — the year is injected dynamically by script.js -->
-        <p>
+      <!-- Copyright line — the year is injected dynamically by script.js -->
+      <p>
             &copy; <span id="footer-year"></span> Gabriel Davis. All rights reserved.
-        </p>
+      </p>
     </footer><!-- /footer -->
 
 
@@ -253,5 +253,5 @@
          before the JavaScript runs, avoiding "element not found" errors. -->
     <script src="script.js"></script>
 
-</body>
+  </body>
 </html>
