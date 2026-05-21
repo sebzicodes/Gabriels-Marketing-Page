@@ -1,14 +1,11 @@
-# CLAUDE.MD
+# CLAUDE.md
 
 ## Lovelys Resume Website
 A resume website created using vanilla javascript, CSS, and HTML for personal marketing.
 
 ## Nav
 
-## 
-
 ## Hero Section
-
 
 ## Resume Section
 
@@ -17,3 +14,5 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 ## Media
 
 ## Socials/Contacts
+
+## Footer
