@@ -1,0 +1,450 @@
+/* ==========================================================================
+   STYLES.CSS — Lovelys Resume Website
+   Vanilla CSS with no frameworks. Every rule is commented to explain
+   what it does and why, per project convention.
+========================================================================== */
+
+
+/* ==========================================================================
+   1. CSS CUSTOM PROPERTIES (VARIABLES)
+   Defined on :root so they are accessible throughout the entire stylesheet.
+   Changing a value here updates every place it is referenced.
+========================================================================== */
+:root {
+    /* Color palette */
+    --color-dark-red: #6B1414;              /* Cover letter section background */
+    --color-mahogany: #4E1010;              /* Media grid card background */
+    --color-nav-bg: rgba(18, 6, 6, 0.95);  /* Nav solid state (after scroll) */
+    --color-text-light: #F5F0EE;            /* Primary text on dark backgrounds */
+    --color-accent: #C8956C;                /* Warm copper accent for links/hover */
+    --color-footer-bg: #0d0505;             /* Nearly-black footer background */
+    --color-contact-bg: #1a0a0a;            /* Contact section background */
+
+    /* Layout */
+    --nav-height: 64px;   /* Height of the fixed navigation bar */
+
+    /* Animation */
+    --transition: 0.35s ease; /* Shared transition duration + easing */
+}
+
+
+/* ==========================================================================
+   2. GLOBAL RESET & BASE STYLES
+   Normalise browser defaults so the design starts from a clean slate.
+========================================================================== */
+
+/* Box-sizing: border-box makes width/height calculations include padding
+   and borders, which is far more predictable than the browser default. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;   /* Remove browser default margins */
+    padding: 0;  /* Remove browser default padding */
+}
+
+/* Smooth anchor scrolling when the user clicks a jump link */
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base size; all rem values are relative to this */
+}
+
+body {
+    font-family: 'Georgia', serif; /* Elegant serif for a professional tone */
+    color: var(--color-text-light);
+    background-color: #111;        /* Dark fallback behind any transparent sections */
+    overflow-x: hidden;            /* Prevent horizontal scroll from wide children */
+}
+
+/* Remove bullet points from lists; role="list" in HTML restores a11y semantics */
+ul {
+    list-style: none;
+}
+
+/* Remove underline from all anchors by default; individual rules restore styling */
+a {
+    text-decoration: none;
+    color: inherit; /* Inherit parent colour so anchors blend unless styled */
+}
+
+
+/* ==========================================================================
+   3. NAVIGATION BAR
+   Fixed to the viewport top; starts transparent; gains a solid background
+   when the user scrolls (the .scrolled class is toggled by script.js).
+========================================================================== */
+#main-nav {
+    position: fixed;            /* Does not scroll with the page */
+    top: 0;
+    left: 0;
+    width: 100%;                /* Spans the full viewport width */
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;        /* Vertically centre the nav children */
+    justify-content: flex-end;  /* Push links to the right side */
+    padding: 0 2rem;            /* Horizontal breathing room */
+    background: transparent;    /* Invisible over the hero image by default */
+    /* Animate both background colour and blur when .scrolled is added */
+    transition: background var(--transition),
+                backdrop-filter var(--transition);
+    z-index: 100; /* Sits above all page sections (hero bg is z-index: -1) */
+}
+
+/* .scrolled is added by script.js when window.scrollY > 10px */
+#main-nav.scrolled {
+    background: var(--color-nav-bg);        /* Solid dark background */
+    backdrop-filter: blur(8px);             /* Frosted-glass blur */
+    -webkit-backdrop-filter: blur(8px);     /* Safari prefix */
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); /* Depth shadow */
+}
+
+/* --- Desktop nav links -------------------------------------------------- */
+/* Horizontal list of section jump-links shown only on desktop */
+.nav-links {
+    display: flex;  /* Lay list items out in a row */
+    gap: 2rem;      /* Space between each link */
+}
+
+/* Individual anchor inside the desktop nav list */
+.nav-link {
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;    /* Spaced capitals look refined */
+    text-transform: uppercase;
+    color: var(--color-text-light);
+    padding: 0.25rem 0;       /* Vertical click-target padding */
+    transition: color var(--transition);
+}
+
+.nav-link:hover {
+    color: var(--color-accent); /* Warm accent on hover */
+}
+
+/* Visible focus ring — required for keyboard navigation (a11y) */
+.nav-link:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+/* --- Mobile-only contact button ----------------------------------------- */
+/* Only this button appears on small screens (top-right corner) */
+.nav-mobile-contact {
+    display: none;              /* Hidden by default; revealed in media query */
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-light);
+    background: var(--color-dark-red); /* Visible even against transparent nav */
+    padding: 0.45rem 1.1rem;
+    border-radius: 4px;
+    transition: background var(--transition);
+}
+
+.nav-mobile-contact:hover {
+    background: var(--color-mahogany); /* Darken on hover */
+}
+
+.nav-mobile-contact:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+}
+
+/* --- Mobile breakpoint -------------------------------------------------- */
+/* Screens narrower than 768px switch to mobile layout */
+@media (max-width: 768px) {
+    /* Hide the full desktop link list */
+    .nav-links {
+        display: none;
+    }
+
+    /* Show the single contact button */
+    .nav-mobile-contact {
+        display: inline-block;
+    }
+
+    /* Ensure the button stays in the top-right corner */
+    #main-nav {
+        justify-content: flex-end;
+    }
+}
+
+
+/* ==========================================================================
+   4. PAGE SECTION SIZING
+   Each .page section fills the full viewport; .page-third is one-third.
+========================================================================== */
+
+/* Full-viewport section — used by Hero, Cover Letter, Resume, Media */
+.page {
+    width: 100%;        /* Full viewport width */
+    height: 100vh;      /* Full viewport height */
+    position: relative; /* Positioning context for absolute children */
+    overflow: hidden;   /* Clip content that extends beyond the section */
+}
+
+/* One-third viewport height — used by Contact/Socials section */
+.page-third {
+    width: 100%;
+    height: 33.333vh;   /* Exactly one-third of the viewport height */
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* ==========================================================================
+   5. GENERIC SECTION INNER WRAPPER
+   .section-inner centres content inside a section and sits above any
+   background pseudo-elements or layered divs (z-index: 1).
+========================================================================== */
+.section-inner {
+    position: relative; /* Creates stacking context above bg layers */
+    z-index: 1;         /* Appear above background gradient/blur divs */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;        /* Fill the parent section's height */
+    padding: 4rem 2rem;  /* Comfortable internal spacing */
+    text-align: center;
+}
+
+/* Fluid heading size: clamp(min, preferred, max) avoids separate media queries */
+.section-inner h2 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+}
+
+
+/* ==========================================================================
+   6. HERO SECTION
+   Fixed background image stays stationary while the rest of the page
+   scrolls over it. Social icons are pushed 25% up from the section bottom.
+========================================================================== */
+#hero-section {
+    display: flex;
+    align-items: flex-end;   /* Anchor children to the bottom of the section */
+    justify-content: center; /* Centre them horizontally */
+    padding-bottom: 25%;     /* 25% gap from the bottom lifts the icon cluster */
+}
+
+/* The fixed background image div.
+   position:fixed pins it to the viewport; z-index:-1 sends it behind everything.
+   Place your hero image at assets/hero-bg.jpg (or update the path below). */
+.hero-bg {
+    position: fixed;              /* Stays still while page scrolls */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/hero-bg.jpg'); /* <-- update with your image path */
+    background-size: cover;       /* Scale to fill without distortion */
+    background-position: center;  /* Keep the focal point centred */
+    background-repeat: no-repeat;
+    z-index: -1; /* Behind every page section */
+}
+
+
+/* ==========================================================================
+   7. SOCIAL ICON LINKS (Hero section)
+   A horizontal row of circular icon anchors, centred in the Hero section.
+========================================================================== */
+.social-icons {
+    display: flex;
+    gap: 1.5rem;      /* Space between each icon circle */
+    align-items: center;
+}
+
+/* Each icon anchor is a circular button-like target */
+.icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;                          /* Fixed square that becomes a circle */
+    height: 3rem;
+    border-radius: 50%;                   /* Turn the square into a circle */
+    background: rgba(255, 255, 255, 0.15); /* Subtle frosted-glass look */
+    backdrop-filter: blur(4px);           /* Blur whatever is behind the circle */
+    -webkit-backdrop-filter: blur(4px);   /* Safari prefix */
+    color: #fff;
+    font-size: 1.25rem;
+    /* Animate background brightness and vertical position together */
+    transition: background var(--transition),
+                transform var(--transition);
+}
+
+.icon-link:hover {
+    background: rgba(255, 255, 255, 0.3); /* Brighten circle on hover */
+    transform: translateY(-4px);          /* Subtle lift effect */
+}
+
+/* Keyboard focus ring — a11y requirement; must be visible */
+.icon-link:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 5px;
+}
+
+
+/* ==========================================================================
+   8. COVER LETTER / ABOUT SECTION
+   Solid dark-red background. z-index:0 puts it in normal flow, above the
+   fixed hero image (-1) but below the nav (100).
+========================================================================== */
+#coverletter-section {
+    background-color: var(--color-dark-red);
+    z-index: 0; /* Normal stacking order — no special layering needed */
+}
+
+/* Comfortable reading width for the cover letter text block */
+.coverletter-body {
+    max-width: 720px;
+    line-height: 1.8; /* Generous line-height improves readability */
+    font-size: 1rem;
+    color: var(--color-text-light);
+}
+
+
+/* ==========================================================================
+   9. RESUME SECTION
+   No opaque background — the fixed hero photo shows through underneath.
+   A gradient + backdrop-filter creates the "blurred photo" effect.
+========================================================================== */
+#resume-section {
+    /* Dark-to-warm gradient overlay gives depth without hiding the photo completely */
+    background: linear-gradient(
+        135deg,
+        rgba(20, 5, 5, 0.85) 0%,
+        rgba(74, 20, 20, 0.70) 100%
+    );
+    backdrop-filter: blur(6px);         /* Blur the hero photo showing beneath */
+    -webkit-backdrop-filter: blur(6px); /* Safari prefix */
+}
+
+
+/* ==========================================================================
+   10. MEDIA SECTION
+   CSS grid layout. Same gradient-blur technique as the Resume section.
+   Grid cards have a mahogany background and a 1px black border.
+========================================================================== */
+#media-section {
+    background: linear-gradient(
+        135deg,
+        rgba(10, 5, 5, 0.88) 0%,
+        rgba(60, 15, 15, 0.75) 100%
+    );
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* Override the default flex layout so the section-inner can host the grid */
+#media-section .section-inner {
+    display: grid;
+    /* Two rows: one auto-height row for the heading, one flexible row for the grid */
+    grid-template-rows: auto 1fr;
+    align-items: start;
+    justify-items: center;
+    gap: 0; /* Gap between heading and grid is handled by the grid itself */
+}
+
+/* The CSS grid container: 3 equal columns on desktop */
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+    gap: 1.25rem;         /* Gutter between all grid cells */
+    width: 100%;
+    max-width: 960px;     /* Prevent cards from growing too wide on large screens */
+    padding: 0 1rem;
+}
+
+/* Individual media grid card */
+.media-item {
+    background-color: var(--color-mahogany); /* Mahogany fill per spec */
+    border: 1px solid #000;                  /* Small black border per spec */
+    border-radius: 4px;                      /* Slight rounding softens the card */
+    padding: 1.5rem;
+    min-height: 180px;                       /* Consistent card height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-light);
+    transition: transform var(--transition);
+}
+
+/* Subtle lift on hover gives the grid a tactile feel */
+.media-item:hover {
+    transform: translateY(-4px);
+}
+
+/* Tablet: collapse to 2 columns when the viewport is narrower */
+@media (max-width: 768px) {
+    .media-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Phone: single column on very narrow screens */
+@media (max-width: 480px) {
+    .media-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ==========================================================================
+   11. CONTACT / SOCIALS SECTION
+   Uses .page-third (33.333vh). Dark warm-black background with a red
+   top border as a section divider.
+========================================================================== */
+#contact-section {
+    background-color: var(--color-contact-bg);
+    border-top: 1px solid var(--color-dark-red); /* Subtle section separator */
+}
+
+/* Horizontal layout on desktop — stacks on narrow screens via flex-wrap */
+#contact-section .section-inner {
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Wraps to a column layout on narrow screens */
+    gap: 1.5rem;
+}
+
+/* <address> defaults to italic in all browsers — override it */
+address {
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* Contact link (email) styling */
+address a {
+    color: var(--color-accent);
+    font-size: 1rem;
+    transition: color var(--transition);
+}
+
+address a:hover {
+    color: #fff;
+}
+
+address a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+}
+
+
+/* ==========================================================================
+   12. FOOTER
+   Slim bar at the very bottom; dimmed text since it is supplementary info.
+========================================================================== */
+footer {
+    background-color: var(--color-footer-bg);
+    color: rgba(255, 255, 255, 0.4); /* Dim — footer is secondary content */
+    text-align: center;
+    padding: 1rem 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+}
