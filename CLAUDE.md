@@ -1,11 +1,11 @@
 # CLAUDE.md
-
+- every change thats made, Claude will update this `CLAUDE.md` doc.
 ## Lovelys Resume Website
 A resume website created using vanilla javascript, CSS, and HTML for personal marketing.
 - Every line of code should have detailed notes explaining the code.
 ## a11y 
 ## Accessibility (a11y) Rules
-- Semantic HTML: Use native elements (`<button>`, `<main>`, `<nav>` , `<aside>`, `) instead of generic `<div>` wrappers.
+- Semantic HTML: Use native elements (`<button>`, `<main>`, `<nav>` , `<aside>`, `<section>`, `) instead of generic `<div>` wrappers.
 - Aria Attributes: Always provide `aria-label` or `aria-describedby` on interactive components lacking visible text.
 - Keyboard Support: Every interactive element must be fully focusable and navigable using the `Tab` and `Enter` keys.
 - Images: All `<img>` tags must include descriptive `alt` text, or `alt=""` if purely decorative.
