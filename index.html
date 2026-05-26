@@ -79,9 +79,10 @@
 
 
         <!-- Social icon links:
+                 id="hero-icons" targets this element in script.js for sticky scroll logic.
                  <nav> is correct here — it is a navigation region for external links.
                  aria-label differentiates it from the main-nav above. -->
-        <nav class="social-icons" aria-label="Social media links">
+        <nav id="hero-icons" class="social-icons" aria-label="Social media links">
 
           <!-- LinkedIn link — opens in a new tab.
                      rel="noopener noreferrer" prevents tab-napping security risk.
@@ -248,6 +249,58 @@
             &copy; <span id="footer-year"></span> Gabriel Davis. All rights reserved.
       </p>
     </footer><!-- /footer -->
+
+
+    <!-- =====================================================================
+         SIDEBAR SOCIAL ICONS (persistent bottom-right)
+         This is the second set of social icon links that fades in once the
+         hero section scrolls off-screen.  script.js toggles .is-visible
+         on this element.  aria-hidden="true" hides it from screen readers
+         until it becomes visible (script.js removes the attribute then).
+    ===================================================================== -->
+    <nav
+      id="sidebar-icons"
+      class="social-icons"
+      aria-label="Social media links — persistent"
+      aria-hidden="true"
+    >
+
+      <!-- LinkedIn — same link and aria-label as the hero set -->
+      <a
+        href="https://linkedin.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="icon-link"
+        aria-label="LinkedIn profile (opens in new tab)"
+        tabindex="-1"
+      >
+        <!-- aria-hidden hides the decorative icon; parent anchor is the accessible label -->
+        <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+      </a>
+
+      <!-- GitHub -->
+      <a
+        href="https://github.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="icon-link"
+        aria-label="GitHub profile (opens in new tab)"
+        tabindex="-1"
+      >
+        <i class="fa-brands fa-github" aria-hidden="true"></i>
+      </a>
+
+      <!-- Email -->
+      <a
+        href="mailto:gabrieldavis1901@gmail.com"
+        class="icon-link"
+        aria-label="Send email to Gabriel Davis"
+        tabindex="-1"
+      >
+        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+      </a>
+
+    </nav><!-- /#sidebar-icons -->
 
 
     <!-- script.js is loaded at the end of <body> so the DOM is fully parsed

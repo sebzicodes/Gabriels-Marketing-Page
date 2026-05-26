@@ -227,7 +227,7 @@ a {
     display: flex;
     align-items: flex-end;   /* Anchor children to the bottom of the section */
     justify-content: center; /* Centre them horizontally */
-    padding-bottom: 25%;     /* 25% gap from the bottom lifts the icon cluster */
+    padding-bottom: 25vh;    /* 25% of viewport HEIGHT lifts the icon cluster */
 }
 
 /* The fixed background image div.
@@ -255,6 +255,40 @@ a {
     display: flex;
     gap: 1.5rem;      /* Space between each icon circle */
     align-items: center;
+    /* Opacity transition powers the fade-in/out for sticky and sidebar states */
+    transition: opacity 0.4s ease;
+}
+
+/* --- Hero icon sticky state -------------------------------------------- */
+/* Added by script.js when the icons reach 33vh from the viewport top.
+   Removes them from flex flow and pins them to a fixed viewport position. */
+#hero-icons.is-sticky {
+    position: fixed;       /* Float out of document flow; ignore section scroll */
+    top: 33vh;             /* Locked exactly 1/3 down from the top of the viewport */
+    left: 50%;             /* Start at the horizontal midpoint of the viewport */
+    transform: translateX(-50%); /* Shift left by half own width to truly centre */
+    z-index: 50;           /* Above all sections (nav is 100, hero-bg is -1) */
+}
+
+/* --- Sidebar icons (persistent bottom-right) ----------------------------- */
+/* The second set of social links.  Starts invisible and fixed bottom-right.
+   script.js adds .is-visible when the hero section leaves the viewport. */
+#sidebar-icons {
+    position: fixed;       /* Always relative to the viewport, never scrolls */
+    bottom: 2rem;          /* 2rem gap from the bottom edge of the screen */
+    right: 2rem;           /* 2rem gap from the right edge of the screen */
+    flex-direction: column; /* Stack icons vertically for a sidebar-style widget */
+    gap: 1rem;             /* Slightly tighter than the hero's 1.5rem gap */
+    opacity: 0;            /* Hidden by default */
+    pointer-events: none;  /* Not interactive while hidden */
+    z-index: 50;           /* Same stacking level as the sticky hero icons */
+    /* opacity transition is inherited from .social-icons above */
+}
+
+/* Visible state toggled by script.js */
+#sidebar-icons.is-visible {
+    opacity: 1;            /* Fully visible */
+    pointer-events: auto;  /* Restore click interaction */
 }
 
 /* Each icon anchor is a circular button-like target */
