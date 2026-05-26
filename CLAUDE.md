@@ -41,7 +41,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - `icon-links` will have respective icons updated by its linked site reference.
 - Icons are pinned to the bottom of the section using `align-items: flex-end` and `padding-bottom: 2rem` on `#hero-section`.
 - Icons do NOT move or become sticky — they scroll away naturally with the page.
-- A gradient blur backdrop (`#hero-icons::before` pseudo-element) sits behind the hero social icons when the user is at the very top of the page. It fades out (opacity: 0) as soon as the user scrolls down (scrollY > 10px). JS adds/removes `.icons-scrolled` on `#hero-icons` inside `handleNavScroll()`.
+- A gradient blur backdrop (`#hero-icons::before` pseudo-element) sits behind the hero social icons when the user is at the very top of the page. It spans the full viewport width (`width: 100vw` centred via `left: 50%; transform: translateX(-50%)`) and extends from 40vh above the icons down to the very bottom edge of the hero section (`bottom: -2rem` matching the section's `padding-bottom`). The gradient fades from fully transparent at the top to semi-dark at the bottom. It fades out (opacity: 0) as soon as the user scrolls down (scrollY > 10px). JS adds/removes `.icons-scrolled` on `#hero-icons` inside `handleNavScroll()`.
 
 ## Coverletter-section (About)
 

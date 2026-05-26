@@ -281,22 +281,26 @@ a {
     position: relative;
 }
 
-/* Gradient blur backdrop that sits behind the hero social icons only.
-   Visible at the very top of the page; fades out when the user scrolls
+/* Gradient blur backdrop that spans the full page width and covers the
+   bottom of the hero section. Fades out when the user scrolls
    (JS adds .icons-scrolled to #hero-icons when scrollY > 10). */
 #hero-icons::before {
     content: '';                   /* Required for generated content to render */
     position: absolute;
-    /* Extend beyond the icon circles to create comfortable visual padding */
-    top: -1.5rem;
-    left: -2rem;
-    right: -2rem;
-    bottom: -1rem;
-    border-radius: 1.5rem;         /* Soft pill shape around the icon group */
-    /* Warm gradient: transparent at top, semi-dark at bottom */
+    /* Full viewport width: centre on the icon row then stretch to 100vw */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    /* Extend upward for a tall gradient fade band across the hero bottom */
+    top: -40vh;
+    /* -2rem matches hero-section's padding-bottom so the band reaches the
+       very bottom edge of the section */
+    bottom: -2rem;
+    border-radius: 0;              /* No pill shape — full-width band */
+    /* Vertical gradient: fully transparent at top, semi-dark at bottom */
     background: linear-gradient(
-        160deg,
-        rgba(20, 5, 5, 0.15) 0%,
+        to bottom,
+        rgba(20, 5, 5, 0) 0%,
         rgba(10, 3, 3, 0.55) 100%
     );
     backdrop-filter: blur(18px);          /* Frosted-glass blur of the hero photo */
