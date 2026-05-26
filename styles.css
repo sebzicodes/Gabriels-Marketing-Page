@@ -182,10 +182,14 @@ a {
         height: 100svh;  /* Mobile-safe: excludes the collapsible browser toolbar */
     }
 
-    /* Hero gradient blur: use svh on mobile so the 1/5 calculation matches the
-       100svh hero section height rather than the larger 100vh value. */
+    /* Hero gradient blur: pin the band to exactly the bottom 1/5 of the
+       mobile viewport. Using height + bottom instead of top avoids the
+       unreliable icon-position offset that caused the band to creep halfway
+       up the screen on small devices. */
     #hero-icons::before {
-        top: calc(-20svh + 5rem);
+        top: auto;        /* Ignore the desktop top-offset calculation */
+        height: 20svh;    /* Exactly 1/5 of the mobile viewport height */
+        bottom: -2rem;    /* Keep the bottom-edge flush with the section */
     }
 
     /* About icons: explicitly enforce vertical stacking on mobile and tighten the
