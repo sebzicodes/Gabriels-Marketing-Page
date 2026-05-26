@@ -110,9 +110,15 @@ a {
     font-size: 0.9rem;
     letter-spacing: 0.1em;    /* Spaced capitals look refined */
     text-transform: uppercase;
-    color: var(--color-text-light);
+    color: #000;               /* Black text when nav background is transparent */
     padding: 0.25rem 0;       /* Vertical click-target padding */
     transition: color var(--transition);
+}
+
+/* When the nav gains a solid background on scroll, flip link text to white
+   so it stays legible against the dark nav background */
+#main-nav.scrolled .nav-link {
+    color: var(--color-text-light);
 }
 
 .nav-link:hover {
@@ -268,6 +274,45 @@ a {
    7. SOCIAL ICON LINKS (Hero section)
    A horizontal row of circular icon anchors, centred in the Hero section.
 ========================================================================== */
+
+/* #hero-icons needs position:relative so the ::before pseudo-element can be
+   absolutely positioned relative to the icon row instead of the section. */
+#hero-icons {
+    position: relative;
+}
+
+/* Gradient blur backdrop that sits behind the hero social icons only.
+   Visible at the very top of the page; fades out when the user scrolls
+   (JS adds .icons-scrolled to #hero-icons when scrollY > 10). */
+#hero-icons::before {
+    content: '';                   /* Required for generated content to render */
+    position: absolute;
+    /* Extend beyond the icon circles to create comfortable visual padding */
+    top: -1.5rem;
+    left: -2rem;
+    right: -2rem;
+    bottom: -1rem;
+    border-radius: 1.5rem;         /* Soft pill shape around the icon group */
+    /* Warm gradient: transparent at top, semi-dark at bottom */
+    background: linear-gradient(
+        160deg,
+        rgba(20, 5, 5, 0.15) 0%,
+        rgba(10, 3, 3, 0.55) 100%
+    );
+    backdrop-filter: blur(18px);          /* Frosted-glass blur of the hero photo */
+    -webkit-backdrop-filter: blur(18px);  /* Safari prefix */
+    z-index: -1;                   /* Sits behind the icon anchors */
+    opacity: 1;                    /* Visible by default (user is at the top) */
+    transition: opacity 0.5s ease; /* Smooth fade out when scrolling begins */
+    pointer-events: none;          /* Never intercepts clicks intended for icons */
+}
+
+/* Fade the blur bg out once the user scrolls away from the top.
+   .icons-scrolled is toggled by handleNavScroll() in script.js. */
+#hero-icons.icons-scrolled::before {
+    opacity: 0; /* Invisible — user has scrolled past the hero top */
+}
+
 .social-icons {
     display: flex;
     gap: 1.5rem;      /* Space between each icon circle */

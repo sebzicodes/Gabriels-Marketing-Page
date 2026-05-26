@@ -14,11 +14,17 @@
 
 /* getElementById: retrieves the <nav id="main-nav"> element from the DOM.
    Stored in a variable so we don't query the DOM on every scroll event. */
-const mainNav = document.getElementById('main-nav');
+const mainNav  = document.getElementById('main-nav');
+
+/* Cache the hero social icons nav — its ::before pseudo-element is the
+   gradient blur backdrop that fades out once the user leaves the top. */
+const heroIcons = document.getElementById('hero-icons');
 
 /**
  * handleNavScroll
- * Checks the vertical scroll position and toggles the .scrolled class.
+ * Checks the vertical scroll position and toggles:
+ *   .scrolled       on #main-nav   — solid background when scrolled
+ *   .icons-scrolled on #hero-icons — hides the gradient blur backdrop
  * Called on every "scroll" event and once on page load.
  */
 function handleNavScroll() {
@@ -29,10 +35,17 @@ function handleNavScroll() {
         /* classList.add: appends "scrolled" to the nav's class list.
            CSS then transitions background-color and backdrop-filter. */
         mainNav.classList.add('scrolled');
+
+        /* Hide the gradient blur bg behind the hero icons — user has
+           scrolled away from the top of the page. */
+        heroIcons.classList.add('icons-scrolled');
     } else {
         /* classList.remove: removes "scrolled" when back near the top,
            returning the nav to its transparent state. */
         mainNav.classList.remove('scrolled');
+
+        /* Restore the gradient blur bg — user is back at the very top. */
+        heroIcons.classList.remove('icons-scrolled');
     }
 }
 

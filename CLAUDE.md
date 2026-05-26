@@ -32,6 +32,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - theres a nav button that jumps to each section at the top of the page on desktop
 - on mobile, the only nav button that will be accessible at the top right corner is `Socials/Contact`
 - Nav bar is transparant until you scroll down, then it becomes sticky with a solid background.
+- Nav link text is black when the background is transparent; turns white once `.scrolled` is added (solid dark background).
 
 ## Hero-section
 
@@ -40,6 +41,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - `icon-links` will have respective icons updated by its linked site reference.
 - Icons are pinned to the bottom of the section using `align-items: flex-end` and `padding-bottom: 2rem` on `#hero-section`.
 - Icons do NOT move or become sticky — they scroll away naturally with the page.
+- A gradient blur backdrop (`#hero-icons::before` pseudo-element) sits behind the hero social icons when the user is at the very top of the page. It fades out (opacity: 0) as soon as the user scrolls down (scrollY > 10px). JS adds/removes `.icons-scrolled` on `#hero-icons` inside `handleNavScroll()`.
 
 ## Coverletter-section (About)
 
