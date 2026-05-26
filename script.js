@@ -61,36 +61,38 @@ const aboutIcons   = document.getElementById('about-icons');         /* Bottom-r
 /**
  * handleAboutIconScroll
  * Shows or hides the about-section social icons based on whether the about
- * section is currently in or below the viewport.
+ * section's top edge has reached or passed the top of the viewport.
  *
- * Threshold: aboutSection.offsetTop — the document Y of the section top.
- * When scrollY >= that value the about section has entered the viewport;
- * when scrollY < that value the user is back in the hero section.
+ * Uses getBoundingClientRect().top instead of offsetTop because offsetTop
+ * can return 0 on mobile Safari before the initial layout paint completes,
+ * which would make scrollY >= 0 always true and keep icons permanently shown.
+ * getBoundingClientRect() is computed from live layout every time it is called,
+ * so it is always accurate regardless of when the browser finishes laying out.
  */
 function handleAboutIconScroll() {
-    /* window.scrollY: vertical scroll offset from the document top in pixels */
-    const scrollY    = window.scrollY;
+    /* getBoundingClientRect().top: distance in px from the viewport's top edge
+       to the element's top edge.  Negative values mean the top has scrolled
+       above the viewport; zero means it is exactly at the top; positive means
+       the section has not yet scrolled into view from below. */
+    const aboutTop = aboutSection.getBoundingClientRect().top;
 
-    /* offsetTop: distance from the document top to the start of the about section.
-       Roughly equals 100vh (= one full hero section height). */
-    const aboutTop   = aboutSection.offsetTop;
-
-    if (scrollY >= aboutTop) {
-        /* ── VISIBLE: about section is in view or has scrolled past ──────
-           Show the icons and make them interactive. */
-        aboutIcons.classList.add('is-visible');       /* Fade in via CSS opacity */
-        aboutIcons.removeAttribute('aria-hidden');     /* Expose to screen readers */
-        /* Remove tabindex restriction so Tab key can reach these links */
+    if (aboutTop <= 0) {
+        /* ── VISIBLE: about section top is at or above the viewport top ──
+           The user has entered or scrolled fully past the about section.
+           Show icons and make them focusable / interactive. */
+        aboutIcons.classList.add('is-visible');        /* Fade in via CSS opacity */
+        aboutIcons.removeAttribute('aria-hidden');      /* Expose to screen readers */
+        /* Allow Tab key to reach these links now that they are visible */
         aboutIcons.querySelectorAll('a').forEach(function (a) {
             a.removeAttribute('tabindex');
         });
 
     } else {
-        /* ── HIDDEN: user scrolled back above the about section ──────────
-           Hide the icons and remove them from keyboard/screen-reader flow. */
-        aboutIcons.classList.remove('is-visible');        /* Fade out */
-        aboutIcons.setAttribute('aria-hidden', 'true');   /* Hide from screen readers */
-        /* Restore tabindex=-1 so Tab doesn't reach hidden, invisible anchors */
+        /* ── HIDDEN: about section is still below or at the viewport top ──
+           User is in the hero section; hide and remove from Tab/a11y flow. */
+        aboutIcons.classList.remove('is-visible');         /* Fade out */
+        aboutIcons.setAttribute('aria-hidden', 'true');    /* Hide from screen readers */
+        /* tabindex=-1 prevents Tab from reaching invisible, non-interactive links */
         aboutIcons.querySelectorAll('a').forEach(function (a) {
             a.setAttribute('tabindex', '-1');
         });

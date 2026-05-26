@@ -166,6 +166,23 @@ a {
     #main-nav {
         justify-content: flex-end;
     }
+
+    /* Hero section: on iOS/Android the collapsible browser address bar is counted
+       inside 100vh, making the section taller than the actual visible area.
+       100svh (small viewport height) always equals the viewport with the bar fully
+       visible, so the section never overflows into the next section on mobile. */
+    #hero-section {
+        height: 100vh;   /* Fallback for browsers that don't support svh units */
+        height: 100svh;  /* Mobile-safe: excludes the collapsible browser toolbar */
+    }
+
+    /* About icons: explicitly enforce vertical stacking on mobile and tighten the
+       edge spacing so icons don't crowd the screen corner on narrow viewports. */
+    #about-icons {
+        flex-direction: column; /* Explicitly stack top-to-bottom on mobile */
+        right: 1rem;            /* Slightly closer to edge on narrow screens */
+        bottom: 1rem;           /* Match reduced right offset */
+    }
 }
 
 

@@ -20,7 +20,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 ## HTML
 
 ## CSS
-
+- whenever possible keep in mind screen heights and widths. i want my site universally accessable. rewrite this message.  
 - Each (class="page")-section is equal to 100% of screen height and width except `Socials/Contacts` section which will be 1/3rd of a page.
 
 ## Javascript
