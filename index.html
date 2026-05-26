@@ -79,7 +79,7 @@
 
 
         <!-- Social icon links:
-                 id="hero-icons" targets this element in script.js for sticky scroll logic.
+                 Static at the bottom of the hero section; scrolls with the page normally.
                  <nav> is correct here — it is a navigation region for external links.
                  aria-label differentiates it from the main-nav above. -->
         <nav id="hero-icons" class="social-icons" aria-label="Social media links">
@@ -128,6 +128,7 @@
              COVER LETTER / ABOUT SECTION
              Solid dark-red background (z-index: 0 — sits above hero photo).
              Contains a viewable version of the cover letter document.
+             A second set of social icons sits statically at the section bottom.
         ============================================================== -->
         <section class="page" id="coverletter-section" aria-label="Cover letter and about me">
 
@@ -252,20 +253,21 @@
 
 
     <!-- =====================================================================
-         SIDEBAR SOCIAL ICONS (persistent bottom-right)
-         This is the second set of social icon links that fades in once the
-         hero section scrolls off-screen.  script.js toggles .is-visible
-         on this element.  aria-hidden="true" hides it from screen readers
-         until it becomes visible (script.js removes the attribute then).
+         ABOUT SECTION SOCIAL ICONS (persistent bottom-right column)
+         Placed at body level — NOT inside any section — so it participates
+         directly in the root stacking context.  This prevents backdrop-filter
+         stacking contexts on #resume-section and #media-section from painting
+         over it regardless of z-index values inside those contexts.
+         script.js adds .is-visible once the about section enters the viewport.
     ===================================================================== -->
     <nav
-      id="sidebar-icons"
+      id="about-icons"
       class="social-icons"
       aria-label="Social media links — persistent"
       aria-hidden="true"
     >
 
-      <!-- LinkedIn — same link and aria-label as the hero set -->
+      <!-- LinkedIn — tabindex=-1 keeps it out of Tab order while hidden -->
       <a
         href="https://linkedin.com"
         target="_blank"
@@ -274,7 +276,6 @@
         aria-label="LinkedIn profile (opens in new tab)"
         tabindex="-1"
       >
-        <!-- aria-hidden hides the decorative icon; parent anchor is the accessible label -->
         <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
       </a>
 
@@ -300,7 +301,7 @@
         <i class="fa-solid fa-envelope" aria-hidden="true"></i>
       </a>
 
-    </nav><!-- /#sidebar-icons -->
+    </nav><!-- /#about-icons -->
 
 
     <!-- script.js is loaded at the end of <body> so the DOM is fully parsed

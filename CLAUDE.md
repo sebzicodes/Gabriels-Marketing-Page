@@ -36,22 +36,18 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 ## Hero-section
 
 - Full page IMG with a z-index so its behind everything and stationary.
-- Has `social-icon-links` ..
+- Has `social-icon-links` at the bottom of the section (in-flow, no sticky behavior).
 - `icon-links` will have respective icons updated by its linked site reference.
-- Center located and aligned 25% from the bottom of the page (implemented as `padding-bottom: 25vh` on `#hero-section`).
-- As the page scrolls down, the top set of middle icons should move up.
-- Once those icons reach 1/3 (33vh) from the top of the viewport, they must become sticky and stay fixed in that position for the remainder of the page.
-  - Implemented: JS adds `.is-sticky` to `#hero-icons` (CSS: `position:fixed; top:33vh; left:50%; transform:translateX(-50%)`).
-- When the original middle icons disappear from view on scroll down, trigger a new set of identical social icon links to appear.
-  - Implemented: when the hero section bottom passes the viewport top, JS adds `.is-faded` to `#hero-icons` and `.is-visible` to `#sidebar-icons`.
-- This new set must fade into view and remain fixed at the bottom-right corner of the screen as the user continues down.
-  - Implemented: `#sidebar-icons` is `position:fixed; bottom:2rem; right:2rem; flex-direction:column`.
-- When the user scrolls back UP, all elements must reverse seamlessly.
-  - Implemented: the same scroll thresholds trigger class removal in reverse order.
-- Specifically, once the scroll position reaches the initial, original location of that bottom-right social link navigation, the icons must "unstick" and release from their fixed position.
-  - Implemented: sidebar fades out and hero icons return to normal flow at `heroGoneScrollY`.
-- As you scroll past that point going up, those icons should stay locked to their starting place on the page layout and not travel any higher up the screen.
-  - Implemented: sidebar opacity returns to 0 and pointer-events are disabled below the threshold.
+- Icons are pinned to the bottom of the section using `align-items: flex-end` and `padding-bottom: 2rem` on `#hero-section`.
+- Icons do NOT move or become sticky — they scroll away naturally with the page.
+
+## Coverletter-section (About)
+
+- A second, identical set of social icons (`#about-icons`) is fixed at the bottom-right of the viewport, stacked vertically (column).
+- Hidden while in the hero section; fades in once the about section enters the viewport.
+- Stays fixed/visible for all sections below the about section.
+- Fades out and unsticks when the user scrolls back up into the hero section.
+- Implemented: `position: fixed; right: 2rem; bottom: 2rem; flex-direction: column` in CSS; JS adds/removes `.is-visible` when `scrollY >= coverletter-section.offsetTop`.
 
 ## Coverletters-section
 
