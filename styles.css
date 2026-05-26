@@ -429,6 +429,192 @@ a {
 
 
 /* ==========================================================================
+   9b. RESUME SECTION — CONTENT STYLES
+   Typography and layout for the resume content inside #resume-section.
+   Uses a scrollable inner wrapper so the full resume is readable within
+   the 100vh section height.
+========================================================================== */
+
+/* Override the default centered/flex layout so the resume reads top-to-bottom */
+#resume-section .section-inner {
+    justify-content: flex-start; /* Start content from the top, not the centre */
+    align-items: flex-start;     /* Left-align all resume content */
+    text-align: left;            /* Override the centred-text default */
+    overflow-y: auto;            /* Allow scrolling inside the section if content overflows */
+    padding: 5rem 2rem 3rem;     /* Extra top padding clears the fixed nav bar */
+    max-width: 860px;            /* Comfortable reading width */
+    margin: 0 auto;              /* Centre the inner wrapper on wide screens */
+}
+
+/* Resume header block: name, tagline, contact info stacked vertically */
+.resume-header {
+    width: 100%;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(245, 240, 238, 0.3); /* Subtle rule below header */
+    padding-bottom: 1.25rem;
+}
+
+/* Large display name at the top of the resume */
+.resume-name {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: bold;
+    color: var(--color-text-light);
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.04em;
+}
+
+/* Subtitle / professional tagline below the name */
+.resume-tagline {
+    font-size: 1rem;
+    color: var(--color-accent); /* Warm copper accent colour */
+    margin-bottom: 0.75rem;
+    font-style: italic;
+}
+
+/* Contact line inside the resume header — override global address italic */
+.resume-contact {
+    font-style: normal;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    flex-direction: row;         /* Lay items out horizontally */
+    flex-wrap: wrap;             /* Wrap on narrow screens */
+    align-items: center;
+    gap: 0;                      /* Spacing handled by &nbsp; separators in HTML */
+    display: block;              /* Inline flow so separators sit naturally */
+}
+
+/* Links inside the resume contact line */
+.resume-contact a {
+    color: var(--color-accent);
+    transition: color var(--transition);
+}
+
+.resume-contact a:hover {
+    color: #fff;
+}
+
+/* A labelled group of resume entries (e.g. Work Experience) */
+.resume-section {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+/* Section title (e.g. "Work Experience") styled with an underline to match the PDF */
+.resume-section-title {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    border-bottom: 2px solid var(--color-text-light); /* Underline matches resume doc */
+    padding-bottom: 0.3rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Each individual job entry */
+.resume-job {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(245, 240, 238, 0.1); /* Faint separator between jobs */
+}
+
+/* Last job entry has no bottom border — avoids a double-rule at section end */
+.resume-job:last-of-type {
+    border-bottom: none;
+}
+
+/* Job title line: employer name + role displayed on one line */
+.resume-job-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-text-light);
+    margin-bottom: 0.2rem;
+}
+
+/* The employer name gets a slightly larger emphasis */
+.resume-employer {
+    font-weight: bold;
+}
+
+/* The role / position label next to the employer name */
+.resume-role {
+    font-weight: normal;
+    color: rgba(245, 240, 238, 0.75); /* Slightly dimmed to visually separate it */
+    margin-left: 0.2rem;
+}
+
+/* Supervisor / manager line below the job title */
+.resume-manager {
+    font-size: 0.85rem;
+    color: rgba(245, 240, 238, 0.6);
+    margin-bottom: 0.15rem;
+}
+
+/* Manager phone links inherit the muted colour by default */
+.resume-manager a {
+    color: var(--color-accent);
+    transition: color var(--transition);
+}
+
+.resume-manager a:hover {
+    color: #fff;
+}
+
+/* Location and date range line */
+.resume-meta {
+    font-size: 0.85rem;
+    color: rgba(245, 240, 238, 0.6);
+    margin-bottom: 0.6rem;
+    font-style: italic;
+}
+
+/* Bullet list of job duties — indented like a standard resume */
+.resume-duties {
+    list-style: disc;              /* Use standard bullet points */
+    padding-left: 1.5rem;          /* Indent the list from the left edge */
+}
+
+.resume-duties li {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(245, 240, 238, 0.9);
+    margin-bottom: 0.2rem;
+}
+
+/* PDF download button — anchored below the resume content */
+.resume-download-btn {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.65rem 1.5rem;
+    background: var(--color-dark-red);   /* Matches the cover letter section colour */
+    color: var(--color-text-light);
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background var(--transition), color var(--transition);
+}
+
+.resume-download-btn:hover {
+    background: var(--color-accent);
+    color: #111;
+}
+
+.resume-download-btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+}
+
+/* On mobile, full-width button is easier to tap */
+@media (max-width: 600px) {
+    .resume-download-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+/* ==========================================================================
    10. MEDIA SECTION
    CSS grid layout. Same gradient-blur technique as the Resume section.
    Grid cards have a mahogany background and a 1px black border.

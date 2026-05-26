@@ -157,10 +157,165 @@
       <section class="page" id="resume-section" aria-label="Resume">
 
         <div class="section-inner">
+
+          <!-- Section heading — consistent h2 level across all page sections -->
           <h2>Resume</h2>
-          <!-- Placeholder — replace with an <iframe>, embedded PDF, or content -->
-          <p>Resume content or embedded document goes here.</p>
-        </div>
+
+          <!-- Resume header block: name, title, and contact info.
+               <header> scopes this metadata to the resume article below. -->
+          <div class="resume-header">
+            <!-- Candidate name displayed as the primary resume identity -->
+            <p class="resume-name">Gabriel Davis</p>
+
+            <!-- Role tagline sits beside the name on wider screens -->
+            <p class="resume-tagline">Experienced Customer Service Professional</p>
+
+            <!-- Contact line: city, email, and phone.
+                 <address> is the semantic element for contact information. -->
+            <address class="resume-contact">
+              Downtown San Jose, CA &nbsp;|&nbsp;
+              <!-- mailto: opens the device's default email client -->
+              <a href="mailto:gabrieldavis1901@gmail.com" aria-label="Email Gabriel Davis">gabrieldavis1901@gmail.com</a>
+              &nbsp;|&nbsp;
+              <!-- tel: lets mobile devices dial directly on tap -->
+              <a href="tel:+14088074459" aria-label="Call Gabriel Davis">(408) 807-4459</a>
+            </address>
+          </div><!-- /.resume-header -->
+
+          <!-- ── WORK EXPERIENCE ── -->
+          <!-- <section> groups all work entries under a labeled region;
+               aria-labelledby ties the heading to the region for screen readers. -->
+          <section class="resume-section" aria-labelledby="work-exp-heading">
+
+            <!-- Underlined section label matching the resume document style -->
+            <h3 id="work-exp-heading" class="resume-section-title">Work Experience</h3>
+
+            <!-- Each job is an <article> — self-contained, independently meaningful content -->
+
+            <!-- ── JOB 1: Allied Universal ── -->
+            <article class="resume-job">
+              <!-- Job title line: employer name + role -->
+              <h4 class="resume-job-title">
+                <span class="resume-employer">Allied Universal</span>
+                <span class="resume-role">/ Security Professional</span>
+              </h4>
+              <!-- Supervisor contact stored as plain text; not a live link -->
+              <p class="resume-manager">Account Manager: Fernando Zepeda</p>
+              <!-- Location and date range for this position -->
+              <p class="resume-meta">Santa Clara, CA &nbsp;/&nbsp; April 2025 – Present</p>
+              <!-- Bullet-point list of responsibilities using an unordered list -->
+              <ul class="resume-duties">
+                <li>Tactfully enforced rules and security regulations</li>
+                <li>Build rapport and trust with clients and team members</li>
+                <li>Learned and worked with systems like Lenel, Ambient, and Lark</li>
+              </ul>
+            </article><!-- /.resume-job: Allied Universal -->
+
+            <!-- ── JOB 2: Distrito Federal ── -->
+            <article class="resume-job">
+              <h4 class="resume-job-title">
+                <span class="resume-employer">Distrito Federal</span>
+                <span class="resume-role">/ Bartender</span>
+              </h4>
+              <p class="resume-manager">Owner: Issac Barrera</p>
+              <p class="resume-meta">Campbell, CA &nbsp;/&nbsp; Nov 2024 – July 2025</p>
+              <ul class="resume-duties">
+                <li>Fresh juice all needed juices for menu items</li>
+                <li>Produce, syrups, elixirs, and infusions</li>
+                <li>Create and serve new cocktails seasonally</li>
+                <li>Check and maintain inventory weekly</li>
+                <li>Keep bar and storage organized with Google Sheets</li>
+              </ul>
+            </article><!-- /.resume-job: Distrito Federal -->
+
+            <!-- ── JOB 3: Desi Indian Contemporary ── -->
+            <article class="resume-job">
+              <h4 class="resume-job-title">
+                <span class="resume-employer">Desi Indian Contemporary</span>
+                <span class="resume-role">/ Bartender</span>
+              </h4>
+              <p class="resume-manager">Owners: Archana &amp; Mohit</p>
+              <p class="resume-meta">San Jose, CA &nbsp;/&nbsp; February 2024 – November 2024</p>
+              <ul class="resume-duties">
+                <li>Plan and promote bar cocktail program</li>
+                <li>Order and maintain inventory</li>
+                <li>Maintain bar area mise en place</li>
+              </ul>
+            </article><!-- /.resume-job: Desi Indian Contemporary -->
+
+            <!-- ── JOB 4: Vista ── -->
+            <article class="resume-job">
+              <h4 class="resume-job-title">
+                <span class="resume-employer">Vista</span>
+                <span class="resume-role">/ Line Cook &amp; Prep Cook</span>
+              </h4>
+              <!-- Manager name and direct phone number -->
+              <p class="resume-manager">Manager: Pedro Rodriguez &nbsp;/&nbsp; <a href="tel:+16509243335" aria-label="Call Pedro Rodriguez at Vista">(650) 924-3335</a></p>
+              <p class="resume-meta">Redwood City, CA &nbsp;/&nbsp; June 2023 – February 2024</p>
+              <ul class="resume-duties">
+                <li>Cook and prep authentic Mexican cuisine</li>
+                <li>Maintain utmost cleanliness within the kitchen</li>
+                <li>Work fluidly with a team to deliver great customer satisfaction</li>
+              </ul>
+            </article><!-- /.resume-job: Vista -->
+
+            <!-- ── JOB 5: Olla Cocina ── -->
+            <article class="resume-job">
+              <h4 class="resume-job-title">
+                <span class="resume-employer">Olla Cocina</span>
+                <span class="resume-role">/ Bartender</span>
+              </h4>
+              <p class="resume-manager">Manager: Maria Zertuche &nbsp;/&nbsp; <a href="tel:+14086067999" aria-label="Call Maria Zertuche at Olla Cocina">(408) 606-7999</a></p>
+              <p class="resume-meta">San Jose, CA &nbsp;/&nbsp; March 2023 – December 2023</p>
+              <ul class="resume-duties">
+                <li>Prepared bar area for service including stocking syrups, making batch cocktails, and preparing garnishes</li>
+                <li>Delivered great insight and detail about menu</li>
+                <li>Received great reviews from new customers</li>
+              </ul>
+            </article><!-- /.resume-job: Olla Cocina -->
+
+            <!-- ── JOB 6: DoubleTree by Hilton ── -->
+            <article class="resume-job">
+              <h4 class="resume-job-title">
+                <span class="resume-employer">DoubleTree by Hilton</span>
+                <span class="resume-role">/ Kitchen Staff</span>
+              </h4>
+              <p class="resume-manager">Manager: Matt Avram &nbsp;/&nbsp; <a href="tel:+19894601700" aria-label="Call Matt Avram at DoubleTree">(989) 460-1700</a></p>
+              <p class="resume-meta">Bay City, MI &nbsp;/&nbsp; September 2022 – March 2023</p>
+              <ul class="resume-duties">
+                <li>Prepared and cooked food for a wide range of banquet events and restaurant guests</li>
+                <li>Collaborated with team members to ensure timely service and food quality</li>
+                <li>Maintained a clean and organized kitchen</li>
+              </ul>
+            </article><!-- /.resume-job: DoubleTree by Hilton -->
+
+            <!-- ── JOB 7: Mister Car Wash ── -->
+            <article class="resume-job">
+              <h4 class="resume-job-title">
+                <span class="resume-employer">Mister Car Wash</span>
+                <span class="resume-role">/ Customer Service Associate</span>
+              </h4>
+              <p class="resume-manager">Manager: Anthony Rocha &nbsp;/&nbsp; <a href="tel:+19896864400" aria-label="Call Anthony Rocha at Mister Car Wash">(989) 686-4400</a></p>
+              <p class="resume-meta">Bay City, MI &nbsp;/&nbsp; December 2020 – December 2022</p>
+              <ul class="resume-duties">
+                <li>Provided excellent customer service to car wash customers and assisted with purchases</li>
+                <li>Significantly increased membership signups by 300% during my tenure</li>
+                <li>Worked collaboratively with team members to ensure efficient and high-quality service</li>
+              </ul>
+            </article><!-- /.resume-job: Mister Car Wash -->
+
+          </section><!-- /.resume-section: Work Experience -->
+
+          <!-- Download link for the original PDF resume.
+               download attribute prompts the browser to save the file rather than open it. -->
+          <a
+            href="resume.pdf"
+            download="Gabriel_Davis_Resume.pdf"
+            class="resume-download-btn"
+            aria-label="Download Gabriel Davis resume as PDF"
+          >Download Resume (PDF)</a>
+
+        </div><!-- /.section-inner -->
 
         </section><!-- /#resume-section -->
 
