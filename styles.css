@@ -291,8 +291,8 @@ a {
     left: 50%;
     transform: translateX(-50%);
     width: 100vw;
-    /* Extend upward for a tall gradient fade band across the hero bottom */
-    top: -40vh;
+    /* Extend upward one-sixth of the viewport for a shorter gradient fade band */
+    top: -16.67vh;
     /* -2rem matches hero-section's padding-bottom so the band reaches the
        very bottom edge of the section */
     bottom: -2rem;
