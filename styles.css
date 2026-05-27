@@ -781,6 +781,41 @@ a {
     }
 }
 
+/* ==========================================================================
+   RESUME SECTION — MOBILE LAYOUT OVERRIDE
+   On mobile the resume section must NOT be a fixed-height scroll box.
+   Instead it expands to the natural height of all its content and the
+   user scrolls the whole page past it — no inner scrollbar.
+   ========================================================================== */
+@media (max-width: 768px) {
+
+    /* 1. Let the section grow beyond 100vh.
+          - height: auto replaces the .page rule (height: 100vh).
+          - overflow: visible replaces .page's overflow: hidden so no content
+            is clipped and no scroll container is created on this element.
+          - content-visibility: visible disables the paint-skip optimisation
+            that relied on a fixed contain-intrinsic-size of 100vh; with a
+            variable natural height that reservation would cause layout jumps.
+          - contain-intrinsic-size: none removes the 100vh placeholder because
+            the section now takes exactly as much space as its content needs. */
+    #resume-section {
+        height: auto;                  /* Expand to fit all resume content */
+        overflow: visible;             /* No clip — content flows into page scroll */
+        content-visibility: visible;   /* Disable deferred-paint on this section */
+        contain-intrinsic-size: none;  /* No reserved height needed */
+    }
+
+    /* 2. Remove the inner scroll box from the content wrapper.
+          - height: auto lets the wrapper grow with its children instead of
+            being locked to 100% of the (now auto-height) section.
+          - overflow-y: visible removes the scrollable overflow container that
+            was created when the section was capped at 100vh. */
+    #resume-section .section-inner {
+        height: auto;           /* Grow with content, don't cap at 100% section height */
+        overflow-y: visible;    /* No inner scrollbar — page-level scroll only */
+    }
+}
+
 
 /* ==========================================================================
    10. MEDIA SECTION

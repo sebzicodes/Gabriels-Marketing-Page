@@ -66,7 +66,8 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 
 - background is a neutral dark grey gradient blur layered above the photo from `Hero` section — no color cast (`rgba(10,10,10,0.85)` → `rgba(40,40,40,0.70)`).
 - Contains full work history from `resume.pdf` (copied into project root).
-- `.section-inner` is left-aligned and scrollable (`overflow-y: auto`) to fit all content within 100vh.
+- **Desktop**: `.section-inner` is left-aligned and scrollable (`overflow-y: auto`) to fit all content within 100vh.
+- **Mobile (`max-width: 768px`)**: section height is `auto` and `overflow: visible`; `.section-inner` also has `height: auto` and `overflow-y: visible` — no inner scroll box, the section expands to full resume height and the page scrolls normally. `content-visibility` and `contain-intrinsic-size` are both reset to avoid layout jumps.
 - Includes a "Download Resume (PDF)" button linking to `resume.pdf`.
 - Manager phone numbers are wrapped in `tel:` links for mobile tap-to-call.
 - Resume data source: `Resume during allied 2.pdf` (added May 2026).
