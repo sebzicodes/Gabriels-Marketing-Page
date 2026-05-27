@@ -262,9 +262,23 @@ a {
         display: inline-block;
     }
 
-    /* Ensure the button stays in the top-right corner */
+    /* Keep name on the left, contact button on the right.
+       space-between is already set on #main-nav globally; this rule previously
+       overrode it to flex-end which pushed the nav-name off screen on mobile. */
     #main-nav {
-        justify-content: flex-end;
+        justify-content: space-between;
+    }
+
+    /* Slightly smaller name on narrow screens so it doesn't crowd the
+       contact button — clamp scales it smoothly across screen widths. */
+    #nav-name {
+        font-size: clamp(0.8rem, 3.5vw, 1.05rem);
+    }
+
+    /* On mobile the full name uses a fluid max-width so it never overflows
+       into the contact button on very narrow screens (< ~360px). */
+    .nav-name-full {
+        max-width: clamp(0px, 40vw, 200px);
     }
 
     /* Hero section: on iOS/Android the collapsible browser address bar is counted
