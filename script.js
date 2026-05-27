@@ -49,9 +49,25 @@ function handleNavScroll() {
     }
 }
 
-/* addEventListener('scroll', ...): fires handleNavScroll every time the
-   user scrolls the page in any direction. */
-window.addEventListener('scroll', handleNavScroll);
+/* Throttle flag — ensures both scroll handlers run at most once per
+   animation frame instead of dozens of times per frame. */
+let scrollTicking = false;
+
+/* Combined, throttled scroll dispatcher.
+   passive:true lets the browser commit the scroll to the GPU compositor
+   thread immediately without waiting for this handler to return — the
+   single biggest driver of jank on desktop for scroll listeners that
+   don't call preventDefault(). */
+window.addEventListener('scroll', function () {
+    if (!scrollTicking) {
+        requestAnimationFrame(function () {
+            handleNavScroll();
+            handleAboutIconScroll();
+            scrollTicking = false;
+        });
+        scrollTicking = true;
+    }
+}, { passive: true });
 
 /* Run the handler immediately on page load.
    Without this, landing on the page via a #hash URL (e.g. #resume-section)
@@ -111,9 +127,6 @@ function handleAboutIconScroll() {
         });
     }
 }
-
-/* Fire on every scroll; passive:true lets the browser optimise scroll paint */
-window.addEventListener('scroll', handleAboutIconScroll, { passive: true });
 
 /* Re-run when the viewport is resized because offsetTop can change with reflow */
 window.addEventListener('resize', handleAboutIconScroll);

@@ -425,6 +425,10 @@ a {
     );
     backdrop-filter: blur(6px);         /* Blur the hero photo showing beneath */
     -webkit-backdrop-filter: blur(6px); /* Safari prefix */
+    /* Promote to its own GPU compositing layer so the browser can cache the
+       blur result and composite it cheaply on every scroll frame instead of
+       re-sampling and re-blurring the hero background each time. */
+    will-change: backdrop-filter;
 }
 
 
@@ -444,6 +448,10 @@ a {
     padding: 5rem 2rem 3rem;     /* Extra top padding clears the fixed nav bar */
     max-width: 860px;            /* Comfortable reading width */
     margin: 0 auto;              /* Centre the inner wrapper on wide screens */
+    /* Hint to the browser that this container will scroll, so it can promote
+       the scrollable layer to the GPU compositor thread and avoid main-thread
+       paint work on every inner-scroll frame. */
+    will-change: scroll-position;
 }
 
 /* Resume header block: name, tagline, contact info stacked vertically */
@@ -627,6 +635,9 @@ a {
     );
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    /* Same GPU-layer promotion as #resume-section — prevents per-frame blur
+       resampling when the user scrolls the page past this section. */
+    will-change: backdrop-filter;
 }
 
 /* Override the default flex layout so the section-inner can host the grid */
