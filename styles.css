@@ -97,16 +97,16 @@ a {
    when the user scrolls (the .scrolled class is toggled by script.js).
 ========================================================================== */
 #main-nav {
-    position: fixed;            /* Does not scroll with the page */
+    position: fixed;              /* Does not scroll with the page */
     top: 0;
     left: 0;
-    width: 100%;                /* Spans the full viewport width */
+    width: 100%;                  /* Spans the full viewport width */
     height: var(--nav-height);
     display: flex;
-    align-items: center;        /* Vertically centre the nav children */
-    justify-content: flex-end;  /* Push links to the right side */
-    padding: 0 2rem;            /* Horizontal breathing room */
-    background: transparent;    /* Invisible over the hero image by default */
+    align-items: center;          /* Vertically centre the nav children */
+    justify-content: space-between; /* Name on the left, links on the right */
+    padding: 0 2rem;              /* Horizontal breathing room */
+    background: transparent;      /* Invisible over the hero image by default */
     /* Animate both background colour and blur when .scrolled is added */
     transition: background var(--transition),
                 backdrop-filter var(--transition);
@@ -119,6 +119,77 @@ a {
     backdrop-filter: blur(8px);             /* Frosted-glass blur */
     -webkit-backdrop-filter: blur(8px);     /* Safari prefix */
     box-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); /* Depth shadow */
+}
+
+/* --- Nav name / logo (top-left) ----------------------------------------- */
+/* Anchor element that sits at the far left of the nav.
+   At the page top (transparent nav) it displays the full name.
+   Once the user scrolls and .scrolled is applied to #main-nav, a CSS
+   transition collapses the full name and fades in the initials instead. */
+#nav-name {
+    display: flex;              /* Row layout so both spans sit side by side */
+    align-items: center;
+    text-decoration: none;      /* No underline on the anchor */
+    font-family: 'Georgia', serif;
+    font-size: 1.05rem;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    color: #000;                /* Black text when nav background is transparent */
+    /* Animate text colour on the same timing as the nav background */
+    transition: color var(--transition);
+    white-space: nowrap;        /* Prevent name from wrapping mid-transition */
+    overflow: hidden;           /* Clip spans during the collapse animation */
+}
+
+/* Flip the name colour to light when the nav goes solid on scroll */
+#main-nav.scrolled #nav-name {
+    color: var(--color-text-light);
+}
+
+/* Hover accent — applies to whichever text is currently visible */
+#nav-name:hover {
+    color: var(--color-accent);
+}
+
+/* Keyboard focus ring — visible for all keyboard users */
+#nav-name:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+/* Full name span — visible by default; collapses when .scrolled is added.
+   max-width drives the collapsing animation because width:auto cannot be
+   transitioned; a generous max-width (200px) is larger than any rendered
+   width so the text never wraps during the transition. */
+.nav-name-full {
+    display: inline-block;
+    max-width: 200px;           /* Wide enough to display "Gabriel Davis" */
+    overflow: hidden;
+    opacity: 1;
+    /* Both max-width and opacity animate together for a smooth collapse+fade */
+    transition: max-width var(--transition), opacity var(--transition);
+}
+
+/* Initials span — hidden by default; expands when .scrolled is added. */
+.nav-name-initials {
+    display: inline-block;
+    max-width: 0;               /* Collapsed: takes no space */
+    overflow: hidden;
+    opacity: 0;                 /* Invisible so opacity cross-fades with full name */
+    transition: max-width var(--transition), opacity var(--transition);
+}
+
+/* Scrolled state: full name collapses to zero width + fades out */
+#main-nav.scrolled .nav-name-full {
+    max-width: 0;
+    opacity: 0;
+}
+
+/* Scrolled state: initials expand from zero + fade in */
+#main-nav.scrolled .nav-name-initials {
+    max-width: 60px;            /* Wide enough for "G.D." */
+    opacity: 1;
 }
 
 /* --- Desktop nav links -------------------------------------------------- */

@@ -31,6 +31,19 @@
     ===================================================================== -->
     <nav id="main-nav" aria-label="Main navigation">
 
+      <!-- Name / logo anchor — top-left of the nav.
+           At the top of the page the full name is visible; once the user
+           scrolls, the .scrolled class on #main-nav triggers a CSS transition
+           that collapses the full name and reveals just the initials.
+           aria-label provides a meaningful accessible name since the visible
+           text changes depending on scroll state. -->
+      <a href="#hero-section" id="nav-name" aria-label="Gabriel Davis — back to top">
+        <!-- Full name: visible when nav is transparent (at the page top) -->
+        <span class="nav-name-full" aria-hidden="true">Gabriel Davis</span>
+        <!-- Initials: revealed when nav is in the scrolled/solid state -->
+        <span class="nav-name-initials" aria-hidden="true">G.D.</span>
+      </a>
+
       <!-- Desktop link list — hidden on mobile via CSS media query -->
       <!-- role="list" restores list semantics stripped by list-style:none in CSS -->
       <ul class="nav-links" role="list">

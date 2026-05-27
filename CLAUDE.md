@@ -33,6 +33,8 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - on mobile, the only nav button that will be accessible at the top right corner is `Socials/Contact`
 - Nav bar is transparant until you scroll down, then it becomes sticky with a solid background.
 - Nav link text is black when the background is transparent; turns white once `.scrolled` is added (solid dark background).
+- `#nav-name` anchor sits at the top-left of the nav bar. At the page top it displays the full name "Gabriel Davis"; once the user scrolls and `.scrolled` is applied to `#main-nav`, a CSS `max-width` + `opacity` transition collapses the full name and cross-fades in the initials "G.D." No extra JS needed — driven entirely by the existing `.scrolled` class toggle.
+- `#main-nav` uses `justify-content: space-between` so the name is on the left and nav links are on the right.
 
 ## Hero-section
 
