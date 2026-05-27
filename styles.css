@@ -49,6 +49,29 @@ html {
     font-size: 16px; /* Base size; all rem values are relative to this */
 }
 
+/* ==========================================================================
+   UTILITY: Visually hidden (screen-reader only)
+   Hides an element from sighted users while keeping it fully accessible to
+   assistive technology. Standard technique from WebAIM / A11y Project.
+   - position + size collapse the element to 0×0 so it takes no visual space.
+   - clip/clip-path cut the 1px placeholder from appearing on screen.
+   - overflow: hidden ensures nothing bleeds out.
+   - white-space: nowrap prevents line-breaking inside the hidden text.
+   Do NOT use display:none or visibility:hidden — those also hide from AT.
+========================================================================== */
+.sr-only {
+    position: absolute;   /* Remove from normal flow so layout is unaffected */
+    width: 1px;           /* Collapse to a single pixel */
+    height: 1px;
+    padding: 0;
+    margin: -1px;         /* Pull the 1px stub out of view */
+    overflow: hidden;     /* Clip any overflow from the stub */
+    clip: rect(0, 0, 0, 0);           /* Legacy clip for older browsers */
+    clip-path: inset(50%);            /* Modern equivalent */
+    white-space: nowrap;  /* Keep text on one line inside the stub */
+    border: 0;            /* Remove any potential border rendering */
+}
+
 body {
     font-family: 'Georgia', serif; /* Elegant serif for a professional tone */
     color: var(--color-text-light);
