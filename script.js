@@ -20,6 +20,10 @@ const mainNav  = document.getElementById('main-nav');
    gradient blur backdrop that fades out once the user leaves the top. */
 const heroIcons = document.getElementById('hero-icons');
 
+/* Cache the hero section — on mobile the blur lives on its ::after pseudo-element
+   so we need to toggle .icons-scrolled here too (same class, same timing). */
+const heroSection = document.getElementById('hero-section');
+
 /**
  * handleNavScroll
  * Checks the vertical scroll position and toggles:
@@ -37,8 +41,11 @@ function handleNavScroll() {
         mainNav.classList.add('scrolled');
 
         /* Hide the gradient blur bg behind the hero icons — user has
-           scrolled away from the top of the page. */
+           scrolled away from the top of the page.
+           Both elements receive the class: #hero-icons drives the desktop
+           ::before, #hero-section drives the mobile ::after. */
         heroIcons.classList.add('icons-scrolled');
+        heroSection.classList.add('icons-scrolled');
     } else {
         /* classList.remove: removes "scrolled" when back near the top,
            returning the nav to its transparent state. */
@@ -46,6 +53,7 @@ function handleNavScroll() {
 
         /* Restore the gradient blur bg — user is back at the very top. */
         heroIcons.classList.remove('icons-scrolled');
+        heroSection.classList.remove('icons-scrolled');
     }
 }
 

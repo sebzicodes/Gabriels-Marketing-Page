@@ -290,14 +290,52 @@ a {
         height: 100svh;  /* Mobile-safe: excludes the collapsible browser toolbar */
     }
 
-    /* Hero gradient blur: pin the band to exactly the bottom 1/5 of the
-       mobile viewport. Using height + bottom instead of top avoids the
-       unreliable icon-position offset that caused the band to creep halfway
-       up the screen on small devices. */
+    /* Hero gradient blur — mobile fix:
+       The ::before on #hero-icons is positioned relative to the icon row, so
+       its bottom edge depends on precisely where the icon row sits inside the
+       section.  On devices with a home-indicator safe area or slightly different
+       svh calculations the -2rem offset came up short, leaving a visible gap
+       between the blur and the screen bottom.
+       Solution: disable the icon-relative pseudo-element and re-create the blur
+       as #hero-section::after, anchored with bottom:0 so it always reaches the
+       section bottom with zero offset arithmetic. */
     #hero-icons::before {
-        top: auto;        /* Ignore the desktop top-offset calculation */
-        height: 20svh;    /* Exactly 1/5 of the mobile viewport height */
-        bottom: -2rem;    /* Keep the bottom-edge flush with the section */
+        display: none; /* Replaced by #hero-section::after below */
+    }
+
+    /* Lift the icon row above the new ::after blur band so icons remain
+       clickable and visually in front of the gradient. */
+    #hero-icons {
+        z-index: 1; /* Above ::after (z-index:0) but below nav (z-index:100) */
+    }
+
+    /* Blur band anchored to the very bottom of the hero section.
+       bottom:0 is relative to #hero-section so it always reaches the section
+       edge — no per-device offset calculation required. */
+    #hero-section::after {
+        content: '';                    /* Required for generated content to render */
+        position: absolute;
+        left: 0;                        /* Span full section width */
+        width: 100%;
+        height: 25svh;                  /* Slightly taller than before for safe coverage */
+        bottom: 0;                      /* Always flush with the section bottom */
+        background: linear-gradient(
+            to bottom,
+            rgba(20, 5, 5, 0) 0%,
+            rgba(10, 3, 3, 0.55) 100%
+        );
+        backdrop-filter: blur(8px);          /* Frosted-glass look over the hero photo */
+        -webkit-backdrop-filter: blur(8px);  /* Safari prefix */
+        z-index: 0;                     /* Above hero-bg (-1), below icons (1) */
+        opacity: 1;                     /* Visible at the top of the page */
+        transition: opacity 0.5s ease;  /* Smooth fade-out on scroll */
+        pointer-events: none;           /* Never intercepts clicks intended for icons */
+    }
+
+    /* Fade the section-level blur out once the user scrolls away.
+       JS adds .icons-scrolled to #hero-section (same logic as #hero-icons). */
+    #hero-section.icons-scrolled::after {
+        opacity: 0;
     }
 
     /* About icons: explicitly enforce vertical stacking on mobile and tighten the
