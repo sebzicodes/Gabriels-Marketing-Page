@@ -59,7 +59,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 
 ## Resume-section
 
-- background is a gradiant blur layerd above the photo from `Hero` section.
+- background is a neutral dark grey gradient blur layered above the photo from `Hero` section — no color cast (`rgba(10,10,10,0.85)` → `rgba(40,40,40,0.70)`).
 - Contains full work history from `resume.pdf` (copied into project root).
 - `.section-inner` is left-aligned and scrollable (`overflow-y: auto`) to fit all content within 100vh.
 - Includes a "Download Resume (PDF)" button linking to `resume.pdf`.

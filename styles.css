@@ -315,8 +315,10 @@ a {
         rgba(20, 5, 5, 0) 0%,
         rgba(10, 3, 3, 0.55) 100%
     );
-    backdrop-filter: blur(18px);          /* Frosted-glass blur of the hero photo */
-    -webkit-backdrop-filter: blur(18px);  /* Safari prefix */
+    /* 8px gives a clear frosted look; 18px was excessive and noticeably
+       heavier on the GPU — especially on integrated graphics. */
+    backdrop-filter: blur(8px);          /* Frosted-glass blur of the hero photo */
+    -webkit-backdrop-filter: blur(8px);  /* Safari prefix */
     z-index: -1;                   /* Sits behind the icon anchors */
     opacity: 1;                    /* Visible by default (user is at the top) */
     transition: opacity 0.5s ease; /* Smooth fade out when scrolling begins */
@@ -367,12 +369,14 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;                          /* Fixed square that becomes a circle */
+    width: 3rem;                           /* Fixed square that becomes a circle */
     height: 3rem;
-    border-radius: 50%;                   /* Turn the square into a circle */
-    background: rgba(255, 255, 255, 0.15); /* Subtle frosted-glass look */
-    backdrop-filter: blur(4px);           /* Blur whatever is behind the circle */
-    -webkit-backdrop-filter: blur(4px);   /* Safari prefix */
+    border-radius: 50%;                    /* Turn the square into a circle */
+    /* Slightly more opaque semi-white so the circle reads clearly without
+       needing a blur filter. backdrop-filter on many small elements
+       (especially when composited over other blurred layers) adds GPU cost;
+       a flat-ish background is cheaper and visually nearly identical. */
+    background: rgba(255, 255, 255, 0.22); /* Subtle frosted look — no blur needed */
     color: #fff;
     font-size: 1.25rem;
     /* Animate background brightness and vertical position together */
@@ -414,21 +418,31 @@ a {
 /* ==========================================================================
    9. RESUME SECTION
    No opaque background — the fixed hero photo shows through underneath.
-   A gradient + backdrop-filter creates the "blurred photo" effect.
+   A high-opacity gradient overlay creates visual separation without the
+   GPU cost of backdrop-filter blur on a full-viewport section.
+   backdrop-filter on a 100vh section over a position:fixed image forces the
+   GPU to resample and blur the entire viewport on every scroll frame, which
+   causes visible jank — especially on integrated graphics (MacBook).
+   Raising the gradient opacity to ~0.93 achieves the same dark visual effect
+   with zero per-frame blur cost.
 ========================================================================== */
 #resume-section {
-    /* Dark-to-warm gradient overlay gives depth without hiding the photo completely */
+    /* Neutral dark gradient overlay — opacity raised so the hero photo is
+       sufficiently obscured without needing a blur filter */
     background: linear-gradient(
         135deg,
-        rgba(20, 5, 5, 0.85) 0%,
-        rgba(74, 20, 20, 0.70) 100%
+        rgba(10, 10, 10, 0.93) 0%,
+        rgba(40, 40, 40, 0.88) 100%
     );
-    backdrop-filter: blur(6px);         /* Blur the hero photo showing beneath */
-    -webkit-backdrop-filter: blur(6px); /* Safari prefix */
-    /* Promote to its own GPU compositing layer so the browser can cache the
-       blur result and composite it cheaply on every scroll frame instead of
-       re-sampling and re-blurring the hero background each time. */
-    will-change: backdrop-filter;
+    /* backdrop-filter removed: it caused full-viewport GPU blur on every
+       scroll frame over the fixed hero image — primary source of section lag */
+
+    /* content-visibility:auto tells the browser to skip painting this section
+       entirely until it is close to the viewport. Pairs with contain-intrinsic-size
+       so layout reserves the section's height even before it is painted (prevents
+       scroll-position jumps). 100vh matches the .page height rule. */
+    content-visibility: auto;
+    contain-intrinsic-size: 0 100vh;
 }
 
 
@@ -624,20 +638,22 @@ a {
 
 /* ==========================================================================
    10. MEDIA SECTION
-   CSS grid layout. Same gradient-blur technique as the Resume section.
+   CSS grid layout. Same gradient overlay technique as the Resume section.
    Grid cards have a mahogany background and a 1px black border.
+   backdrop-filter removed for the same reason as #resume-section — full-
+   viewport blur over a fixed image causes GPU jank on scroll.
 ========================================================================== */
 #media-section {
     background: linear-gradient(
         135deg,
-        rgba(10, 5, 5, 0.88) 0%,
-        rgba(60, 15, 15, 0.75) 100%
+        rgba(10, 5, 5, 0.93) 0%,
+        rgba(60, 15, 15, 0.88) 100%
     );
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    /* Same GPU-layer promotion as #resume-section — prevents per-frame blur
-       resampling when the user scrolls the page past this section. */
-    will-change: backdrop-filter;
+    /* backdrop-filter removed: same performance fix as #resume-section */
+
+    /* Skip painting until near-viewport — same pattern as #resume-section */
+    content-visibility: auto;
+    contain-intrinsic-size: 0 100vh;
 }
 
 /* Override the default flex layout so the section-inner can host the grid */
