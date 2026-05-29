@@ -16,19 +16,13 @@
    Stored in a variable so we don't query the DOM on every scroll event. */
 const mainNav  = document.getElementById('main-nav');
 
-/* Cache the hero social icons nav — its ::before pseudo-element is the
-   gradient blur backdrop that fades out once the user leaves the top. */
-const heroIcons = document.getElementById('hero-icons');
-
-/* Cache the hero section — on mobile the blur lives on its ::after pseudo-element
-   so we need to toggle .icons-scrolled here too (same class, same timing). */
+/* Cache the hero section — used for tracking scroll context if needed */
 const heroSection = document.getElementById('hero-section');
 
 /**
  * handleNavScroll
  * Checks the vertical scroll position and toggles:
- *   .scrolled       on #main-nav   — solid background when scrolled
- *   .icons-scrolled on #hero-icons — hides the gradient blur backdrop
+ *   .scrolled on #main-nav — solid background when scrolled past the top.
  * Called on every "scroll" event and once on page load.
  */
 function handleNavScroll() {
@@ -39,21 +33,10 @@ function handleNavScroll() {
         /* classList.add: appends "scrolled" to the nav's class list.
            CSS then transitions background-color and backdrop-filter. */
         mainNav.classList.add('scrolled');
-
-        /* Hide the gradient blur bg behind the hero icons — user has
-           scrolled away from the top of the page.
-           Both elements receive the class: #hero-icons drives the desktop
-           ::before, #hero-section drives the mobile ::after. */
-        heroIcons.classList.add('icons-scrolled');
-        heroSection.classList.add('icons-scrolled');
     } else {
         /* classList.remove: removes "scrolled" when back near the top,
            returning the nav to its transparent state. */
         mainNav.classList.remove('scrolled');
-
-        /* Restore the gradient blur bg — user is back at the very top. */
-        heroIcons.classList.remove('icons-scrolled');
-        heroSection.classList.remove('icons-scrolled');
     }
 }
 
@@ -70,7 +53,6 @@ window.addEventListener('scroll', function () {
     if (!scrollTicking) {
         requestAnimationFrame(function () {
             handleNavScroll();
-            handleAboutIconScroll();
             scrollTicking = false;
         });
         scrollTicking = true;
@@ -84,63 +66,11 @@ handleNavScroll();
 
 
 /* ==========================================================================
-   2. ABOUT SECTION SOCIAL ICONS — STICKY BOTTOM-RIGHT COLUMN
-   The about section icons live in the DOM inside #coverletter-section but use
-   position:fixed in CSS so they always anchor to the viewport corner.
-   They are shown once the user scrolls into the about section and hidden again
-   when the user scrolls back up above it.
+   2. SIDE SOCIAL ICONS — PERSISTENT BOTTOM-RIGHT COLUMN
+   #about-icons is fixed at the viewport's bottom-right corner and visible
+   for the entire page — no scroll toggle needed.  The .is-visible class and
+   interactive tabindex values are set directly in the HTML.
 ========================================================================== */
-
-/* Cache references — queried once to keep scroll handlers fast */
-const aboutSection = document.getElementById('coverletter-section'); /* About <section> */
-const aboutIcons   = document.getElementById('about-icons');         /* Bottom-right icon nav */
-
-/**
- * handleAboutIconScroll
- * Shows or hides the about-section social icons based on whether the about
- * section's top edge has reached or passed the top of the viewport.
- *
- * Uses getBoundingClientRect().top instead of offsetTop because offsetTop
- * can return 0 on mobile Safari before the initial layout paint completes,
- * which would make scrollY >= 0 always true and keep icons permanently shown.
- * getBoundingClientRect() is computed from live layout every time it is called,
- * so it is always accurate regardless of when the browser finishes laying out.
- */
-function handleAboutIconScroll() {
-    /* getBoundingClientRect().top: distance in px from the viewport's top edge
-       to the element's top edge.  Negative values mean the top has scrolled
-       above the viewport; zero means it is exactly at the top; positive means
-       the section has not yet scrolled into view from below. */
-    const aboutTop = aboutSection.getBoundingClientRect().top;
-
-    if (aboutTop <= 0) {
-        /* ── VISIBLE: about section top is at or above the viewport top ──
-           The user has entered or scrolled fully past the about section.
-           Show icons and make them focusable / interactive. */
-        aboutIcons.classList.add('is-visible');        /* Fade in via CSS opacity */
-        aboutIcons.removeAttribute('aria-hidden');      /* Expose to screen readers */
-        /* Allow Tab key to reach these links now that they are visible */
-        aboutIcons.querySelectorAll('a').forEach(function (a) {
-            a.removeAttribute('tabindex');
-        });
-
-    } else {
-        /* ── HIDDEN: about section is still below or at the viewport top ──
-           User is in the hero section; hide and remove from Tab/a11y flow. */
-        aboutIcons.classList.remove('is-visible');         /* Fade out */
-        aboutIcons.setAttribute('aria-hidden', 'true');    /* Hide from screen readers */
-        /* tabindex=-1 prevents Tab from reaching invisible, non-interactive links */
-        aboutIcons.querySelectorAll('a').forEach(function (a) {
-            a.setAttribute('tabindex', '-1');
-        });
-    }
-}
-
-/* Re-run when the viewport is resized because offsetTop can change with reflow */
-window.addEventListener('resize', handleAboutIconScroll);
-
-/* Run once on page load to set the correct initial state (e.g. deep-link arrivals) */
-window.addEventListener('load', handleAboutIconScroll);
 
 
 /* ==========================================================================

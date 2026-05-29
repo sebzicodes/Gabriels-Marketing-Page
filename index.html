@@ -31,19 +31,6 @@
     ===================================================================== -->
     <nav id="main-nav" aria-label="Main navigation">
 
-      <!-- Name / logo anchor — top-left of the nav.
-           At the top of the page the full name is visible; once the user
-           scrolls, the .scrolled class on #main-nav triggers a CSS transition
-           that collapses the full name and reveals just the initials.
-           aria-label provides a meaningful accessible name since the visible
-           text changes depending on scroll state. -->
-      <a href="#hero-section" id="nav-name" aria-label="Gabriel Davis — back to top">
-        <!-- Full name: visible when nav is transparent (at the page top) -->
-        <span class="nav-name-full" aria-hidden="true">Gabriel Davis</span>
-        <!-- Initials: revealed when nav is in the scrolled/solid state -->
-        <span class="nav-name-initials" aria-hidden="true">G.D.</span>
-      </a>
-
       <!-- Desktop link list — hidden on mobile via CSS media query -->
       <!-- role="list" restores list semantics stripped by list-style:none in CSS -->
       <ul class="nav-links" role="list">
@@ -95,48 +82,15 @@
         <div class="hero-overlay" aria-hidden="true"></div>
 
 
-        <!-- Social icon links:
-                 Static at the bottom of the hero section; scrolls with the page normally.
-                 <nav> is correct here — it is a navigation region for external links.
-                 aria-label differentiates it from the main-nav above. -->
-        <nav id="hero-icons" class="social-icons" aria-label="Social media links">
+        <!-- Hero intro: name + tagline sit in the solid (non-blur) bottom half of the hero.
+             position:absolute in CSS pins it to the solid area above the social icons. -->
+        <div class="hero-intro">
+          <!-- h1 is the page's primary heading — screen readers treat this as the document title -->
+          <h1 class="hero-name">Gabriel.S.Davis</h1>
+          <!-- Role tagline directly beneath the name -->
+          <p class="hero-tagline-text">Coding Engineer &nbsp;·&nbsp; Content Creator</p>
+        </div>
 
-          <!-- LinkedIn link — opens in a new tab.
-                     rel="noopener noreferrer" prevents tab-napping security risk.
-                     aria-label names the destination since the icon alone has no text. -->
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="icon-link"
-            aria-label="LinkedIn profile (opens in new tab)"
-          >
-            <!-- aria-hidden="true" hides the decorative icon from screen readers;
-                         the parent anchor's aria-label already describes the purpose. -->
-            <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-          </a>
-
-          <!-- GitHub profile link -->
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="icon-link"
-            aria-label="GitHub profile (opens in new tab)"
-          >
-            <i class="fa-brands fa-github" aria-hidden="true"></i>
-          </a>
-
-          <!-- Email link — mailto: opens the user's default email client -->
-          <a
-            href="mailto:gabrieldavis1901@gmail.com"
-            class="icon-link"
-            aria-label="Send email to Gabriel Davis"
-          >
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-          </a>
-
-            </nav><!-- /.social-icons -->
 
         </section><!-- /#hero-section -->
 
@@ -428,13 +382,12 @@
          directly in the root stacking context.  This prevents backdrop-filter
          stacking contexts on #resume-section and #media-section from painting
          over it regardless of z-index values inside those contexts.
-         script.js adds .is-visible once the about section enters the viewport.
+         Always visible for the entire page — no scroll toggle needed.
     ===================================================================== -->
     <nav
       id="about-icons"
-      class="social-icons"
+      class="social-icons is-visible"
       aria-label="Social media links — persistent"
-      aria-hidden="true"
     >
 
       <!-- LinkedIn — tabindex=-1 keeps it out of Tab order while hidden -->
@@ -444,7 +397,6 @@
         rel="noopener noreferrer"
         class="icon-link"
         aria-label="LinkedIn profile (opens in new tab)"
-        tabindex="-1"
       >
         <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
       </a>
@@ -456,7 +408,6 @@
         rel="noopener noreferrer"
         class="icon-link"
         aria-label="GitHub profile (opens in new tab)"
-        tabindex="-1"
       >
         <i class="fa-brands fa-github" aria-hidden="true"></i>
       </a>
@@ -466,7 +417,6 @@
         href="mailto:gabrieldavis1901@gmail.com"
         class="icon-link"
         aria-label="Send email to Gabriel Davis"
-        tabindex="-1"
       >
         <i class="fa-solid fa-envelope" aria-hidden="true"></i>
       </a>

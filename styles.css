@@ -11,14 +11,14 @@
    Changing a value here updates every place it is referenced.
 ========================================================================== */
 :root {
-    /* Color palette */
-    --color-dark-red: #6B1414;              /* Cover letter section background */
-    --color-mahogany: #4E1010;              /* Media grid card background */
-    --color-nav-bg: rgba(18, 6, 6, 0.95);  /* Nav solid state (after scroll) */
+    /* Color palette — blue theme to match the hero section */
+    --color-dark-red: #0d2a4a;              /* Cover letter / button background — deep navy blue */
+    --color-mahogany: #071a2e;              /* Media grid card background — darker navy */
+    --color-nav-bg: rgba(5, 15, 30, 0.95); /* Nav solid state (after scroll) — dark navy */
     --color-text-light: #F5F0EE;            /* Primary text on dark backgrounds */
-    --color-accent: #C8956C;                /* Warm copper accent for links/hover */
-    --color-footer-bg: #0d0505;             /* Nearly-black footer background */
-    --color-contact-bg: #1a0a0a;            /* Contact section background */
+    --color-accent: #7ec8e3;               /* Light blue accent for links/hover */
+    --color-footer-bg: #030810;             /* Nearly-black navy footer background */
+    --color-contact-bg: #050d1a;            /* Contact section background — deep navy */
 
     /* Layout */
     --nav-height: 64px;   /* Height of the fixed navigation bar */
@@ -75,7 +75,7 @@ html {
 body {
     font-family: 'Georgia', serif; /* Elegant serif for a professional tone */
     color: var(--color-text-light);
-    background-color: #111;        /* Dark fallback behind any transparent sections */
+    background-color: #040c1a;     /* Dark navy fallback behind any transparent sections */
     overflow-x: hidden;            /* Prevent horizontal scroll from wide children */
 }
 
@@ -104,7 +104,7 @@ a {
     height: var(--nav-height);
     display: flex;
     align-items: center;          /* Vertically centre the nav children */
-    justify-content: space-between; /* Name on the left, links on the right */
+    justify-content: flex-end;    /* Links flush to the right; no name on the left */
     padding: 0 2rem;              /* Horizontal breathing room */
     background: transparent;      /* Invisible over the hero image by default */
     /* Animate both background colour and blur when .scrolled is added */
@@ -115,81 +115,10 @@ a {
 
 /* .scrolled is added by script.js when window.scrollY > 10px */
 #main-nav.scrolled {
-    background: var(--color-nav-bg);        /* Solid dark background */
+    background: var(--color-nav-bg);        /* Solid dark navy background */
     backdrop-filter: blur(8px);             /* Frosted-glass blur */
     -webkit-backdrop-filter: blur(8px);     /* Safari prefix */
     box-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); /* Depth shadow */
-}
-
-/* --- Nav name / logo (top-left) ----------------------------------------- */
-/* Anchor element that sits at the far left of the nav.
-   At the page top (transparent nav) it displays the full name.
-   Once the user scrolls and .scrolled is applied to #main-nav, a CSS
-   transition collapses the full name and fades in the initials instead. */
-#nav-name {
-    display: flex;              /* Row layout so both spans sit side by side */
-    align-items: center;
-    text-decoration: none;      /* No underline on the anchor */
-    font-family: 'Georgia', serif;
-    font-size: 1.05rem;
-    font-weight: bold;
-    letter-spacing: 0.08em;
-    color: #000;                /* Black text when nav background is transparent */
-    /* Animate text colour on the same timing as the nav background */
-    transition: color var(--transition);
-    white-space: nowrap;        /* Prevent name from wrapping mid-transition */
-    overflow: hidden;           /* Clip spans during the collapse animation */
-}
-
-/* Flip the name colour to light when the nav goes solid on scroll */
-#main-nav.scrolled #nav-name {
-    color: var(--color-text-light);
-}
-
-/* Hover accent — applies to whichever text is currently visible */
-#nav-name:hover {
-    color: var(--color-accent);
-}
-
-/* Keyboard focus ring — visible for all keyboard users */
-#nav-name:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 4px;
-    border-radius: 2px;
-}
-
-/* Full name span — visible by default; collapses when .scrolled is added.
-   max-width drives the collapsing animation because width:auto cannot be
-   transitioned; a generous max-width (200px) is larger than any rendered
-   width so the text never wraps during the transition. */
-.nav-name-full {
-    display: inline-block;
-    max-width: 200px;           /* Wide enough to display "Gabriel Davis" */
-    overflow: hidden;
-    opacity: 1;
-    /* Both max-width and opacity animate together for a smooth collapse+fade */
-    transition: max-width var(--transition), opacity var(--transition);
-}
-
-/* Initials span — hidden by default; expands when .scrolled is added. */
-.nav-name-initials {
-    display: inline-block;
-    max-width: 0;               /* Collapsed: takes no space */
-    overflow: hidden;
-    opacity: 0;                 /* Invisible so opacity cross-fades with full name */
-    transition: max-width var(--transition), opacity var(--transition);
-}
-
-/* Scrolled state: full name collapses to zero width + fades out */
-#main-nav.scrolled .nav-name-full {
-    max-width: 0;
-    opacity: 0;
-}
-
-/* Scrolled state: initials expand from zero + fade in */
-#main-nav.scrolled .nav-name-initials {
-    max-width: 60px;            /* Wide enough for "G.D." */
-    opacity: 1;
 }
 
 /* --- Desktop nav links -------------------------------------------------- */
@@ -234,14 +163,14 @@ a {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--color-text-light);
-    background: var(--color-dark-red); /* Visible even against transparent nav */
+    background: var(--color-dark-red); /* Deep navy blue — visible against transparent nav */
     padding: 0.45rem 1.1rem;
     border-radius: 4px;
     transition: background var(--transition);
 }
 
 .nav-mobile-contact:hover {
-    background: var(--color-mahogany); /* Darken on hover */
+    background: var(--color-mahogany); /* Darker navy on hover */
 }
 
 .nav-mobile-contact:focus-visible {
@@ -260,25 +189,6 @@ a {
     /* Show the single contact button */
     .nav-mobile-contact {
         display: inline-block;
-    }
-
-    /* Keep name on the left, contact button on the right.
-       space-between is already set on #main-nav globally; this rule previously
-       overrode it to flex-end which pushed the nav-name off screen on mobile. */
-    #main-nav {
-        justify-content: space-between;
-    }
-
-    /* Slightly smaller name on narrow screens so it doesn't crowd the
-       contact button — clamp scales it smoothly across screen widths. */
-    #nav-name {
-        font-size: clamp(0.8rem, 3.5vw, 1.05rem);
-    }
-
-    /* On mobile the full name uses a fluid max-width so it never overflows
-       into the contact button on very narrow screens (< ~360px). */
-    .nav-name-full {
-        max-width: clamp(0px, 40vw, 200px);
     }
 
     /* Hero section: on iOS/Android the collapsible browser address bar is counted
@@ -396,25 +306,12 @@ a {
     pointer-events: none; /* Never blocks clicks on icons */
 }
 
-/* Top half — 135deg light blue tint + blur over the photo.
-   Mirrors the resume-section gradient angle but in light blue. */
+/* Top half — no overlay; photo shows through completely. */
 .hero-overlay::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;                             /* Covers the top half only */
-    background: linear-gradient(
-        135deg,
-        rgba(90, 170, 210, 0.45) 0%,
-        rgba(155, 210, 235, 0.70) 100%
-    );
-    backdrop-filter: blur(8px);              /* Frosted-glass blur of the hero photo */
-    -webkit-backdrop-filter: blur(8px);      /* Safari prefix */
+    display: none;
 }
 
-/* Bottom half — fully opaque solid light blue. No blur needed here. */
+/* Bottom half — fully opaque solid light blue with black border outline. */
 .hero-overlay::after {
     content: '';
     position: absolute;
@@ -423,28 +320,53 @@ a {
     width: 100%;
     height: 50%;                /* Covers the bottom half only */
     background: rgb(173, 216, 230);
+    border: 2px solid #000;     /* Black outline around the solid panel */
 }
 
 
 /* ==========================================================================
-   7. SOCIAL ICON LINKS (Hero section)
-   A horizontal row of circular icon anchors, centred in the Hero section.
+   6b. HERO INTRO — NAME & TAGLINE
+   Positioned absolutely so it sits centered in the solid (non-blur) bottom
+   half of the hero, which begins at 50% from the top of the section.
+   bottom: 6rem keeps it clear of the social icons anchored at the base.
 ========================================================================== */
-
-/* #hero-icons needs position:relative and z-index:1 so it layers above
-   .hero-overlay (z-index:0) and remains fully interactive. */
-#hero-icons {
-    position: relative;
-    z-index: 1; /* Above .hero-overlay (0); below nav (100) */
+.hero-intro {
+    position: absolute;  /* Taken out of flex flow so it doesn't crowd the icons */
+    bottom: 6rem;        /* Float above the social icon row (which is ~4–5rem tall) */
+    left: 50%;
+    transform: translateX(-50%); /* Horizontally centre against the 50% left anchor */
+    text-align: center;
+    z-index: 1;          /* Above .hero-overlay (z-index: 0) */
+    width: 90%;
+    max-width: 640px;
+    pointer-events: none; /* Decorative text block — clicks pass through to icons */
 }
 
-/* Blur backdrop replaced by .hero-overlay — nothing needed here.
-   The ::before pseudo-element is disabled so no GPU blur runs on every
-   scroll frame. The .icons-scrolled class still gets toggled by JS but
-   has no visual effect. */
-#hero-icons::before {
-    display: none;
+/* Primary h1 displayed in the solid blue area */
+.hero-name {
+    font-family: 'Georgia', serif;
+    font-size: clamp(2rem, 6vw, 3.8rem); /* Fluid size across all viewport widths */
+    font-weight: bold;
+    color: #111;          /* Dark ink — high contrast on the light blue background */
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+    line-height: 1.1;
 }
+
+/* Subtitle / role tagline beneath the name */
+.hero-tagline-text {
+    font-family: 'Georgia', serif;
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
+    color: #333;          /* Slightly lighter than the name for visual hierarchy */
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+
+/* ==========================================================================
+   7. SOCIAL ICON LINKS
+   Shared styles for all icon nav sets (.social-icons).
+========================================================================== */
 
 .social-icons {
     display: flex;
@@ -517,8 +439,10 @@ a {
    fixed hero image (-1) but below the nav (100).
 ========================================================================== */
 #coverletter-section {
-    background-color: var(--color-dark-red);
+    background-color: var(--color-dark-red); /* Deep navy blue — matches hero blue palette */
     z-index: 0; /* Normal stacking order — no special layering needed */
+    border-top: 3px solid #000;    /* Black edge accent where hero meets this section */
+    border-bottom: 3px solid #000; /* Black edge accent before the resume section */
 }
 
 /* Comfortable reading width for the cover letter text block */
@@ -542,13 +466,15 @@ a {
    with zero per-frame blur cost.
 ========================================================================== */
 #resume-section {
-    /* Neutral dark gradient overlay — opacity raised so the hero photo is
-       sufficiently obscured without needing a blur filter */
+    /* Blue-tinted gradient overlay matching the hero palette; high opacity
+       obscures the hero photo without needing a GPU-expensive blur filter */
     background: linear-gradient(
         135deg,
-        rgba(10, 10, 10, 0.93) 0%,
-        rgba(40, 40, 40, 0.88) 100%
+        rgba(5, 15, 40, 0.95) 0%,
+        rgba(15, 45, 80, 0.90) 100%
     );
+    border-top: 3px solid #000;    /* Black accent edge between sections */
+    border-bottom: 3px solid #000; /* Black accent edge before media section */
     /* backdrop-filter removed: it caused full-viewport GPU blur on every
        scroll frame over the fixed hero image — primary source of section lag */
 
@@ -722,9 +648,9 @@ a {
     display: inline-block;
     margin-top: 2rem;
     padding: 0.65rem 1.5rem;
-    background: var(--color-dark-red);   /* Matches the cover letter section colour */
+    background: var(--color-dark-red);   /* Deep navy blue — matches cover letter section */
     color: var(--color-text-light);
-    border: 1px solid var(--color-accent);
+    border: 1px solid var(--color-accent); /* Light blue accent border */
     border-radius: 4px;
     font-size: 0.9rem;
     letter-spacing: 0.06em;
@@ -733,8 +659,8 @@ a {
 }
 
 .resume-download-btn:hover {
-    background: var(--color-accent);
-    color: #111;
+    background: var(--color-accent); /* Light blue fill on hover */
+    color: #050d1a;                  /* Dark navy text — legible on the light blue */
 }
 
 .resume-download-btn:focus-visible {
@@ -794,12 +720,15 @@ a {
    viewport blur over a fixed image causes GPU jank on scroll.
 ========================================================================== */
 #media-section {
+    /* Blue-tinted gradient matching the hero palette — same technique as #resume-section */
     background: linear-gradient(
         135deg,
-        rgba(10, 5, 5, 0.93) 0%,
-        rgba(60, 15, 15, 0.88) 100%
+        rgba(5, 10, 30, 0.95) 0%,
+        rgba(10, 30, 65, 0.90) 100%
     );
     /* backdrop-filter removed: same performance fix as #resume-section */
+    border-top: 3px solid #000;    /* Black accent edge between sections */
+    border-bottom: 3px solid #000; /* Black accent edge before contact section */
 
     /* Skip painting until near-viewport — same pattern as #resume-section */
     content-visibility: auto;
@@ -828,8 +757,8 @@ a {
 
 /* Individual media grid card */
 .media-item {
-    background-color: var(--color-mahogany); /* Mahogany fill per spec */
-    border: 1px solid #000;                  /* Small black border per spec */
+    background-color: var(--color-mahogany); /* Deep navy blue card fill */
+    border: 1px solid #000;                  /* Black border accent per spec */
     border-radius: 4px;                      /* Slight rounding softens the card */
     padding: 1.5rem;
     min-height: 180px;                       /* Consistent card height */
@@ -866,8 +795,9 @@ a {
    top border as a section divider.
 ========================================================================== */
 #contact-section {
-    background-color: var(--color-contact-bg);
-    border-top: 1px solid var(--color-dark-red); /* Subtle section separator */
+    background-color: var(--color-contact-bg); /* Deep navy blue */
+    border-top: 3px solid #000;    /* Black accent edge — consistent with section dividers */
+    border-bottom: 3px solid #000; /* Black accent edge before footer */
 }
 
 /* Horizontal layout on desktop — stacks on narrow screens via flex-wrap */
