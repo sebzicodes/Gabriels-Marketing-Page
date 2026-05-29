@@ -43,9 +43,9 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - `icon-links` will have respective icons updated by its linked site reference.
 - Icons are pinned to the bottom of the section using `align-items: flex-end` and `padding-bottom: 2rem` on `#hero-section`.
 - Icons do NOT move or become sticky — they scroll away naturally with the page.
-- **`.hero-overlay` div** (absolute, `inset:0`, `z-index:0`) creates a two-layer gradient over the hero photo:
-  - **Top half**: 135deg diagonal light blue translucent gradient (`rgba(90,170,210,0.45)` → `rgba(155,210,235,0.70)`) — mirrors the resume-section overlay technique but in light blue. Photo shows through.
-  - **Bottom half**: fully opaque solid light blue (`rgb(173,216,230)`) — sharp horizontal split at the 50% midpoint.
+- **`.hero-overlay` div** (absolute, `inset:0`, `z-index:0`) splits the hero into two halves via `::before` / `::after` pseudo-elements. `backdrop-filter` applies to an entire element, so the blur must live on its own layer covering only the top 50%; a single div cannot blur selectively.
+  - **`::before` (top half)**: `height:50%` from the top; 135deg light blue tint gradient + `backdrop-filter: blur(8px)` — photo shows through blurred and tinted.
+  - **`::after` (bottom half)**: `height:50%` from the bottom; fully opaque `rgb(173,216,230)` solid light blue.
   - `pointer-events: none` so it never blocks icon clicks.
 - `#hero-icons` has `z-index:1` to sit above `.hero-overlay`.
 - The old `#hero-icons::before` blur backdrop is disabled (`display:none`) — `.hero-overlay` replaces it. The `#hero-section::after` mobile blur is also disabled for the same reason. JS still toggles `.icons-scrolled` but has no visual effect.

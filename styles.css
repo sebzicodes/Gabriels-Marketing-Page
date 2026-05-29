@@ -384,31 +384,45 @@ a {
     z-index: -1; /* Behind every page section */
 }
 
-/* Hero overlay: two stacked gradients.
-   Layer 1 (front): solid light blue from the 50% midpoint down; transparent above it.
-   Layer 2 (back):  135deg diagonal light blue tint — mirrors the resume section
-                    gradient technique but in blue — lets the photo show through
-                    in the top half.
-   Together: photo + blue tint top half, fully solid light blue bottom half. */
+/* Hero overlay: a container div split into two pseudo-element halves.
+   backdrop-filter applies to an entire element, so the blur must live on its
+   own layer (::before) that covers only the top 50%.  A single div with both
+   blur and solid-background cannot blur selectively — splitting into ::before
+   (blurred tinted top) and ::after (solid bottom) solves this. */
 .hero-overlay {
-    position: absolute;   /* Fills the hero section (which is position:relative via .page) */
-    inset: 0;             /* top/right/bottom/left: 0 shorthand */
-    background:
-        /* Front layer — sharp horizontal split at 50%: transparent above, solid below */
-        linear-gradient(
-            to bottom,
-            transparent 0%,
-            transparent 50%,
-            rgb(173, 216, 230) 50%
-        ),
-        /* Back layer — 135deg light blue gradient, same angle as the resume section overlay */
-        linear-gradient(
-            135deg,
-            rgba(90, 170, 210, 0.45) 0%,
-            rgba(155, 210, 235, 0.70) 100%
-        );
+    position: absolute;   /* Fills the hero section (position:relative via .page) */
+    inset: 0;
     z-index: 0;           /* Above hero-bg (-1); below icons/content (z-index:1) */
-    pointer-events: none; /* Never blocks clicks on icons beneath it */
+    pointer-events: none; /* Never blocks clicks on icons */
+}
+
+/* Top half — 135deg light blue tint + blur over the photo.
+   Mirrors the resume-section gradient angle but in light blue. */
+.hero-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;                             /* Covers the top half only */
+    background: linear-gradient(
+        135deg,
+        rgba(90, 170, 210, 0.45) 0%,
+        rgba(155, 210, 235, 0.70) 100%
+    );
+    backdrop-filter: blur(8px);              /* Frosted-glass blur of the hero photo */
+    -webkit-backdrop-filter: blur(8px);      /* Safari prefix */
+}
+
+/* Bottom half — fully opaque solid light blue. No blur needed here. */
+.hero-overlay::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;                /* Covers the bottom half only */
+    background: rgb(173, 216, 230);
 }
 
 
