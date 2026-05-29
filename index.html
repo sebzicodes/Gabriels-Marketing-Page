@@ -84,11 +84,15 @@
         <!-- Background image element:
                  position:fixed in CSS so it stays stationary while scrolling.
                  role="img" + aria-label makes it meaningful to screen readers. -->
-       <div class="hero-bg" 
-             style="background-image: url('https://raw.githubusercontent.com/sebzicodes/assets/main/350DC896-2DD8-43A0-AE96-9713A9359419_1_105_c.jpeg');" 
-             role="img" 
+       <div class="hero-bg"
+             style="background-image: url('https://raw.githubusercontent.com/sebzicodes/assets/main/350DC896-2DD8-43A0-AE96-9713A9359419_1_105_c.jpeg');"
+             role="img"
             aria-label="Background portrait of Gabriel Davis">
         </div>
+
+        <!-- Hero overlay: top half is a 135deg light blue gradient (photo shows through);
+             bottom half is fully opaque light blue, creating a solid panel. -->
+        <div class="hero-overlay" aria-hidden="true"></div>
 
 
         <!-- Social icon links:

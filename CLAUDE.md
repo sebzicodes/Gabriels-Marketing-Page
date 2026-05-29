@@ -43,10 +43,12 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - `icon-links` will have respective icons updated by its linked site reference.
 - Icons are pinned to the bottom of the section using `align-items: flex-end` and `padding-bottom: 2rem` on `#hero-section`.
 - Icons do NOT move or become sticky — they scroll away naturally with the page.
-- A gradient blur backdrop sits behind the hero social icons when the user is at the very top of the page. It fades from fully transparent at top to semi-dark at bottom, and fades out (opacity: 0) as soon as the user scrolls down (scrollY > 10px).
-  - **Desktop**: `#hero-icons::before` — `position: absolute` relative to the icon row. Spans `100vw` (centred via `left: 50%; transform: translateX(-50%)`). `top: calc(-20vh + 5rem)` to `bottom: -2rem` covers the bottom 20vh of the section.
-  - **Mobile** (`max-width: 768px`): `#hero-section::after` — `position: absolute; bottom: 0; height: 25svh`. Anchored to the section itself so the bottom edge is always flush with the hero section bottom, regardless of device safe-area / svh rounding. The `#hero-icons::before` pseudo-element is disabled (`display: none`) on mobile. `#hero-icons` gets `z-index: 1` to stay above the `::after` (z-index: 0).
-  - JS adds/removes `.icons-scrolled` on **both** `#hero-icons` AND `#hero-section` inside `handleNavScroll()` so each pseudo-element fades correctly on its target element.
+- **`.hero-overlay` div** (absolute, `inset:0`, `z-index:0`) creates a two-layer gradient over the hero photo:
+  - **Top half**: 135deg diagonal light blue translucent gradient (`rgba(90,170,210,0.45)` → `rgba(155,210,235,0.70)`) — mirrors the resume-section overlay technique but in light blue. Photo shows through.
+  - **Bottom half**: fully opaque solid light blue (`rgb(173,216,230)`) — sharp horizontal split at the 50% midpoint.
+  - `pointer-events: none` so it never blocks icon clicks.
+- `#hero-icons` has `z-index:1` to sit above `.hero-overlay`.
+- The old `#hero-icons::before` blur backdrop is disabled (`display:none`) — `.hero-overlay` replaces it. The `#hero-section::after` mobile blur is also disabled for the same reason. JS still toggles `.icons-scrolled` but has no visual effect.
 
 ## Coverletter-section (About)
 

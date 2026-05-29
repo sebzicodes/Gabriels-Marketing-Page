@@ -290,52 +290,11 @@ a {
         height: 100svh;  /* Mobile-safe: excludes the collapsible browser toolbar */
     }
 
-    /* Hero gradient blur — mobile fix:
-       The ::before on #hero-icons is positioned relative to the icon row, so
-       its bottom edge depends on precisely where the icon row sits inside the
-       section.  On devices with a home-indicator safe area or slightly different
-       svh calculations the -2rem offset came up short, leaving a visible gap
-       between the blur and the screen bottom.
-       Solution: disable the icon-relative pseudo-element and re-create the blur
-       as #hero-section::after, anchored with bottom:0 so it always reaches the
-       section bottom with zero offset arithmetic. */
-    #hero-icons::before {
-        display: none; /* Replaced by #hero-section::after below */
-    }
-
-    /* Lift the icon row above the new ::after blur band so icons remain
-       clickable and visually in front of the gradient. */
-    #hero-icons {
-        z-index: 1; /* Above ::after (z-index:0) but below nav (z-index:100) */
-    }
-
-    /* Blur band anchored to the very bottom of the hero section.
-       bottom:0 is relative to #hero-section so it always reaches the section
-       edge — no per-device offset calculation required. */
+    /* .hero-overlay handles the hero background on mobile — no blur pseudo-element
+       needed. Both ::before (on #hero-icons) and ::after (on #hero-section) are
+       disabled so no GPU blur runs on mobile scroll frames. */
     #hero-section::after {
-        content: '';                    /* Required for generated content to render */
-        position: absolute;
-        left: 0;                        /* Span full section width */
-        width: 100%;
-        height: 25svh;                  /* Slightly taller than before for safe coverage */
-        bottom: 0;                      /* Always flush with the section bottom */
-        background: linear-gradient(
-            to bottom,
-            rgba(20, 5, 5, 0) 0%,
-            rgba(10, 3, 3, 0.55) 100%
-        );
-        backdrop-filter: blur(8px);          /* Frosted-glass look over the hero photo */
-        -webkit-backdrop-filter: blur(8px);  /* Safari prefix */
-        z-index: 0;                     /* Above hero-bg (-1), below icons (1) */
-        opacity: 1;                     /* Visible at the top of the page */
-        transition: opacity 0.5s ease;  /* Smooth fade-out on scroll */
-        pointer-events: none;           /* Never intercepts clicks intended for icons */
-    }
-
-    /* Fade the section-level blur out once the user scrolls away.
-       JS adds .icons-scrolled to #hero-section (same logic as #hero-icons). */
-    #hero-section.icons-scrolled::after {
-        opacity: 0;
+        display: none;
     }
 
     /* About icons: explicitly enforce vertical stacking on mobile and tighten the
@@ -425,56 +384,52 @@ a {
     z-index: -1; /* Behind every page section */
 }
 
+/* Hero overlay: two stacked gradients.
+   Layer 1 (front): solid light blue from the 50% midpoint down; transparent above it.
+   Layer 2 (back):  135deg diagonal light blue tint — mirrors the resume section
+                    gradient technique but in blue — lets the photo show through
+                    in the top half.
+   Together: photo + blue tint top half, fully solid light blue bottom half. */
+.hero-overlay {
+    position: absolute;   /* Fills the hero section (which is position:relative via .page) */
+    inset: 0;             /* top/right/bottom/left: 0 shorthand */
+    background:
+        /* Front layer — sharp horizontal split at 50%: transparent above, solid below */
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 50%,
+            rgb(173, 216, 230) 50%
+        ),
+        /* Back layer — 135deg light blue gradient, same angle as the resume section overlay */
+        linear-gradient(
+            135deg,
+            rgba(90, 170, 210, 0.45) 0%,
+            rgba(155, 210, 235, 0.70) 100%
+        );
+    z-index: 0;           /* Above hero-bg (-1); below icons/content (z-index:1) */
+    pointer-events: none; /* Never blocks clicks on icons beneath it */
+}
+
 
 /* ==========================================================================
    7. SOCIAL ICON LINKS (Hero section)
    A horizontal row of circular icon anchors, centred in the Hero section.
 ========================================================================== */
 
-/* #hero-icons needs position:relative so the ::before pseudo-element can be
-   absolutely positioned relative to the icon row instead of the section. */
+/* #hero-icons needs position:relative and z-index:1 so it layers above
+   .hero-overlay (z-index:0) and remains fully interactive. */
 #hero-icons {
     position: relative;
+    z-index: 1; /* Above .hero-overlay (0); below nav (100) */
 }
 
-/* Gradient blur backdrop that spans the full page width and covers the
-   bottom of the hero section. Fades out when the user scrolls
-   (JS adds .icons-scrolled to #hero-icons when scrollY > 10). */
+/* Blur backdrop replaced by .hero-overlay — nothing needed here.
+   The ::before pseudo-element is disabled so no GPU blur runs on every
+   scroll frame. The .icons-scrolled class still gets toggled by JS but
+   has no visual effect. */
 #hero-icons::before {
-    content: '';                   /* Required for generated content to render */
-    position: absolute;
-    /* Full viewport width: centre on the icon row then stretch to 100vw */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100vw;
-    /* Cover exactly the bottom 1/5 of the hero section (20vh).
-       Icons sit ~5rem from the section bottom (padding-bottom:2rem + icon height:3rem),
-       so the blur top must be 20vh - 5rem above the icons to land at the 80vh mark. */
-    top: calc(-20vh + 5rem);
-    /* -2rem matches hero-section's padding-bottom so the band reaches the
-       very bottom edge of the section */
-    bottom: -2rem;
-    border-radius: 0;              /* No pill shape — full-width band */
-    /* Vertical gradient: fully transparent at top, semi-dark at bottom */
-    background: linear-gradient(
-        to bottom,
-        rgba(20, 5, 5, 0) 0%,
-        rgba(10, 3, 3, 0.55) 100%
-    );
-    /* 8px gives a clear frosted look; 18px was excessive and noticeably
-       heavier on the GPU — especially on integrated graphics. */
-    backdrop-filter: blur(8px);          /* Frosted-glass blur of the hero photo */
-    -webkit-backdrop-filter: blur(8px);  /* Safari prefix */
-    z-index: -1;                   /* Sits behind the icon anchors */
-    opacity: 1;                    /* Visible by default (user is at the top) */
-    transition: opacity 0.5s ease; /* Smooth fade out when scrolling begins */
-    pointer-events: none;          /* Never intercepts clicks intended for icons */
-}
-
-/* Fade the blur bg out once the user scrolls away from the top.
-   .icons-scrolled is toggled by handleNavScroll() in script.js. */
-#hero-icons.icons-scrolled::before {
-    opacity: 0; /* Invisible — user has scrolled past the hero top */
+    display: none;
 }
 
 .social-icons {
