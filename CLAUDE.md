@@ -43,7 +43,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - **`.hero-intro` div** (`position: absolute; bottom: 6rem`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Coding Engineer · Content Creator"). Sits in the solid (non-blur) bottom half of the hero, above the social icons.
 - **`.hero-overlay` div** (absolute, `inset:0`, `z-index:0`) splits the hero into two halves via `::before` / `::after` pseudo-elements. `backdrop-filter` applies to an entire element, so the blur must live on its own layer covering only the top 50%; a single div cannot blur selectively.
   - **`::before` (top half)**: `display: none` — no overlay at all; hero photo shows through completely.
-  - **`::after` (bottom half)**: `height:50%` from the bottom; fully opaque `rgb(173,216,230)` solid light blue with `border: 2px solid #000` black outline.
+  - **`::after` (bottom 1/4th)**: `height:25%` from the bottom; fully opaque `rgb(173,216,230)` solid light blue with `border: 2px solid #000` black outline.
   - `pointer-events: none` so it never blocks icon clicks.
 - `#hero-icons` has `z-index:1` to sit above `.hero-overlay`.
 - The old `#hero-icons::before` blur backdrop is disabled (`display:none`) — `.hero-overlay` replaces it. The `#hero-section::after` mobile blur is also disabled for the same reason. JS still toggles `.icons-scrolled` but has no visual effect.
