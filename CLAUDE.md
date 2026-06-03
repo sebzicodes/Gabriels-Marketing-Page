@@ -38,15 +38,16 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 
 ## Hero-section
 
-- Full page IMG with a z-index so its behind everything and stationary.
+- Hero image is **framed/boxed**: `.hero-bg` is `position: fixed` but inset — `top: 12.5vh; bottom: 12.5vh; left: 3rem; right: 3rem` — so the image does not bleed to the viewport edges.
+- **Top and bottom bars** are each 1/8 of the viewport height (12.5vh); they show the `#hero-section` background color (`rgb(173,216,230)` light blue) through the inset gap.
+- **Side strips** (3rem on each side) show the same light blue background.
+- `.hero-bg` has `border: 2px solid #000` — black border frames the image as a visible box.
 - No social icons in the hero section — they were removed; side icons cover the whole page instead.
-- **`.hero-intro` div** (`position: absolute; bottom: 6rem`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Coding Engineer · Content Creator"). Sits in the solid (non-blur) bottom half of the hero, above the social icons.
-- **`.hero-overlay` div** (absolute, `inset:0`, `z-index:0`) splits the hero into two halves via `::before` / `::after` pseudo-elements. `backdrop-filter` applies to an entire element, so the blur must live on its own layer covering only the top 50%; a single div cannot blur selectively.
-  - **`::before` (top half)**: `display: none` — no overlay at all; hero photo shows through completely.
-  - **`::after` (bottom 1/4th)**: `height:25%` from the bottom; fully opaque `rgb(173,216,230)` solid light blue with `border: 2px solid #000` black outline.
+- **`.hero-intro` div** (`position: absolute; bottom: 2rem`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Coding Engineer · Content Creator"). Sits inside the bottom light blue bar.
+- **`.hero-overlay` div** (absolute, `inset:0`, `z-index:0`):
+  - **`::before`**: `display: none` — no overlay; hero photo shows through.
+  - **`::after`**: `display: none` — removed; the bottom bar is now the section background color.
   - `pointer-events: none` so it never blocks icon clicks.
-- `#hero-icons` has `z-index:1` to sit above `.hero-overlay`.
-- The old `#hero-icons::before` blur backdrop is disabled (`display:none`) — `.hero-overlay` replaces it. The `#hero-section::after` mobile blur is also disabled for the same reason. JS still toggles `.icons-scrolled` but has no visual effect.
 
 ## Coverletter-section (About)
 

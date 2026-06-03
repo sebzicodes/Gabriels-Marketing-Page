@@ -278,6 +278,26 @@ a {
     padding-bottom: 2rem;    /* Small gap from the very bottom edge */
 }
 
+/* Frame overlay: CSS borders on this pseudo-element create the colored
+   bars/strips around the hero image.  The center has no background so it
+   is fully transparent, letting the fixed hero-bg (z-index:-1) show through.
+   z-index:0 sits above the hero-bg but below content (z-index:1). */
+#hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-top: 12.5vh solid rgb(173, 216, 230);    /* top bar  — 1/8 of viewport */
+    border-bottom: 12.5vh solid rgb(173, 216, 230); /* bottom bar — 1/8 of viewport */
+    border-left: 3rem solid rgb(173, 216, 230);     /* left strip — a little space */
+    border-right: 3rem solid rgb(173, 216, 230);    /* right strip — a little space */
+    /* Inset box-shadow draws a 2px black line at the inner edge of the
+       colored borders — exactly where the frame meets the image area */
+    box-shadow: inset 0 0 0 2px #000;
+    box-sizing: border-box;
+    z-index: 0;
+    pointer-events: none; /* never blocks clicks on content above */
+}
+
 /* The fixed background image div.
    position:fixed pins it to the viewport; z-index:-1 sends it behind everything.
    Place your hero image at assets/hero-bg.jpg (or update the path below). */
@@ -287,11 +307,11 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('assets/hero-bg.jpg'); /* <-- update with your image path */
+    background-image: url('assets/hero-bg.jpg'); /* overridden by inline style in HTML */
     background-size: cover;       /* Scale to fill without distortion */
     background-position: center;  /* Keep the focal point centred */
     background-repeat: no-repeat;
-    z-index: -1; /* Behind every page section */
+    z-index: -1; /* Behind every page section; frame overlay sits above at z-index:0 */
 }
 
 /* Hero overlay: a container div split into two pseudo-element halves.
@@ -311,16 +331,11 @@ a {
     display: none;
 }
 
-/* Bottom half — fully opaque solid light blue with black border outline. */
+/* Bottom panel removed — the hero section's background-color now provides
+   the light blue bar at the bottom (and top), showing through where the
+   inset .hero-bg does not cover. */
 .hero-overlay::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 25%;                /* Covers the bottom 1/4th only */
-    background: rgb(173, 216, 230);
-    border: 2px solid #000;     /* Black outline around the solid panel */
+    display: none;
 }
 
 
@@ -332,7 +347,9 @@ a {
 ========================================================================== */
 .hero-intro {
     position: absolute;  /* Taken out of flex flow so it doesn't crowd the icons */
-    bottom: 6rem;        /* Float above the social icon row (which is ~4–5rem tall) */
+    /* Sit within the bottom bar (12.5vh); 2rem off the base keeps it clear of
+       the section edge while staying in the light blue bar area */
+    bottom: 2rem;
     left: 50%;
     transform: translateX(-50%); /* Horizontally centre against the 50% left anchor */
     text-align: center;
