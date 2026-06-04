@@ -39,7 +39,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 ## Hero-section
 
 - Hero image is **framed/boxed**: `.hero-bg` is `position: absolute` (scrolls with the page) inset to `top: 12.5vh; bottom: 12.5vh; left: 3rem; right: 3rem` — fills the frame opening and moves with the hero section on scroll.
-- **Top and bottom bars** are each 1/8 of the viewport height (12.5vh); they show a grey gradient (`#606060` → `#d8d8d8`, top to bottom) via `#hero-section::before` with a CSS `mask`.
+- **Top and bottom bars** are each 1/8 of the viewport height (12.5vh); they show a radial gradient (`#ffffff` at center → `#071a2e` at outer edges) via `#hero-section::before` with a CSS `mask` — white radiates from the image box outward to dark navy at the extremes.
 - **Side strips** (3rem on each side) show the same grey gradient.
 - `#hero-section::after` draws a `2px solid #000` frame at the inner edge of the grey bars (desktop only; `display: none` on mobile via media query).
 - No social icons in the hero section — removed. Social links live in `#connect-section` above the footer.

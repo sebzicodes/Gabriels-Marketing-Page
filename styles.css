@@ -279,8 +279,8 @@ a {
     content: '';
     position: absolute;
     inset: 0;
-    /* Grey gradient — dark at the top, light at the bottom */
-    background: linear-gradient(to bottom, #606060, #d8d8d8);
+    /* Radial gradient — white at the center (behind the image box), dark navy at the outer edges */
+    background: radial-gradient(ellipse at center, #ffffff 0%, #071a2e 100%);
     /* Mask: solid-black layers make the background visible only in the four
        frame strips; the unwanted center area is left unmasked (transparent). */
     -webkit-mask:
