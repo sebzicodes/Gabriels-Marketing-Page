@@ -38,12 +38,12 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 
 ## Hero-section
 
-- Hero image is **framed/boxed**: `.hero-bg` is `position: fixed` but inset — `top: 12.5vh; bottom: 12.5vh; left: 3rem; right: 3rem` — so the image does not bleed to the viewport edges.
-- **Top and bottom bars** are each 1/8 of the viewport height (12.5vh); they show the `#hero-section` background color (`rgb(173,216,230)` light blue) through the inset gap.
-- **Side strips** (3rem on each side) show the same light blue background.
-- `.hero-bg` has `border: 2px solid #000` — black border frames the image as a visible box.
-- No social icons in the hero section — they were removed; side icons cover the whole page instead.
-- **`.hero-intro` div** (`position: absolute; top: 2rem`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Coding Engineer · Content Creator"). Sits inside the **top** light blue bar.
+- Hero image is **framed/boxed**: `.hero-bg` is `position: absolute` (scrolls with the page) inset to `top: 12.5vh; bottom: 12.5vh; left: 3rem; right: 3rem` — fills the frame opening and moves with the hero section on scroll.
+- **Top and bottom bars** are each 1/8 of the viewport height (12.5vh); they show a grey gradient (`#606060` → `#d8d8d8`, top to bottom) via `#hero-section::before` with a CSS `mask`.
+- **Side strips** (3rem on each side) show the same grey gradient.
+- `#hero-section::after` draws a `2px solid #000` frame at the inner edge of the grey bars (desktop only; `display: none` on mobile via media query).
+- No social icons in the hero section — removed. Social links live in `#connect-section` above the footer.
+- **`.hero-intro` div** (`position: absolute; top: 6.25vh; transform: translate(-50%, -50%)`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Full-Stack-Engineer | Content-Creator"). Vertically and horizontally centered within the 12.5vh top grey bar.
 - **`.hero-contact-btn`** (`position: absolute; bottom: 2rem`) is a Contact button pinned to the bottom light blue bar. Links to `#contact-section`.
 - **`.hero-overlay` div** (absolute, `inset:0`, `z-index:0`):
   - **`::before`**: `display: none` — no overlay; hero photo shows through.
@@ -51,10 +51,6 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
   - `pointer-events: none` so it never blocks icon clicks.
 
 ## Coverletter-section (About)
-
-- `#about-icons` is fixed at the bottom-right of the viewport, stacked vertically (column).
-- Always visible for the entire page — no scroll toggle; `.is-visible` is set directly in the HTML.
-- Implemented: `position: fixed; right: 2rem; bottom: 2rem; flex-direction: column` in CSS.
 
 ## Coverletters-section
 
@@ -85,5 +81,14 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 
 - Background is deep navy (`--color-contact-bg: #050d1a`).
 - 3px solid black border-top and border-bottom accent edges.
+
+## Connect-section
+
+- Sits directly above the footer; replaces the old `#about-icons` fixed sidebar.
+- Background: `--color-contact-bg` deep navy, 3px solid black border-top and border-bottom.
+- Three platform rows (LinkedIn, GitHub, Email) stacked vertically, centred with `max-width: 640px`.
+- Each row is a single `<a>` wrapping `.connect-icon` (5rem icon) + `.connect-label` (text).
+- **Hover animation**: icon slides left via `transform: translateX(-2rem)` and tints to `--color-accent`; label slides in from the right (`translateX(2rem) → 0`) with `opacity: 0 → 1`. Transitions use `cubic-bezier(0.25, 0.46, 0.45, 0.94)` with a 0.05s delay on the label so the icon moves first.
+- Mobile (`max-width: 600px`): icon shrinks to 3.5rem, label font-size reduces, slide distance halves to `-1rem` so the icon stays on-screen.
 
 ## Footer

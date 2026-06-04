@@ -66,15 +66,7 @@ handleNavScroll();
 
 
 /* ==========================================================================
-   2. SIDE SOCIAL ICONS — PERSISTENT BOTTOM-RIGHT COLUMN
-   #about-icons is fixed at the viewport's bottom-right corner and visible
-   for the entire page — no scroll toggle needed.  The .is-visible class and
-   interactive tabindex values are set directly in the HTML.
-========================================================================== */
-
-
-/* ==========================================================================
-   3. FOOTER YEAR — AUTOMATIC COPYRIGHT YEAR
+   2. FOOTER YEAR — AUTOMATIC COPYRIGHT YEAR
    Updates the copyright year in the footer automatically so it never
    needs to be manually updated each January.
 ========================================================================== */

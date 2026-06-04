@@ -27,7 +27,7 @@
          NAVIGATION BAR
          <nav> is a semantic HTML5 landmark — screen readers jump here with a
          single key press. aria-label distinguishes it from other <nav> elements
-         on the same page (e.g. the social-icons nav in the hero section).
+         on the same page.
     ===================================================================== -->
     <nav id="main-nav" aria-label="Main navigation">
 
@@ -88,7 +88,7 @@
           <!-- h1 is the page's primary heading — screen readers treat this as the document title -->
           <h1 class="hero-name">Gabriel.S.Davis</h1>
           <!-- Role tagline directly beneath the name -->
-          <p class="hero-tagline-text">Coding Engineer &nbsp;·&nbsp; Content Creator</p>
+          <p class="hero-tagline-text">Full-Stack-Engineer &nbsp;|&nbsp; Content-Creator</p>
         </div>
 
 
@@ -140,24 +140,6 @@
           <!-- Section heading — sr-only hides it visually but keeps it readable
                by screen readers for proper landmark/document structure. -->
           <h2 class="sr-only">Resume</h2>
-
-          <!-- Resume header block: name, title, and contact info.
-               <header> scopes this metadata to the resume article below. -->
-          <div class="resume-header">
-            <!-- Candidate name displayed as the primary resume identity -->
-            <p class="resume-name">Gabriel Davis</p>
-
-            <!-- Role tagline sits beside the name on wider screens -->
-            <p class="resume-tagline">Experienced Customer Service Professional</p>
-
-            <!-- Contact line: city, email, and phone.
-                 <address> is the semantic element for contact information. -->
-            <address class="resume-contact">
-              Downtown San Jose, CA &nbsp;|&nbsp;
-              <!-- mailto: opens the device's default email client -->
-              <a href="mailto:gabrieldavis1901@gmail.com" aria-label="Email Gabriel Davis">gabrieldavis1901@gmail.com</a>
-            </address>
-          </div><!-- /.resume-header -->
 
           <!-- ── WORK EXPERIENCE ── -->
           <!-- <section> groups all work entries under a labeled region;
@@ -368,6 +350,75 @@
 
         </section><!-- /#contact-section -->
 
+
+      <!-- ==============================================================
+             CONNECT SECTION
+             Sits directly above the footer. Displays large platform icons;
+             hovering slides the icon left and reveals an inviting message.
+             The entire <a> (icon + label) is the clickable link.
+        ============================================================== -->
+      <section id="connect-section" aria-label="Connect with Gabriel on social platforms">
+
+      <!-- Centred inner wrapper — mirrors .section-inner pattern but custom -->
+      <div class="connect-inner">
+
+        <!-- Section heading -->
+        <h2 class="connect-heading">Let's Connect</h2>
+
+        <!-- Vertical list of platform links -->
+        <div class="connect-list" role="list">
+
+          <!-- LinkedIn row -->
+          <!-- role="listitem" pairs with role="list" on parent for a11y -->
+          <a
+            href="https://linkedin.com/in/gabriels-davis"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="connect-item"
+            role="listitem"
+            aria-label="Connect with Gabriel on LinkedIn (opens in new tab)"
+          >
+            <!-- Icon wrapper — translated left on hover via CSS -->
+            <span class="connect-icon" aria-hidden="true">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </span>
+            <!-- Inviting label — hidden until hover -->
+            <span class="connect-label">Let's connect on LinkedIn</span>
+          </a>
+
+          <!-- GitHub row -->
+          <a
+            href="https://github.com/gabrieldavis"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="connect-item"
+            role="listitem"
+            aria-label="View Gabriel's GitHub profile (opens in new tab)"
+          >
+            <span class="connect-icon" aria-hidden="true">
+              <i class="fa-brands fa-github"></i>
+            </span>
+            <span class="connect-label">Check out my work on GitHub</span>
+          </a>
+
+          <!-- Email row -->
+          <a
+            href="mailto:gabrieldavis1901@gmail.com"
+            class="connect-item"
+            role="listitem"
+            aria-label="Send Gabriel an email"
+          >
+            <span class="connect-icon" aria-hidden="true">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            <span class="connect-label">Drop me an email</span>
+          </a>
+
+        </div><!-- /.connect-list -->
+      </div><!-- /.connect-inner -->
+
+      </section><!-- /#connect-section -->
+
     </main><!-- /#main -->
 
 
@@ -382,54 +433,6 @@
             &copy; <span id="footer-year"></span> Gabriel Davis. All rights reserved.
       </p>
     </footer><!-- /footer -->
-
-
-    <!-- =====================================================================
-         ABOUT SECTION SOCIAL ICONS (persistent bottom-right column)
-         Placed at body level — NOT inside any section — so it participates
-         directly in the root stacking context.  This prevents backdrop-filter
-         stacking contexts on #resume-section and #media-section from painting
-         over it regardless of z-index values inside those contexts.
-         Always visible for the entire page — no scroll toggle needed.
-    ===================================================================== -->
-    <nav
-      id="about-icons"
-      class="social-icons is-visible"
-      aria-label="Social media links — persistent"
-    >
-
-      <!-- LinkedIn — tabindex=-1 keeps it out of Tab order while hidden -->
-      <a
-        href="https://linkedin.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="icon-link"
-        aria-label="LinkedIn profile (opens in new tab)"
-      >
-        <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-      </a>
-
-      <!-- GitHub -->
-      <a
-        href="https://github.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="icon-link"
-        aria-label="GitHub profile (opens in new tab)"
-      >
-        <i class="fa-brands fa-github" aria-hidden="true"></i>
-      </a>
-
-      <!-- Email -->
-      <a
-        href="mailto:gabrieldavis1901@gmail.com"
-        class="icon-link"
-        aria-label="Send email to Gabriel Davis"
-      >
-        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-      </a>
-
-    </nav><!-- /#about-icons -->
 
 
     <!-- script.js is loaded at the end of <body> so the DOM is fully parsed

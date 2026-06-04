@@ -207,13 +207,6 @@ a {
         display: none;
     }
 
-    /* About icons: explicitly enforce vertical stacking on mobile and tighten the
-       edge spacing so icons don't crowd the screen corner on narrow viewports. */
-    #about-icons {
-        flex-direction: column; /* Explicitly stack top-to-bottom on mobile */
-        right: 1rem;            /* Slightly closer to edge on narrow screens */
-        bottom: 1rem;           /* Match reduced right offset */
-    }
 }
 
 
@@ -278,40 +271,63 @@ a {
     padding-bottom: 2rem;    /* Small gap from the very bottom edge */
 }
 
-/* Frame overlay: CSS borders on this pseudo-element create the colored
-   bars/strips around the hero image.  The center has no background so it
-   is fully transparent, letting the fixed hero-bg (z-index:-1) show through.
-   z-index:0 sits above the hero-bg but below content (z-index:1). */
+/* Frame overlay: grey gradient background revealed only in the bar/strip areas
+   via CSS mask.  The unmasked center stays transparent so the fixed hero-bg
+   (z-index:-1) shows through.  z-index:0 sits above the hero-bg but below
+   content (z-index:1). */
 #hero-section::before {
     content: '';
     position: absolute;
     inset: 0;
-    border-top: 12.5vh solid rgb(173, 216, 230);    /* top bar  — 1/8 of viewport */
-    border-bottom: 12.5vh solid rgb(173, 216, 230); /* bottom bar — 1/8 of viewport */
-    border-left: 3rem solid rgb(173, 216, 230);     /* left strip — a little space */
-    border-right: 3rem solid rgb(173, 216, 230);    /* right strip — a little space */
-    /* Inset box-shadow draws a 2px black line at the inner edge of the
-       colored borders — exactly where the frame meets the image area */
-    box-shadow: inset 0 0 0 2px #000;
+    /* Grey gradient — dark at the top, light at the bottom */
+    background: linear-gradient(to bottom, #606060, #d8d8d8);
+    /* Mask: solid-black layers make the background visible only in the four
+       frame strips; the unwanted center area is left unmasked (transparent). */
+    -webkit-mask:
+        linear-gradient(#000, #000) top    / 100% 12.5vh no-repeat,
+        linear-gradient(#000, #000) bottom / 100% 12.5vh no-repeat,
+        linear-gradient(#000, #000) left   / 3rem 100%  no-repeat,
+        linear-gradient(#000, #000) right  / 3rem 100%  no-repeat;
+    mask:
+        linear-gradient(#000, #000) top    / 100% 12.5vh no-repeat,
+        linear-gradient(#000, #000) bottom / 100% 12.5vh no-repeat,
+        linear-gradient(#000, #000) left   / 3rem 100%  no-repeat,
+        linear-gradient(#000, #000) right  / 3rem 100%  no-repeat;
     box-sizing: border-box;
     z-index: 0;
     pointer-events: none; /* never blocks clicks on content above */
 }
 
-/* The fixed background image div.
-   position:fixed pins it to the viewport; z-index:-1 sends it behind everything.
-   Place your hero image at assets/hero-bg.jpg (or update the path below). */
+/* Black border frame drawn at the inner edge of the grey bars — exactly
+   where the frame strips meet the hero image area. */
+#hero-section::after {
+    content: '';
+    position: absolute;
+    top: 12.5vh;    /* inner edge of top bar */
+    left: 3rem;     /* inner edge of left strip */
+    right: 3rem;    /* inner edge of right strip */
+    bottom: 12.5vh; /* inner edge of bottom bar */
+    border: 2px solid #000; /* visible frame line around the image */
+    z-index: 1;     /* above the grey bars (::before z-index:0) */
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+/* The background image div.
+   position:absolute pins it inside #hero-section so it scrolls with the page.
+   Inset matches the grey-bar frame: 12.5vh top/bottom, 3rem left/right — the
+   image fills exactly the opening of the frame box and moves with it on scroll. */
 .hero-bg {
-    position: fixed;              /* Stays still while page scrolls */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: absolute;           /* Contained within #hero-section (position:relative via .page) */
+    top: 12.5vh;                  /* Inner edge of the top grey bar */
+    bottom: 12.5vh;               /* Inner edge of the bottom grey bar */
+    left: 3rem;                   /* Inner edge of the left grey strip */
+    right: 3rem;                  /* Inner edge of the right grey strip */
     background-image: url('assets/hero-bg.jpg'); /* overridden by inline style in HTML */
     background-size: cover;       /* Scale to fill without distortion */
     background-position: center;  /* Keep the focal point centred */
     background-repeat: no-repeat;
-    z-index: -1; /* Behind every page section; frame overlay sits above at z-index:0 */
+    z-index: -1; /* Behind frame overlay (z-index:0) and content (z-index:1) */
 }
 
 /* Hero overlay: a container div split into two pseudo-element halves.
@@ -347,11 +363,11 @@ a {
 ========================================================================== */
 .hero-intro {
     position: absolute;  /* Taken out of flex flow so it doesn't crowd the icons */
-    /* Sit within the top bar (12.5vh); 2rem from the top keeps it clear of the
-       section edge while staying in the light blue bar area */
-    top: 2rem;
+    /* Vertically centered in the top bar (12.5vh tall); left:50% + translateX(-50%)
+       centres horizontally, translateY(-50%) centres vertically on the midpoint. */
+    top: 6.25vh;         /* Midpoint of the 12.5vh top bar */
     left: 50%;
-    transform: translateX(-50%); /* Horizontally centre against the 50% left anchor */
+    transform: translate(-50%, -50%); /* Centre both horizontally and vertically */
     text-align: center;
     z-index: 1;          /* Above .hero-overlay (z-index: 0) */
     width: 90%;
@@ -418,72 +434,138 @@ a {
 
 
 /* ==========================================================================
-   7. SOCIAL ICON LINKS
-   Shared styles for all icon nav sets (.social-icons).
+   7. CONNECT SECTION
+   Sits directly above the footer. Displays three large platform icons
+   (LinkedIn, GitHub, Email) stacked vertically. On hover the icon slides
+   left and an inviting label slides in from the right; both the icon and
+   label are wrapped in a single <a> so clicking either navigates.
 ========================================================================== */
 
-.social-icons {
+/* Section wrapper — auto height so it grows with content; dark background
+   that echoes the contact/footer palette for a smooth visual transition. */
+#connect-section {
+    background-color: var(--color-contact-bg); /* Deep navy — matches contact section */
+    border-top: 3px solid #000;    /* Consistent black accent edge between sections */
+    border-bottom: 3px solid #000; /* Black accent edge before the footer */
+    padding: 4rem 2rem;            /* Generous breathing room top and bottom */
     display: flex;
-    gap: 1.5rem;      /* Space between each icon circle */
-    align-items: center;
-    /* Opacity transition for any fade effects on icon sets */
-    transition: opacity 0.4s ease;
+    justify-content: center;       /* Centre the inner wrapper horizontally */
 }
 
-/* --- About section icons (persistent bottom-right column) ---------------- */
-/* Element lives at body level in the HTML — NOT inside any section — so it
-   participates directly in the root stacking context.  backdrop-filter on
-   #resume-section and #media-section creates isolated stacking contexts that
-   would paint over any fixed element nested inside them; body-level placement
-   avoids that entirely.  z-index:1000 ensures it sits above everything. */
-#about-icons {
-    position: fixed;             /* Always relative to the viewport — never scrolls */
-    right: 2rem;                 /* 2rem from the right edge of the viewport */
-    bottom: 2rem;                /* 2rem from the bottom edge of the viewport */
-    flex-direction: column;      /* Stack icons top-to-bottom (vertically) */
-    gap: 1rem;                   /* Tighter gap suits a vertical sidebar widget */
-    opacity: 0;                  /* Hidden by default */
-    pointer-events: none;        /* Not interactive while hidden */
-    z-index: 1000;               /* Above nav (100) and all section stacking contexts */
-    /* opacity transition inherited from .social-icons */
-}
-
-/* Visible state — toggled by script.js on scroll */
-#about-icons.is-visible {
-    opacity: 1;            /* Fully visible */
-    pointer-events: auto;  /* Restore click/touch interaction */
-
-}
-
-/* Each icon anchor is a circular button-like target */
-.icon-link {
+/* Inner wrapper: centres the heading + list and caps the readable width */
+.connect-inner {
     display: flex;
+    flex-direction: column;
+    align-items: center;           /* Horizontally centre heading and list */
+    width: 100%;
+    max-width: 640px;
+}
+
+/* Section heading — uppercase with accent glow, matching other section headings */
+.connect-heading {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-light);
+    margin-bottom: 3rem;           /* Space between heading and first icon row */
+    text-align: center;
+}
+
+/* Vertical list of platform links — each child is one icon + label row.
+   align-items:center collapses each row to its content width so the hover
+   target is only the icon (and label once revealed), not the full container. */
+.connect-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;           /* Shrink-wrap each row to content width */
+    gap: 2.5rem;
+    width: 100%;
+}
+
+/* Each platform row: a flex container that centres icon + label as a group.
+   Both children stay in normal flow. The label starts at max-width:0 (no space,
+   invisible) and expands to max-width:400px on hover. Because the flex parent
+   uses justify-content:center, it re-centres the growing group on every frame —
+   so the icon drifts left naturally as the label width opens up, and the whole
+   group (icon + label) is always centred at every point in the animation. */
+.connect-item {
+    display: inline-flex;          /* Shrink to content width — no phantom hover zone */
     align-items: center;
-    justify-content: center;
-    width: 3rem;                           /* Fixed square that becomes a circle */
-    height: 3rem;
-    border-radius: 50%;                    /* Turn the square into a circle */
-    /* Slightly more opaque semi-white so the circle reads clearly without
-       needing a blur filter. backdrop-filter on many small elements
-       (especially when composited over other blurred layers) adds GPU cost;
-       a flat-ish background is cheaper and visually nearly identical. */
-    background: rgba(255, 255, 255, 0.22); /* Subtle frosted look — no blur needed */
-    color: #fff;
-    font-size: 1.25rem;
-    /* Animate background brightness and vertical position together */
-    transition: background var(--transition),
-                transform var(--transition);
+    gap: 1.5rem;                   /* Visual space between icon and label text */
+    position: relative;            /* Needed for focus-visible outline offset */
+    text-decoration: none;
+    color: var(--color-text-light);
+    cursor: pointer;
 }
 
-.icon-link:hover {
-    background: rgba(255, 255, 255, 0.3); /* Brighten circle on hover */
-    transform: translateY(-4px);          /* Subtle lift effect */
-}
-
-/* Keyboard focus ring — a11y requirement; must be visible */
-.icon-link:focus-visible {
+/* Focus ring wraps the entire row (icon + label) — a11y requirement */
+.connect-item:focus-visible {
     outline: 2px solid var(--color-accent);
-    outline-offset: 5px;
+    outline-offset: 8px;
+    border-radius: 4px;
+}
+
+/* Icon: stays in flow; no transform needed — the flex re-centering moves it
+   left automatically as the label expands. Colour tints on hover for feedback. */
+.connect-icon {
+    font-size: 5rem;
+    color: var(--color-text-light);
+    flex-shrink: 0;                /* Never squish the icon as the label grows */
+    transition: color 0.35s ease;
+}
+
+/* Label: max-width:0 collapses it to zero width (invisible, no space taken).
+   overflow:hidden clips the text while collapsed. opacity fades it in once
+   max-width has opened enough space so text doesn't flash at width:0.
+   max-width animates from 0 → 400px, driving the expanding group width that
+   causes the flex container to continuously re-centre icon + label together. */
+.connect-label {
+    font-family: 'Georgia', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+    white-space: nowrap;           /* Keep text on one line during the expansion */
+    overflow: hidden;              /* Clip text while max-width is still opening */
+    max-width: 0;                  /* Collapsed: takes no space, icon centres alone */
+    opacity: 0;
+    /* max-width drives the width expansion that re-centres the group;
+       opacity fades in with a slight delay so text appears once the gap opens */
+    transition: max-width 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity    0.3s  ease 0.15s;
+    pointer-events: none;
+}
+
+/* ── Hover state ── */
+
+.connect-item:hover .connect-icon {
+    color: var(--color-accent);    /* Tint to accent to match the label colour */
+}
+
+/* Expand label to its full text width; 400px is a safe upper bound for any
+   of the three label strings. opacity fades in after expansion has started. */
+.connect-item:hover .connect-label {
+    max-width: 400px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Mobile: smaller icon and narrower max-width cap so it fits on phones */
+@media (max-width: 600px) {
+    .connect-item {
+        gap: 1rem;
+    }
+
+    .connect-icon {
+        font-size: 3.5rem;
+    }
+
+    .connect-label {
+        font-size: 0.95rem;
+    }
+
+    .connect-item:hover .connect-label {
+        max-width: 260px;          /* Narrower cap so label stays on-screen */
+    }
 }
 
 
