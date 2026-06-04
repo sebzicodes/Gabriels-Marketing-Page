@@ -69,14 +69,6 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - Manager phone numbers are wrapped in `tel:` links for mobile tap-to-call.
 - Resume data source: `Resume during allied 2.pdf` (added May 2026).
 
-## Media-section
-
-- is a grid CSS layout.
-- background of section is a blue-tinted gradient (`rgba(5,10,30,0.95)` → `rgba(10,30,65,0.90)`) layered above the hero photo — matches hero blue palette.
-- 3px solid black border-top and border-bottom accent edges.
-- Each grid item has a 1px black border.
-- Grid card background is deep navy (`--color-mahogany: #071a2e`).
-
 ## Socials/Contacts-section
 
 - Background is deep navy (`--color-contact-bg: #050d1a`).

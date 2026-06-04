@@ -610,7 +610,7 @@ a {
         rgba(15, 45, 80, 0.90) 100%
     );
     border-top: 3px solid #000;    /* Black accent edge between sections */
-    border-bottom: 3px solid #000; /* Black accent edge before media section */
+    border-bottom: 3px solid #000; /* Black accent edge before connect section */
     /* backdrop-filter removed: it caused full-viewport GPU blur on every
        scroll frame over the fixed hero image — primary source of section lag */
 
@@ -847,82 +847,6 @@ a {
     }
 }
 
-
-/* ==========================================================================
-   10. MEDIA SECTION
-   CSS grid layout. Same gradient overlay technique as the Resume section.
-   Grid cards have a mahogany background and a 1px black border.
-   backdrop-filter removed for the same reason as #resume-section — full-
-   viewport blur over a fixed image causes GPU jank on scroll.
-========================================================================== */
-#media-section {
-    /* Blue-tinted gradient matching the hero palette — same technique as #resume-section */
-    background: linear-gradient(
-        135deg,
-        rgba(5, 10, 30, 0.95) 0%,
-        rgba(10, 30, 65, 0.90) 100%
-    );
-    /* backdrop-filter removed: same performance fix as #resume-section */
-    border-top: 3px solid #000;    /* Black accent edge between sections */
-    border-bottom: 3px solid #000; /* Black accent edge before contact section */
-
-    /* Skip painting until near-viewport — same pattern as #resume-section */
-    content-visibility: auto;
-    contain-intrinsic-size: 0 100vh;
-}
-
-/* Override the default flex layout so the section-inner can host the grid */
-#media-section .section-inner {
-    display: grid;
-    /* Two rows: one auto-height row for the heading, one flexible row for the grid */
-    grid-template-rows: auto 1fr;
-    align-items: start;
-    justify-items: center;
-    gap: 0; /* Gap between heading and grid is handled by the grid itself */
-}
-
-/* The CSS grid container: 3 equal columns on desktop */
-.media-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
-    gap: 1.25rem;         /* Gutter between all grid cells */
-    width: 100%;
-    max-width: 960px;     /* Prevent cards from growing too wide on large screens */
-    padding: 0 1rem;
-}
-
-/* Individual media grid card */
-.media-item {
-    background-color: var(--color-mahogany); /* Deep navy blue card fill */
-    border: 1px solid #000;                  /* Black border accent per spec */
-    border-radius: 4px;                      /* Slight rounding softens the card */
-    padding: 1.5rem;
-    min-height: 180px;                       /* Consistent card height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-light);
-    transition: transform var(--transition);
-}
-
-/* Subtle lift on hover gives the grid a tactile feel */
-.media-item:hover {
-    transform: translateY(-4px);
-}
-
-/* Tablet: collapse to 2 columns when the viewport is narrower */
-@media (max-width: 768px) {
-    .media-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Phone: single column on very narrow screens */
-@media (max-width: 480px) {
-    .media-grid {
-        grid-template-columns: 1fr;
-    }
-}
 
 
 /* ==========================================================================
