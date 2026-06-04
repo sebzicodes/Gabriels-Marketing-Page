@@ -39,9 +39,10 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 ## Hero-section
 
 - Hero image is **framed/boxed**: `.hero-bg` is `position: absolute` (scrolls with the page) inset to `top: 12.5vh; bottom: 12.5vh; left: 3rem; right: 3rem` — fills the frame opening and moves with the hero section on scroll.
-- **Top and bottom bars** are each 1/8 of the viewport height (12.5vh); they show a radial gradient (`#ffffff` at center → `#071a2e` at outer edges) via `#hero-section::before` with a CSS `mask` — white radiates from the image box outward to dark navy at the extremes.
+- **Top and bottom bars** are each 1/8 of the viewport height (12.5vh); they show a solid off-white (`#f5f1ec`) via `#hero-section::before` with a CSS `mask`.
 - **Side strips** (3rem on each side) show the same grey gradient.
 - `#hero-section::after` draws a `2px solid #000` frame at the inner edge of the grey bars (visible on both desktop and mobile).
+- **Mobile (`max-width: 768px`)**: `.hero-bg`, `#hero-section::before` mask, and `#hero-section::after` all have `left: 0; right: 0` — the image extends edge-to-edge horizontally while the top and bottom 12.5vh bars remain fully visible.
 - No social icons in the hero section — removed. Social links live in `#connect-section` above the footer.
 - **`.hero-intro` div** (`position: absolute; top: 6.25vh; transform: translate(-50%, -50%)`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Full-Stack-Engineer | Content-Creator"). Vertically and horizontally centered within the 12.5vh top grey bar.
 - **`.hero-contact-btn`** (`position: absolute; bottom: 2rem`) is a Contact button pinned to the bottom light blue bar. Links to `#contact-section`.
@@ -60,7 +61,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 
 ## Resume-section
 
-- background is a blue-tinted dark gradient layered above the hero photo (`rgba(5,15,40,0.95)` → `rgba(15,45,80,0.90)`) — matches the hero blue palette.
+- background uses CSS multiple backgrounds: the hero portrait (`url(...)`) is the bottom layer; a blue-tinted gradient (`rgba(5,15,40,0.78)` → `rgba(15,45,80,0.72)`) sits on top at reduced opacity so the image shows through while the inner content scrolls over it.
 - 3px solid black border-top and border-bottom accent edges.
 - Contains full work history from `resume.pdf` (copied into project root).
 - **Desktop**: `.section-inner` is left-aligned and scrollable (`overflow-y: auto`) to fit all content within 100vh.
