@@ -30,7 +30,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 ## Nav
 
 - theres a nav button that jumps to each section at the top of the page on desktop
-- on mobile, the only nav button that will be accessible at the top right corner is `Socials/Contact`
+- on mobile, no nav buttons are shown — the `.nav-mobile-contact` button is hidden (`display: none`)
 - Nav bar is transparant until you scroll down, then it becomes sticky with a solid background.
 - Nav link text is black when the background is transparent; turns white once `.scrolled` is added (solid dark background).
 - No name/logo in the nav — identity is handled by the `.hero-intro` h1 in the hero section instead.
@@ -41,7 +41,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - Hero image is **framed/boxed**: `.hero-bg` is `position: absolute` (scrolls with the page) inset to `top: 12.5vh; bottom: 12.5vh; left: 3rem; right: 3rem` — fills the frame opening and moves with the hero section on scroll.
 - **Top and bottom bars** are each 1/8 of the viewport height (12.5vh); they show a radial gradient (`#ffffff` at center → `#071a2e` at outer edges) via `#hero-section::before` with a CSS `mask` — white radiates from the image box outward to dark navy at the extremes.
 - **Side strips** (3rem on each side) show the same grey gradient.
-- `#hero-section::after` draws a `2px solid #000` frame at the inner edge of the grey bars (desktop only; `display: none` on mobile via media query).
+- `#hero-section::after` draws a `2px solid #000` frame at the inner edge of the grey bars (visible on both desktop and mobile).
 - No social icons in the hero section — removed. Social links live in `#connect-section` above the footer.
 - **`.hero-intro` div** (`position: absolute; top: 6.25vh; transform: translate(-50%, -50%)`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Full-Stack-Engineer | Content-Creator"). Vertically and horizontally centered within the 12.5vh top grey bar.
 - **`.hero-contact-btn`** (`position: absolute; bottom: 2rem`) is a Contact button pinned to the bottom light blue bar. Links to `#contact-section`.

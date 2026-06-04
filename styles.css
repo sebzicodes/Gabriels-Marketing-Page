@@ -186,9 +186,9 @@ a {
         display: none;
     }
 
-    /* Show the single contact button */
+    /* Hide the contact button on mobile — no nav items shown on small screens */
     .nav-mobile-contact {
-        display: inline-block;
+        display: none;
     }
 
     /* Hero section: on iOS/Android the collapsible browser address bar is counted
@@ -198,13 +198,6 @@ a {
     #hero-section {
         height: 100vh;   /* Fallback for browsers that don't support svh units */
         height: 100svh;  /* Mobile-safe: excludes the collapsible browser toolbar */
-    }
-
-    /* .hero-overlay handles the hero background on mobile — no blur pseudo-element
-       needed. Both ::before (on #hero-icons) and ::after (on #hero-section) are
-       disabled so no GPU blur runs on mobile scroll frames. */
-    #hero-section::after {
-        display: none;
     }
 
 }
