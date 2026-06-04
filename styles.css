@@ -347,9 +347,9 @@ a {
 ========================================================================== */
 .hero-intro {
     position: absolute;  /* Taken out of flex flow so it doesn't crowd the icons */
-    /* Sit within the bottom bar (12.5vh); 2rem off the base keeps it clear of
-       the section edge while staying in the light blue bar area */
-    bottom: 2rem;
+    /* Sit within the top bar (12.5vh); 2rem from the top keeps it clear of the
+       section edge while staying in the light blue bar area */
+    top: 2rem;
     left: 50%;
     transform: translateX(-50%); /* Horizontally centre against the 50% left anchor */
     text-align: center;
@@ -377,6 +377,43 @@ a {
     color: #333;          /* Slightly lighter than the name for visual hierarchy */
     letter-spacing: 0.18em;
     text-transform: uppercase;
+}
+
+
+/* ==========================================================================
+   6c. HERO CONTACT BUTTON
+   Pinned to the bottom of the hero section inside the light blue bar.
+   Links the visitor down to the Contact section with one click.
+========================================================================== */
+.hero-contact-btn {
+    position: absolute;   /* Pin to the hero section (position:relative via .page) */
+    bottom: 2rem;         /* Sits in the bottom light blue bar, matching the old intro position */
+    left: 50%;
+    transform: translateX(-50%); /* Horizontally centre */
+    z-index: 1;           /* Above .hero-overlay (z-index: 0) */
+    display: inline-block;
+    padding: 0.6rem 2rem;
+    background: var(--color-dark-red);        /* Deep navy — consistent with other buttons */
+    color: var(--color-text-light);
+    border: 1px solid var(--color-accent);    /* Light blue border accent */
+    border-radius: 4px;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Georgia', serif;
+    transition: background var(--transition), color var(--transition);
+    white-space: nowrap;  /* Prevent text wrapping on narrow viewports */
+}
+
+.hero-contact-btn:hover {
+    background: var(--color-accent); /* Light blue fill on hover */
+    color: #050d1a;                  /* Dark navy text — legible on light blue */
+}
+
+.hero-contact-btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 4px;
 }
 
 

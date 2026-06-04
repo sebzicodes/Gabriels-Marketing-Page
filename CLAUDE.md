@@ -43,7 +43,8 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - **Side strips** (3rem on each side) show the same light blue background.
 - `.hero-bg` has `border: 2px solid #000` — black border frames the image as a visible box.
 - No social icons in the hero section — they were removed; side icons cover the whole page instead.
-- **`.hero-intro` div** (`position: absolute; bottom: 2rem`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Coding Engineer · Content Creator"). Sits inside the bottom light blue bar.
+- **`.hero-intro` div** (`position: absolute; top: 2rem`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Coding Engineer · Content Creator"). Sits inside the **top** light blue bar.
+- **`.hero-contact-btn`** (`position: absolute; bottom: 2rem`) is a Contact button pinned to the bottom light blue bar. Links to `#contact-section`.
 - **`.hero-overlay` div** (absolute, `inset:0`, `z-index:0`):
   - **`::before`**: `display: none` — no overlay; hero photo shows through.
   - **`::after`**: `display: none` — removed; the bottom bar is now the section background color.
