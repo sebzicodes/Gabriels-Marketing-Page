@@ -35,6 +35,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - Nav link text is black when the background is transparent; turns white once `.scrolled` is added (solid dark background).
 - No name/logo in the nav — identity is handled by the `.hero-intro` h1 in the hero section instead.
 - `#main-nav` uses `justify-content: flex-end` so the nav links sit on the right side.
+- Nav link order: Home → Resume → About → Contact (matches page section order).
 
 ## Hero-section
 
