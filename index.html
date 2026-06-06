@@ -116,132 +116,267 @@
                by screen readers for proper landmark/document structure. -->
           <h2 class="sr-only">Resume</h2>
 
-          <!-- ── WORK EXPERIENCE ── -->
-          <!-- <section> groups all work entries under a labeled region;
-               aria-labelledby ties the heading to the region for screen readers. -->
-          <section class="resume-section" aria-labelledby="work-exp-heading">
 
-            <!-- Underlined section label matching the resume document style -->
-            <h3 id="work-exp-heading" class="resume-section-title">Work Experience</h3>
+          <!-- ── WORK EXPERIENCE SUMMARY ──
+               Condensed cards: company, role, location/dates, one-line description.
+               Full bullet-list detail lives in the downloadable PDF. -->
+          <section class="resume-block" aria-labelledby="work-exp-heading">
+            <h3 id="work-exp-heading" class="resume-block-title">Work Experience</h3>
 
-            <!-- Each job is an <article> — self-contained, independently meaningful content -->
+            <!-- 2-column grid on desktop; collapses to 1-column on mobile -->
+            <div class="work-summary-grid">
 
-            <!-- ── JOB 1: Allied Universal ── -->
-            <article class="resume-job">
-              <!-- Job title line: employer name + role -->
-              <h4 class="resume-job-title">
-                <span class="resume-employer">Allied Universal</span>
-                <span class="resume-role">/ Security Professional</span>
-              </h4>
-              <!-- Supervisor contact stored as plain text; not a live link -->
-              <p class="resume-manager">Account Manager: Fernando Zepeda</p>
-              <!-- Location and date range for this position -->
-              <p class="resume-meta">Santa Clara, CA &nbsp;/&nbsp; April 2025 – Present</p>
-              <!-- Bullet-point list of responsibilities using an unordered list -->
-              <ul class="resume-duties">
-                <li>Tactfully enforced rules and security regulations</li>
-                <li>Build rapport and trust with clients and team members</li>
-                <li>Learned and worked with systems like Lenel, Ambient, and Lark</li>
-              </ul>
-            </article><!-- /.resume-job: Allied Universal -->
+              <!-- Each <article> is a self-contained, independently meaningful job card -->
 
-            <!-- ── JOB 2: Distrito Federal ── -->
-            <article class="resume-job">
-              <h4 class="resume-job-title">
-                <span class="resume-employer">Distrito Federal</span>
-                <span class="resume-role">/ Bartender</span>
-              </h4>
-              <p class="resume-manager">Owner: Issac Barrera</p>
-              <p class="resume-meta">Campbell, CA &nbsp;/&nbsp; Nov 2024 – July 2025</p>
-              <ul class="resume-duties">
-                <li>Fresh juice all needed juices for menu items</li>
-                <li>Produce, syrups, elixirs, and infusions</li>
-                <li>Create and serve new cocktails seasonally</li>
-                <li>Check and maintain inventory weekly</li>
-                <li>Keep bar and storage organized with Google Sheets</li>
-              </ul>
-            </article><!-- /.resume-job: Distrito Federal -->
+              <!-- ── Allied Universal ── -->
+              <article class="work-card">
+                <!-- Company name and role title on one flex row -->
+                <div class="work-card-top">
+                  <span class="work-card-company">Allied Universal</span>
+                  <span class="work-card-role">Security Professional</span>
+                </div>
+                <!-- Location and date range -->
+                <p class="work-card-meta">Santa Clara, CA &nbsp;·&nbsp; Apr 2025 – Present</p>
+                <!-- One-sentence summary of the position -->
+                <p class="work-card-desc">Enforced access-control protocols and built trusted client relationships at a Silicon Valley corporate site using systems like Lenel, Ambient, and Lark.</p>
+              </article><!-- /.work-card: Allied Universal -->
 
-            <!-- ── JOB 3: Desi Indian Contemporary ── -->
-            <article class="resume-job">
-              <h4 class="resume-job-title">
-                <span class="resume-employer">Desi Indian Contemporary</span>
-                <span class="resume-role">/ Bartender</span>
-              </h4>
-              <p class="resume-manager">Owners: Archana &amp; Mohit</p>
-              <p class="resume-meta">San Jose, CA &nbsp;/&nbsp; February 2024 – November 2024</p>
-              <ul class="resume-duties">
-                <li>Plan and promote bar cocktail program</li>
-                <li>Order and maintain inventory</li>
-                <li>Maintain bar area mise en place</li>
-              </ul>
-            </article><!-- /.resume-job: Desi Indian Contemporary -->
+              <!-- ── Distrito Federal ── -->
+              <article class="work-card">
+                <div class="work-card-top">
+                  <span class="work-card-company">Distrito Federal</span>
+                  <span class="work-card-role">Bartender</span>
+                </div>
+                <p class="work-card-meta">Campbell, CA &nbsp;·&nbsp; Nov 2024 – Jul 2025</p>
+                <p class="work-card-desc">Crafted seasonal cocktail menus and managed full bar operations — fresh juicing, infusions, syrups, and weekly inventory — at a lively Mexican restaurant.</p>
+              </article><!-- /.work-card: Distrito Federal -->
 
-            <!-- ── JOB 4: Vista ── -->
-            <article class="resume-job">
-              <h4 class="resume-job-title">
-                <span class="resume-employer">Vista</span>
-                <span class="resume-role">/ Line Cook &amp; Prep Cook</span>
-              </h4>
-              <!-- Manager name -->
-              <p class="resume-manager">Manager: Pedro Rodriguez</p>
-              <p class="resume-meta">Redwood City, CA &nbsp;/&nbsp; June 2023 – February 2024</p>
-              <ul class="resume-duties">
-                <li>Cook and prep authentic Mexican cuisine</li>
-                <li>Maintain utmost cleanliness within the kitchen</li>
-                <li>Work fluidly with a team to deliver great customer satisfaction</li>
-              </ul>
-            </article><!-- /.resume-job: Vista -->
+              <!-- ── Desi Indian Contemporary ── -->
+              <article class="work-card">
+                <div class="work-card-top">
+                  <span class="work-card-company">Desi Indian Contemporary</span>
+                  <span class="work-card-role">Bartender</span>
+                </div>
+                <p class="work-card-meta">San Jose, CA &nbsp;·&nbsp; Feb 2024 – Nov 2024</p>
+                <p class="work-card-desc">Led bar cocktail program development, promotions, and inventory ordering at an upscale Indian contemporary restaurant.</p>
+              </article><!-- /.work-card: Desi Indian Contemporary -->
 
-            <!-- ── JOB 5: Olla Cocina ── -->
-            <article class="resume-job">
-              <h4 class="resume-job-title">
-                <span class="resume-employer">Olla Cocina</span>
-                <span class="resume-role">/ Bartender</span>
-              </h4>
-              <p class="resume-manager">Manager: Maria Zertuche</p>
-              <p class="resume-meta">San Jose, CA &nbsp;/&nbsp; March 2023 – December 2023</p>
-              <ul class="resume-duties">
-                <li>Prepared bar area for service including stocking syrups, making batch cocktails, and preparing garnishes</li>
-                <li>Delivered great insight and detail about menu</li>
-                <li>Received great reviews from new customers</li>
-              </ul>
-            </article><!-- /.resume-job: Olla Cocina -->
+              <!-- ── Vista ── -->
+              <article class="work-card">
+                <div class="work-card-top">
+                  <span class="work-card-company">Vista</span>
+                  <span class="work-card-role">Line Cook &amp; Prep Cook</span>
+                </div>
+                <p class="work-card-meta">Redwood City, CA &nbsp;·&nbsp; Jun 2023 – Feb 2024</p>
+                <p class="work-card-desc">Prepped and cooked authentic Mexican cuisine in a high-volume kitchen, maintaining cleanliness and delivering team-driven customer satisfaction.</p>
+              </article><!-- /.work-card: Vista -->
 
-            <!-- ── JOB 6: DoubleTree by Hilton ── -->
-            <article class="resume-job">
-              <h4 class="resume-job-title">
-                <span class="resume-employer">DoubleTree by Hilton</span>
-                <span class="resume-role">/ Kitchen Staff</span>
-              </h4>
-              <p class="resume-manager">Manager: Matt Avram</p>
-              <p class="resume-meta">Bay City, MI &nbsp;/&nbsp; September 2022 – March 2023</p>
-              <ul class="resume-duties">
-                <li>Prepared and cooked food for a wide range of banquet events and restaurant guests</li>
-                <li>Collaborated with team members to ensure timely service and food quality</li>
-                <li>Maintained a clean and organized kitchen</li>
-              </ul>
-            </article><!-- /.resume-job: DoubleTree by Hilton -->
+              <!-- ── Olla Cocina ── -->
+              <article class="work-card">
+                <div class="work-card-top">
+                  <span class="work-card-company">Olla Cocina</span>
+                  <span class="work-card-role">Bartender</span>
+                </div>
+                <p class="work-card-meta">San Jose, CA &nbsp;·&nbsp; Mar 2023 – Dec 2023</p>
+                <p class="work-card-desc">Prepared the full bar for service — batch cocktails, syrups, garnishes — while earning strong guest reviews for menu knowledge and hospitality.</p>
+              </article><!-- /.work-card: Olla Cocina -->
 
-            <!-- ── JOB 7: Mister Car Wash ── -->
-            <article class="resume-job">
-              <h4 class="resume-job-title">
-                <span class="resume-employer">Mister Car Wash</span>
-                <span class="resume-role">/ Customer Service Associate</span>
-              </h4>
-              <p class="resume-manager">Manager: Anthony Rocha</p>
-              <p class="resume-meta">Bay City, MI &nbsp;/&nbsp; December 2020 – December 2022</p>
-              <ul class="resume-duties">
-                <li>Provided excellent customer service to car wash customers and assisted with purchases</li>
-                <li>Significantly increased membership signups by 300% during my tenure</li>
-                <li>Worked collaboratively with team members to ensure efficient and high-quality service</li>
-              </ul>
-            </article><!-- /.resume-job: Mister Car Wash -->
+              <!-- ── DoubleTree by Hilton ── -->
+              <article class="work-card">
+                <div class="work-card-top">
+                  <span class="work-card-company">DoubleTree by Hilton</span>
+                  <span class="work-card-role">Kitchen Staff</span>
+                </div>
+                <p class="work-card-meta">Bay City, MI &nbsp;·&nbsp; Sep 2022 – Mar 2023</p>
+                <p class="work-card-desc">Prepared and served food for banquet events and restaurant guests at a full-service hotel, upholding quality and kitchen safety standards.</p>
+              </article><!-- /.work-card: DoubleTree by Hilton -->
 
-          </section><!-- /.resume-section: Work Experience -->
+              <!-- ── Mister Car Wash ── -->
+              <article class="work-card">
+                <div class="work-card-top">
+                  <span class="work-card-company">Mister Car Wash</span>
+                  <span class="work-card-role">Customer Service Associate</span>
+                </div>
+                <p class="work-card-meta">Bay City, MI &nbsp;·&nbsp; Dec 2020 – Dec 2022</p>
+                <p class="work-card-desc">Drove a 300% increase in membership signups through proactive customer engagement and consistently excellent service.</p>
+              </article><!-- /.work-card: Mister Car Wash -->
+
+            </div><!-- /.work-summary-grid -->
+          </section><!-- /.resume-block: Work Experience -->
+
+
+          <!-- ── SKILLS ──
+               Universal skills compiled from all roles, grouped by category. -->
+          <section class="resume-block" aria-labelledby="skills-heading">
+            <h3 id="skills-heading" class="resume-block-title">Skills</h3>
+
+            <!-- Each .skill-category groups a label with its pill tags -->
+            <div class="skills-categories">
+
+              <div class="skill-category">
+                <h4 class="skill-category-label">Service &amp; Communication</h4>
+                <!-- role="list" restores list semantics stripped by list-style:none in CSS -->
+                <ul class="skills-list" role="list">
+                  <li class="skill-tag">Customer Service</li>
+                  <li class="skill-tag">Client Relations</li>
+                  <li class="skill-tag">Menu Education</li>
+                  <li class="skill-tag">Team Collaboration</li>
+                  <li class="skill-tag">Conflict Resolution</li>
+                </ul>
+              </div><!-- /.skill-category: Service -->
+
+              <div class="skill-category">
+                <h4 class="skill-category-label">Bar &amp; Beverage</h4>
+                <ul class="skills-list" role="list">
+                  <li class="skill-tag">Cocktail Crafting</li>
+                  <li class="skill-tag">Seasonal Menu Development</li>
+                  <li class="skill-tag">Fresh Juice / Syrups / Infusions</li>
+                  <li class="skill-tag">Batch Cocktails</li>
+                  <li class="skill-tag">Inventory Management</li>
+                  <li class="skill-tag">Bar Setup &amp; Mise en Place</li>
+                </ul>
+              </div><!-- /.skill-category: Bar & Beverage -->
+
+              <div class="skill-category">
+                <h4 class="skill-category-label">Kitchen &amp; Food</h4>
+                <ul class="skills-list" role="list">
+                  <li class="skill-tag">Food Preparation</li>
+                  <li class="skill-tag">Banquet Service</li>
+                  <li class="skill-tag">Kitchen Safety &amp; Sanitation</li>
+                  <li class="skill-tag">Mise en Place</li>
+                </ul>
+              </div><!-- /.skill-category: Kitchen -->
+
+              <div class="skill-category">
+                <h4 class="skill-category-label">Operations &amp; Tools</h4>
+                <ul class="skills-list" role="list">
+                  <li class="skill-tag">Google Sheets</li>
+                  <li class="skill-tag">Lenel / Ambient / Lark</li>
+                  <li class="skill-tag">Security Protocols</li>
+                  <li class="skill-tag">Access Control Systems</li>
+                </ul>
+              </div><!-- /.skill-category: Operations -->
+
+              <div class="skill-category">
+                <h4 class="skill-category-label">Sales</h4>
+                <ul class="skills-list" role="list">
+                  <li class="skill-tag">Upselling</li>
+                  <li class="skill-tag">Membership Sales</li>
+                  <li class="skill-tag">Customer Retention</li>
+                </ul>
+              </div><!-- /.skill-category: Sales -->
+
+            </div><!-- /.skills-categories -->
+          </section><!-- /.resume-block: Skills -->
+
+
+          <!-- ── REFERENCES ──
+               Managers and owners from each position. Phone numbers link as
+               tap-to-call on mobile via the tel: URI scheme. -->
+          <section class="resume-block" aria-labelledby="references-heading">
+            <h3 id="references-heading" class="resume-block-title">References</h3>
+
+            <!-- 3-col grid on desktop; 2-col on tablet; 1-col on mobile -->
+            <div class="references-grid">
+
+              <div class="reference-card">
+                <p class="reference-name">Fernando Zepeda</p>
+                <p class="reference-relation">Account Manager &nbsp;·&nbsp; Allied Universal</p>
+              </div>
+
+              <div class="reference-card">
+                <p class="reference-name">Issac Barrera</p>
+                <p class="reference-relation">Owner &nbsp;·&nbsp; Distrito Federal</p>
+              </div>
+
+              <!-- Owners listed but no direct contact number available -->
+              <div class="reference-card">
+                <p class="reference-name">Archana &amp; Mohit</p>
+                <p class="reference-relation">Owners &nbsp;·&nbsp; Desi Indian Contemporary</p>
+              </div>
+
+              <div class="reference-card">
+                <p class="reference-name">Pedro Rodriguez</p>
+                <p class="reference-relation">Manager &nbsp;·&nbsp; Vista</p>
+                <!-- tel: link lets mobile users tap to dial -->
+                <a href="tel:+16509243335" class="reference-contact">(650) 924-3335</a>
+              </div>
+
+              <div class="reference-card">
+                <p class="reference-name">Maria Zertuche</p>
+                <p class="reference-relation">Manager &nbsp;·&nbsp; Olla Cocina</p>
+                <a href="tel:+14086067999" class="reference-contact">(408) 606-7999</a>
+              </div>
+
+              <div class="reference-card">
+                <p class="reference-name">Matt Avram</p>
+                <p class="reference-relation">Manager &nbsp;·&nbsp; DoubleTree by Hilton</p>
+                <a href="tel:+19894601700" class="reference-contact">(989) 460-1700</a>
+              </div>
+
+              <div class="reference-card">
+                <p class="reference-name">Anthony Rocha</p>
+                <p class="reference-relation">Manager &nbsp;·&nbsp; Mister Car Wash</p>
+                <a href="tel:+19896864400" class="reference-contact">(989) 686-4400</a>
+              </div>
+
+            </div><!-- /.references-grid -->
+          </section><!-- /.resume-block: References -->
+
+
+          <!-- ── QUOTES FROM REFERENCES ──
+               Replace placeholder text with actual quotes once collected. -->
+          <section class="resume-block" aria-labelledby="quotes-heading">
+            <h3 id="quotes-heading" class="resume-block-title">What They Say</h3>
+
+            <div class="quotes-list">
+
+              <!-- <blockquote> is the semantic HTML element for quoted content;
+                   <cite> attributes the quote to its source. -->
+              <blockquote class="ref-quote">
+                <p class="ref-quote-text">"Replace this with a quote from Fernando Zepeda."</p>
+                <cite class="ref-quote-cite">— Fernando Zepeda, Account Manager &nbsp;·&nbsp; Allied Universal</cite>
+              </blockquote>
+
+              <blockquote class="ref-quote">
+                <p class="ref-quote-text">"Replace this with a quote from Issac Barrera."</p>
+                <cite class="ref-quote-cite">— Issac Barrera, Owner &nbsp;·&nbsp; Distrito Federal</cite>
+              </blockquote>
+
+              <blockquote class="ref-quote">
+                <p class="ref-quote-text">"Replace this with a quote from Maria Zertuche."</p>
+                <cite class="ref-quote-cite">— Maria Zertuche, Manager &nbsp;·&nbsp; Olla Cocina</cite>
+              </blockquote>
+
+            </div><!-- /.quotes-list -->
+          </section><!-- /.resume-block: Quotes -->
+
+
+          <!-- ── CERTIFICATIONS & LICENSING ──
+               Add your actual certs (e.g. RBS, BSIS Guard Card) below. -->
+          <section class="resume-block" aria-labelledby="certs-heading">
+            <h3 id="certs-heading" class="resume-block-title">Certifications &amp; Licensing</h3>
+
+            <!-- role="list" restores a11y list semantics stripped by list-style:none -->
+            <ul class="certs-list" role="list">
+
+              <!-- Each <li> is one certification row: name + issuing body/year -->
+              <li class="cert-item">
+                <span class="cert-name">Add Certification Name Here</span>
+                <span class="cert-issuer">Issuing Body &nbsp;·&nbsp; Year</span>
+              </li>
+
+              <li class="cert-item">
+                <span class="cert-name">Add Certification Name Here</span>
+                <span class="cert-issuer">Issuing Body &nbsp;·&nbsp; Year</span>
+              </li>
+
+            </ul>
+          </section><!-- /.resume-block: Certifications -->
+
 
           <!-- Download link for the original PDF resume.
-               download attribute prompts the browser to save the file rather than open it. -->
+               download attribute prompts the browser to save rather than open. -->
           <a
             href="resume.pdf"
             download="Gabriel_Davis_Resume.pdf"

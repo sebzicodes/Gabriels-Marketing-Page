@@ -64,12 +64,22 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 
 - background uses CSS multiple backgrounds: the hero portrait (`url(...)`) is the bottom layer; a blue-tinted gradient (`rgba(5,15,40,0.78)` → `rgba(15,45,80,0.72)`) sits on top at reduced opacity so the image shows through while the inner content scrolls over it.
 - 3px solid black border-top and border-bottom accent edges.
-- Contains full work history from `resume.pdf` (copied into project root).
 - **Desktop**: `.section-inner` is left-aligned and scrollable (`overflow-y: auto`) to fit all content within 100vh.
 - **Mobile (`max-width: 768px`)**: section height is `auto` and `overflow: visible`; `.section-inner` also has `height: auto` and `overflow-y: visible` — no inner scroll box, the section expands to full resume height and the page scrolls normally. `content-visibility` and `contain-intrinsic-size` are both reset to avoid layout jumps.
 - Includes a "Download Resume (PDF)" button linking to `resume.pdf`.
-- Manager phone numbers are wrapped in `tel:` links for mobile tap-to-call.
-- Resume data source: `Resume during allied 2.pdf` (added May 2026).
+- Resume data source: `Resume during allied 2.pdf`.
+
+### Resume sub-sections (all use `.resume-block` + `.resume-block-title`)
+
+**Work Experience Summary** — 7 condensed job cards in a 2-col grid (`.work-summary-grid`). Each `.work-card` shows: company name, role (accent colour), location + date range (italic/dimmed), and a one-sentence description. No bullet lists — full detail is in the PDF.
+
+**Skills** — grouped into 5 categories (Service & Communication, Bar & Beverage, Kitchen & Food, Operations & Tools, Sales) using `.skills-categories` → `.skill-category` → `.skills-list` → `.skill-tag` pills. Accent-tinted pill style with 999px border-radius.
+
+**References** — 3-col grid (`.references-grid`) of `.reference-card` blocks. Each shows name, role·company, and a `tel:` link where a number is available. Phone numbers are tap-to-call on mobile.
+
+**Quotes from References** — `.quotes-list` of `<blockquote class="ref-quote">` blocks with an accent-coloured left border bar. Placeholder text — replace with real quotes when collected.
+
+**Certifications & Licensing** — `.certs-list` of `.cert-item` rows (name + issuer/year). Currently placeholder — replace with actual certifications (e.g. RBS, BSIS Guard Card).
 
 ## Socials/Contacts-section
 

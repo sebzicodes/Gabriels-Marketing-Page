@@ -838,6 +838,275 @@ a {
 }
 
 /* ==========================================================================
+   9c. RESUME SECTION — RESTRUCTURED COMPONENTS
+   Work Summary, Skills, References, Quotes, Certifications & Licensing.
+========================================================================== */
+
+/* Container for each named sub-section within the resume */
+.resume-block {
+    width: 100%;
+    margin-bottom: 2.5rem; /* Breathing room between sub-sections */
+}
+
+/* Sub-section heading: underline style matches the original PDF resume */
+.resume-block-title {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-light);
+    border-bottom: 2px solid var(--color-text-light); /* Horizontal rule under heading */
+    padding-bottom: 0.35rem;
+    margin-bottom: 1.25rem;
+}
+
+/* ── Work Experience Summary ── */
+
+/* Two-column grid on desktop so all 7 cards fit compactly */
+.work-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Equal two columns */
+    gap: 0.85rem;
+}
+
+/* Individual job card: subtle glass-style box */
+.work-card {
+    background: rgba(245, 240, 238, 0.05); /* Very faint tinted card background */
+    border: 1px solid rgba(245, 240, 238, 0.12); /* Hairline border for card edge */
+    border-radius: 6px;
+    padding: 0.9rem 1rem;
+}
+
+/* Top row: company name and role sit side-by-side, wrap on narrow cards */
+.work-card-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Employer name — bold for visual hierarchy */
+.work-card-company {
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+}
+
+/* Role label — accent colour to separate it from the company name */
+.work-card-role {
+    font-size: 0.82rem;
+    color: var(--color-accent);
+}
+
+/* Location and date range — italic and dimmed, secondary info */
+.work-card-meta {
+    font-size: 0.78rem;
+    color: rgba(245, 240, 238, 0.5);
+    font-style: italic;
+    margin-bottom: 0.4rem;
+}
+
+/* One-sentence position summary */
+.work-card-desc {
+    font-size: 0.85rem;
+    color: rgba(245, 240, 238, 0.85);
+    line-height: 1.55;
+}
+
+/* ── Skills ── */
+
+/* Outer wrapper stacks all category groups vertically */
+.skills-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+/* One category: label above its row of pill tags */
+.skill-category {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+/* Category label — dimmed uppercase, visually subordinate to .resume-block-title */
+.skill-category-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(245, 240, 238, 0.45);
+}
+
+/* Pill tag row — wraps naturally when there are many tags */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    list-style: none; /* Bullets removed; role="list" in HTML restores a11y semantics */
+}
+
+/* Individual skill pill: accent-tinted background and border */
+.skill-tag {
+    font-size: 0.78rem;
+    padding: 0.28rem 0.7rem;
+    background: rgba(126, 200, 227, 0.1);  /* Faint accent tint */
+    border: 1px solid rgba(126, 200, 227, 0.3); /* Accent-coloured hairline border */
+    border-radius: 999px; /* Full pill shape */
+    color: var(--color-accent);
+    letter-spacing: 0.02em;
+    white-space: nowrap; /* Never break a skill name across two lines */
+}
+
+/* ── References ── */
+
+/* Three-column grid on desktop — fits all contacts at a glance */
+.references-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+}
+
+/* Individual reference card */
+.reference-card {
+    background: rgba(245, 240, 238, 0.05);
+    border: 1px solid rgba(245, 240, 238, 0.1);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+/* Reference person's name */
+.reference-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+
+/* Their role and company — italic and dimmed */
+.reference-relation {
+    font-size: 0.78rem;
+    color: rgba(245, 240, 238, 0.5);
+    font-style: italic;
+}
+
+/* Tap-to-call / tap-to-email link */
+.reference-contact {
+    font-size: 0.78rem;
+    color: var(--color-accent);
+    margin-top: 0.15rem;
+    transition: color var(--transition);
+}
+
+.reference-contact:hover {
+    color: #fff;
+}
+
+.reference-contact:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* ── Quotes from References ── */
+
+/* Vertical stack of quote blocks */
+.quotes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+/* Individual quote block: left accent bar + faint card background */
+.ref-quote {
+    border-left: 3px solid var(--color-accent); /* Coloured left bar marks it as a quote */
+    padding: 0.75rem 1.25rem;
+    background: rgba(245, 240, 238, 0.04);
+    border-radius: 0 6px 6px 0; /* Round right corners only; left edge is the border */
+    margin: 0; /* Reset browser default blockquote margin */
+}
+
+/* The quoted text — italic signals a direct quotation */
+.ref-quote-text {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: rgba(245, 240, 238, 0.88);
+    line-height: 1.65;
+    margin-bottom: 0.45rem;
+}
+
+/* Attribution line — <cite> is inline by default; display:block stacks it below */
+.ref-quote-cite {
+    font-size: 0.78rem;
+    color: rgba(245, 240, 238, 0.45);
+    font-style: normal;
+    display: block;
+}
+
+/* ── Certifications & Licensing ── */
+
+/* Vertical list of cert rows */
+.certs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    list-style: none;
+}
+
+/* One certification row: name and issuer on the same line with a gap */
+.cert-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.65rem 1rem;
+    background: rgba(245, 240, 238, 0.04);
+    border: 1px solid rgba(245, 240, 238, 0.1);
+    border-radius: 6px;
+}
+
+/* Certification name */
+.cert-name {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--color-text-light);
+}
+
+/* Issuing body and year — dimmed and italic */
+.cert-issuer {
+    font-size: 0.78rem;
+    color: rgba(245, 240, 238, 0.45);
+    font-style: italic;
+}
+
+/* ── Mobile overrides for new components ── */
+
+@media (max-width: 768px) {
+    /* Work summary collapses from 2-col to 1-col on mobile */
+    .work-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* References drop to 2-col on tablet-sized mobile */
+    .references-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Cert row wraps: name stacks above issuer on narrow screens */
+    .cert-item {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* References drop to single column on small phones */
+    .references-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
    RESUME SECTION — MOBILE LAYOUT OVERRIDE
    On mobile the resume section must NOT be a fixed-height scroll box.
    Instead it expands to the natural height of all its content and the
