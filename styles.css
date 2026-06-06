@@ -190,43 +190,6 @@ a {
     .nav-mobile-contact {
         display: none;
     }
-
-    /* Hero section: on iOS/Android the collapsible browser address bar is counted
-       inside 100vh, making the section taller than the actual visible area.
-       100svh (small viewport height) always equals the viewport with the bar fully
-       visible, so the section never overflows into the next section on mobile. */
-    #hero-section {
-        height: 100vh;   /* Fallback for browsers that don't support svh units */
-        height: 100svh;  /* Mobile-safe: excludes the collapsible browser toolbar */
-    }
-
-    /* On mobile the side strips are removed so the image fills edge-to-edge
-       horizontally. The top and bottom bars (12.5vh each) stay intact so the
-       frame border and name/button bars remain visible. */
-
-    /* Extend the background image to the left and right viewport edges */
-    .hero-bg {
-        left: 0;
-        right: 0;
-    }
-
-    /* Remove the left/right strip layers from the frame-overlay mask;
-       keep only the top and bottom bar layers so they still show the gradient */
-    #hero-section::before {
-        -webkit-mask:
-            linear-gradient(#000, #000) top    / 100% 12.5vh no-repeat,
-            linear-gradient(#000, #000) bottom / 100% 12.5vh no-repeat;
-        mask:
-            linear-gradient(#000, #000) top    / 100% 12.5vh no-repeat,
-            linear-gradient(#000, #000) bottom / 100% 12.5vh no-repeat;
-    }
-
-    /* Stretch the black border frame to the viewport edges on mobile */
-    #hero-section::after {
-        left: 0;
-        right: 0;
-    }
-
 }
 
 
@@ -450,6 +413,52 @@ a {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
     border-radius: 4px;
+}
+
+
+/* ==========================================================================
+   6d. HERO SECTION — MOBILE LAYOUT OVERRIDES
+   These rules MUST appear after the hero base styles above. Both the base
+   rules and these overrides use the same CSS specificity, so the cascade
+   resolves by source order — the later declaration wins. Placing this block
+   here guarantees the mobile overrides always beat the desktop base values.
+========================================================================== */
+@media (max-width: 768px) {
+
+    /* iOS/Android: 100svh excludes the collapsible browser toolbar so the
+       hero section never overflows into the next section on mobile. */
+    #hero-section {
+        height: 100vh;   /* Fallback for browsers that don't support svh units */
+        height: 100svh;  /* Mobile-safe: excludes the collapsible browser toolbar */
+    }
+
+    /* On mobile the side strips are removed so the image fills edge-to-edge
+       horizontally. The top and bottom bars (12.5vh each) stay intact so the
+       frame border and name/button bars remain visible. */
+
+    /* Extend the background image to the left and right viewport edges */
+    .hero-bg {
+        left: 0;
+        right: 0;
+    }
+
+    /* Remove the left/right strip layers from the frame-overlay mask;
+       keep only the top and bottom bar layers so they still show the gradient */
+    #hero-section::before {
+        -webkit-mask:
+            linear-gradient(#000, #000) top    / 100% 12.5vh no-repeat,
+            linear-gradient(#000, #000) bottom / 100% 12.5vh no-repeat;
+        mask:
+            linear-gradient(#000, #000) top    / 100% 12.5vh no-repeat,
+            linear-gradient(#000, #000) bottom / 100% 12.5vh no-repeat;
+    }
+
+    /* Stretch the black border frame to the viewport edges on mobile */
+    #hero-section::after {
+        left: 0;
+        right: 0;
+    }
+
 }
 
 

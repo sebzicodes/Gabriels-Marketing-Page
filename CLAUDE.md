@@ -44,6 +44,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - **Side strips** (3rem on each side) show the same grey gradient.
 - `#hero-section::after` draws a `2px solid #000` frame at the inner edge of the grey bars (visible on both desktop and mobile).
 - **Mobile (`max-width: 768px`)**: `.hero-bg`, `#hero-section::before` mask, and `#hero-section::after` all have `left: 0; right: 0` — the image extends edge-to-edge horizontally while the top and bottom 12.5vh bars remain fully visible.
+- **CSS cascade order is critical**: the hero mobile overrides (`section 6d`) are placed in their own `@media (max-width: 768px)` block that lives *after* all hero base styles. Base and override share the same specificity, so source order decides — the override must come last to win.
 - No social icons in the hero section — removed. Social links live in `#connect-section` above the footer.
 - **`.hero-intro` div** (`position: absolute; top: 6.25vh; transform: translate(-50%, -50%)`) contains the `h1.hero-name` ("Gabriel.S.Davis") and `p.hero-tagline-text` ("Full-Stack-Engineer | Content-Creator"). Vertically and horizontally centered within the 12.5vh top grey bar.
 - **`.hero-contact-btn`** (`position: absolute; bottom: 2rem`) is a Contact button pinned to the bottom light blue bar. Links to `#contact-section`.
