@@ -344,8 +344,8 @@ a {
     left: 3rem;                   /* Inner edge of the left grey strip */
     right: 3rem;                  /* Inner edge of the right grey strip */
     background-image: url('assets/hero-bg.jpg'); /* overridden by inline style in HTML */
-    background-size: 75%;         /* Zoom out to show more of the photo */
-    background-position: center;  /* Keep the focal point centred */
+    background-size: cover;        /* Fill the frame div edge-to-edge — no gaps around the photo */
+    background-position: center;   /* Keep the focal point centred */
     background-repeat: no-repeat;
     z-index: -1; /* Behind frame overlay (z-index:0) and content (z-index:1) */
 }
@@ -1128,6 +1128,19 @@ a {
         overflow: visible;             /* No clip — content flows into page scroll */
         content-visibility: visible;   /* Disable deferred-paint on this section */
         contain-intrinsic-size: none;  /* No reserved height needed */
+        /* On mobile: override the desktop 75%-sized background so the photo
+           fills the entire viewport behind the semi-transparent gradient.
+           background-attachment:fixed pins the image to the viewport so it does
+           not scroll with the resume content — the gradient overlay scrolls over
+           a stationary full-screen photo.  iOS Safari ignores fixed attachment
+           and falls back to scroll, but cover still guarantees full-bleed fill. */
+        background:
+            linear-gradient(
+                135deg,
+                rgba(5, 15, 40, 0.78) 0%,
+                rgba(15, 45, 80, 0.72) 100%
+            ),
+            url('8ED064A6-BD26-4D6A-8CD2-538C7DD84A6B_1_105_c.jpeg') center / cover fixed;
     }
 
     /* 2. Remove the inner scroll box from the content wrapper.

@@ -39,7 +39,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 
 ## Hero-section
 
-- Hero image is **framed/boxed**: `.hero-bg` is `position: absolute` (scrolls with the page) inset to `top: 12.5vh; bottom: 12.5vh; left: 3rem; right: 3rem` — fills the frame opening and moves with the hero section on scroll.
+- Hero image is **framed/boxed**: `.hero-bg` is `position: absolute` (scrolls with the page) inset to `top: 12.5vh; bottom: 12.5vh; left: 3rem; right: 3rem` — fills the frame opening and moves with the hero section on scroll. `background-size: cover` so the photo fills the frame div edge-to-edge with no gaps — the black border frame sits exactly at the photo edges.
 - **Top and bottom bars** are each 1/8 of the viewport height (12.5vh); they show a solid off-white (`#f5f1ec`) via `#hero-section::before` with a CSS `mask`.
 - **Side strips** (3rem on each side) show the same grey gradient.
 - `#hero-section::after` draws a `2px solid #000` frame at the inner edge of the grey bars (visible on both desktop and mobile).
@@ -65,7 +65,7 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - background uses CSS multiple backgrounds: the hero portrait (`url(...)`) is the bottom layer; a blue-tinted gradient (`rgba(5,15,40,0.78)` → `rgba(15,45,80,0.72)`) sits on top at reduced opacity so the image shows through while the inner content scrolls over it.
 - 3px solid black border-top and border-bottom accent edges.
 - **Desktop**: `.section-inner` is left-aligned and scrollable (`overflow-y: auto`) to fit all content within 100vh.
-- **Mobile (`max-width: 768px`)**: section height is `auto` and `overflow: visible`; `.section-inner` also has `height: auto` and `overflow-y: visible` — no inner scroll box, the section expands to full resume height and the page scrolls normally. `content-visibility` and `contain-intrinsic-size` are both reset to avoid layout jumps.
+- **Mobile (`max-width: 768px`)**: section height is `auto` and `overflow: visible`; `.section-inner` also has `height: auto` and `overflow-y: visible` — no inner scroll box, the section expands to full resume height and the page scrolls normally. `content-visibility` and `contain-intrinsic-size` are both reset to avoid layout jumps. Background image overrides to `background-size: cover` and `background-attachment: fixed` so the photo is full-screen and fixed behind the semi-transparent gradient overlay on mobile; desktop keeps the existing `75% no-repeat` behaviour.
 - Includes a "Download Resume (PDF)" button linking to `resume.pdf`.
 - Resume data source: `Resume during allied 2.pdf`.
 
