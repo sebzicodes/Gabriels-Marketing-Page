@@ -324,10 +324,23 @@
 
           <!-- ── QUOTES FROM REFERENCES ──
                Replace placeholder text with actual quotes once collected. -->
-          <section class="resume-block" aria-labelledby="quotes-heading">
-            <h3 id="quotes-heading" class="resume-block-title">What They Say</h3>
+          <section class="resume-block" id="quotes-section" aria-labelledby="quotes-heading">
 
-            <div class="quotes-list">
+            <!-- Flex row: heading text left, toggle button right.
+                 The wrapper carries the border-bottom so the line spans the full row. -->
+            <div class="quotes-block-header">
+              <h3 id="quotes-heading" class="resume-block-title">What They Say</h3>
+              <!-- aria-expanded: communicates open/closed state to screen readers.
+                   aria-controls: points at the id of the element being shown/hidden. -->
+              <button
+                id="quotes-toggle-btn"
+                class="quotes-toggle-btn"
+                aria-expanded="true"
+                aria-controls="quotes-list"
+              >Hide</button>
+            </div><!-- /.quotes-block-header -->
+
+            <div class="quotes-list" id="quotes-list">
 
               <!-- <blockquote> is the semantic HTML element for quoted content;
                    <cite> attributes the quote to its source. -->
