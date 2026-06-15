@@ -104,11 +104,18 @@
 
       <!-- ==============================================================
              RESUME SECTION
-             Background: gradient + backdrop-filter blur layered over the
-             fixed hero photo that shows through because this section has
-             no opaque background of its own.
+             Background: a Mandelbrot fractal rendered on #resume-fractal-canvas
+             in monochromatic navy blue.  script.js computes and composites
+             the fractal + gradient overlay onto the canvas once on page load
+             and again on viewport resize (orientation changes on mobile).
         ============================================================== -->
       <section class="page" id="resume-section" aria-label="Resume">
+
+        <!-- Fractal canvas — Mandelbrot set in monochromatic navy blue.
+             position:absolute (CSS) fills the section; z-index:0 keeps it
+             behind .section-inner (z-index:1).  aria-hidden:true marks it
+             as decorative so screen readers skip it entirely. -->
+        <canvas id="resume-fractal-canvas" aria-hidden="true"></canvas>
 
         <div class="section-inner">
 

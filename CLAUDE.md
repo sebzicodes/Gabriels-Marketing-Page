@@ -64,10 +64,11 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 
 ## Resume-section
 
-- background uses CSS multiple backgrounds: the hero portrait (`url(...)`) is the bottom layer; a blue-tinted gradient (`rgba(5,15,40,0.78)` → `rgba(15,45,80,0.72)`) sits on top at reduced opacity so the image shows through while the inner content scrolls over it.
+- **Background**: a Mandelbrot set fractal rendered on `<canvas id="resume-fractal-canvas">` in monochromatic navy blue (`#040c1a` interior → `#1e6fa0` escape boundary). No photo URL. The canvas sits at `z-index:0`; a gradient overlay (`rgba(5,15,40,0.78)` → `rgba(15,45,80,0.72)`) is composited onto the canvas in JS so the resume text stays legible. `background-color: #040c1a` on the section itself is the fallback while the canvas renders.
+- Fractal is rendered in `script.js` section 3 (`renderResumeFractal`): Mandelbrot set, Seahorse Valley region, `maxIter=80`, smooth colouring (Hubbard-Douady potential), 0.5× physical pixel resolution (GPU upscales). Deferred via `requestIdleCallback` / `setTimeout` to avoid blocking initial paint. Debounced `resize` listener re-renders on orientation change.
 - 3px solid black border-top and border-bottom accent edges.
 - **Desktop**: `.section-inner` is left-aligned and scrollable (`overflow-y: auto`) to fit all content within 100vh.
-- **Mobile (`max-width: 768px`)**: section height is `auto` and `overflow: visible`; `.section-inner` also has `height: auto` and `overflow-y: visible` — no inner scroll box, the section expands to full resume height and the page scrolls normally. `content-visibility` and `contain-intrinsic-size` are both reset to avoid layout jumps. Background image overrides to `background-size: cover` and `background-attachment: fixed` so the photo is full-screen and fixed behind the semi-transparent gradient overlay on mobile; desktop keeps the existing `75% no-repeat` behaviour.
+- **Mobile (`max-width: 768px`)**: section height is `auto` and `overflow: visible`; `.section-inner` also has `height: auto` and `overflow-y: visible` — no inner scroll box, the section expands to full resume height and the page scrolls normally. `content-visibility` and `contain-intrinsic-size` are both reset to avoid layout jumps. `background-color: #040c1a` fallback only — the fractal canvas provides the visual background on mobile the same as on desktop.
 - Includes a "Download Resume (PDF)" button linking to `resume.pdf`.
 - Resume data source: `Resume during allied 2.pdf`.
 

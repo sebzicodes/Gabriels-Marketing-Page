@@ -621,32 +621,16 @@ a {
 
 /* ==========================================================================
    9. RESUME SECTION
-   No opaque background — the fixed hero photo shows through underneath.
-   A high-opacity gradient overlay creates visual separation without the
-   GPU cost of backdrop-filter blur on a full-viewport section.
-   backdrop-filter on a 100vh section over a position:fixed image forces the
-   GPU to resample and blur the entire viewport on every scroll frame, which
-   causes visible jank — especially on integrated graphics (MacBook).
-   Raising the gradient opacity to ~0.93 achieves the same dark visual effect
-   with zero per-frame blur cost.
+   Visual background is provided by #resume-fractal-canvas — a Mandelbrot
+   set rendered in monochromatic navy blue by script.js.  The canvas sits
+   at z-index:0 inside the section; .section-inner (z-index:1) floats above
+   it.  A dark navy background-color shows during the brief render delay.
 ========================================================================== */
 #resume-section {
-    /* The hero portrait is duplicated as a second background layer so it shows
-       through the gradient while scrolling the resume content.
-       CSS multiple-background syntax: first entry renders on top, last on bottom.
-       The gradient sits above the image; lowering its opacity lets the photo
-       bleed through without a separate DOM element or GPU-expensive blur. */
-    background:
-        linear-gradient(
-            135deg,
-            rgba(5, 15, 40, 0.78) 0%,
-            rgba(15, 45, 80, 0.72) 100%
-        ),
-        url('8ED064A6-BD26-4D6A-8CD2-538C7DD84A6B_1_105_c.jpeg') center / 75% no-repeat;
+    /* Dark navy fallback — shows while the fractal canvas renders on load */
+    background-color: #040c1a;
     border-top: 3px solid #000;    /* Black accent edge between sections */
     border-bottom: 3px solid #000; /* Black accent edge before connect section */
-    /* backdrop-filter removed: it caused full-viewport GPU blur on every
-       scroll frame over the fixed hero image — primary source of section lag */
 
     /* content-visibility:auto tells the browser to skip painting this section
        entirely until it is close to the viewport. Pairs with contain-intrinsic-size
@@ -654,6 +638,21 @@ a {
        scroll-position jumps). 100vh matches the .page height rule. */
     content-visibility: auto;
     contain-intrinsic-size: 0 100vh;
+}
+
+/* Fractal background canvas — fills the resume section behind .section-inner.
+   z-index:0 places it above the section background-color but below
+   .section-inner (z-index:1) so the resume content is always readable.
+   aria-hidden:true in HTML marks it as decorative; pointer-events:none
+   ensures the canvas never intercepts clicks meant for the content above. */
+#resume-fractal-canvas {
+    position: absolute; /* Fills #resume-section without affecting layout flow */
+    inset: 0;           /* Stretch to all four edges of the section */
+    width: 100%;        /* Explicit size ensures canvas fills even on resize */
+    height: 100%;
+    z-index: 0;         /* Above section background; below .section-inner (1) */
+    display: block;     /* Remove the default inline gap below canvas elements */
+    pointer-events: none; /* Clicks pass through to the content layer above */
 }
 
 
@@ -1137,19 +1136,9 @@ a {
         overflow: visible;             /* No clip — content flows into page scroll */
         content-visibility: visible;   /* Disable deferred-paint on this section */
         contain-intrinsic-size: none;  /* No reserved height needed */
-        /* On mobile: override the desktop 75%-sized background so the photo
-           fills the entire viewport behind the semi-transparent gradient.
-           background-attachment:fixed pins the image to the viewport so it does
-           not scroll with the resume content — the gradient overlay scrolls over
-           a stationary full-screen photo.  iOS Safari ignores fixed attachment
-           and falls back to scroll, but cover still guarantees full-bleed fill. */
-        background:
-            linear-gradient(
-                135deg,
-                rgba(5, 15, 40, 0.78) 0%,
-                rgba(15, 45, 80, 0.72) 100%
-            ),
-            url('8ED064A6-BD26-4D6A-8CD2-538C7DD84A6B_1_105_c.jpeg') center / cover fixed;
+        /* background-color fallback only — the fractal canvas is the visual
+           background on mobile just as on desktop; no photo URL needed */
+        background-color: #040c1a;
     }
 
     /* 2. Remove the inner scroll box from the content wrapper.
