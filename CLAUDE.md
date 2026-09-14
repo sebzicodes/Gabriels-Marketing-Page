@@ -69,20 +69,8 @@ A resume website created using vanilla javascript, CSS, and HTML for personal ma
 - 3px solid black border-top and border-bottom accent edges.
 - **Desktop**: `.section-inner` is left-aligned and scrollable (`overflow-y: auto`) to fit all content within 100vh.
 - **Mobile (`max-width: 768px`)**: section height is `auto` and `overflow: visible`; `.section-inner` also has `height: auto` and `overflow-y: visible` — no inner scroll box, the section expands to full resume height and the page scrolls normally. `content-visibility` and `contain-intrinsic-size` are both reset to avoid layout jumps. `background-color: #040c1a` fallback only — the fractal canvas provides the visual background on mobile the same as on desktop.
-- Includes a "Download Resume (PDF)" button linking to `resume.pdf`.
 - Resume data source: `Resume during allied 2.pdf`.
-
-### Resume sub-sections (all use `.resume-block` + `.resume-block-title`)
-
-**Work Experience Summary** — 7 condensed job cards in a 2-col grid (`.work-summary-grid`). Each `.work-card` shows: company name, role (accent colour), location + date range (italic/dimmed), and a one-sentence description. No bullet lists — full detail is in the PDF.
-
-**Skills** — grouped into 5 categories (Service & Communication, Bar & Beverage, Kitchen & Food, Operations & Tools, Sales) using `.skills-categories` → `.skill-category` → `.skills-list` → `.skill-tag` pills. Accent-tinted pill style with 999px border-radius.
-
-**References** — 3-col grid (`.references-grid`) of `.reference-card` blocks. Each shows name, role·company, and a `tel:` link where a number is available. Phone numbers are tap-to-call on mobile.
-
-**Quotes from References** — `.quotes-list` of `<blockquote class="ref-quote">` blocks with an accent-coloured left border bar. Placeholder text — replace with real quotes when collected.
-
-**Certifications & Licensing** — `.certs-list` of `.cert-item` rows (name + issuer/year). Currently placeholder — replace with actual certifications (e.g. RBS, BSIS Guard Card).
+- **Content removed**: all resume content blocks (Work Experience, Skills, References, Quotes, Certifications) have been removed from `.section-inner` in `index.html`. The section shell, `<h2 class="sr-only">Resume</h2>` heading, and the fractal canvas background remain in place — the section renders empty aside from the fractal. The `.resume-block`, `.work-card`, `.skills-categories`, `.references-grid`, `.quotes-list`, and `.certs-list` CSS rules still exist in `styles.css` but are currently unused.
 
 ## Socials/Contacts-section
 
