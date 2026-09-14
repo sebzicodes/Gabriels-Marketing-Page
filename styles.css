@@ -528,7 +528,7 @@ a {
     font-size: 0.9rem;
     line-height: 1.65;
     color: var(--color-dark-red);
-    text-align: left;
+    text-align: center;
 }
 
 /* Fade the newly-revealed slide in; [hidden] slides are removed from the
