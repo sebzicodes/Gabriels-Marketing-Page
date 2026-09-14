@@ -31,3 +31,9 @@ When making changes, weigh every decision against the three priorities below, in
 - `resume.pdf` / `Resume during allied 2.pdf` — if linked from the page, use descriptive link text (not "click here") and consider `rel="noopener"` for any `target="_blank"`.
 - Keep image URLs and alt text descriptive; avoid relying on an external GitHub raw URL for the hero background long-term (no cache control, no guaranteed uptime) — consider hosting it in-repo.
 - Add a `favicon` and a `robots.txt`/basic sitemap if/when this site is deployed to a real domain — not currently present.
+
+## Browser automation (Claude in Chrome)
+
+- Only use Claude in Chrome automatically (without asking first) to visit or interact with a repository/site that I am actively working on or own — e.g. previewing this site itself, or a localhost/staging URL for it.
+- For any other website — anything belonging to someone else, including reference sites, competitor sites, or pages I merely link to — do not open or read it via Claude in Chrome unless I explicitly approve it first.
+- When asking for that approval, state the explicit reason the visit is needed (what you're checking or looking for), not just the URL.

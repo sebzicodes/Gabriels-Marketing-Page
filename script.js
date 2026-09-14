@@ -81,7 +81,73 @@ footerYearSpan.textContent = new Date().getFullYear();
 
 
 /* ==========================================================================
-   3. RESUME SECTION — FRACTAL BACKGROUND
+   3. HERO CAROUSEL — ABOUT PARAGRAPHS
+   Three "About Gabriel" paragraphs are overlaid on the hero photo, one shown
+   at a time (all three exist in the HTML for SEO/crawlability — this script
+   only toggles which one is visible). Next/Previous and the dot buttons all
+   wrap around: clicking Next on the last slide loops back to the first.
+========================================================================== */
+
+const heroCarousel = document.querySelector('.hero-carousel');
+
+if (heroCarousel) {
+    /* Array.from: NodeList -> Array so .length/.indexOf work as expected below */
+    const heroSlides = Array.from(heroCarousel.querySelectorAll('.hero-carousel-slide'));
+    const heroDots   = Array.from(heroCarousel.querySelectorAll('.hero-carousel-dot'));
+    const heroPrevBtn = heroCarousel.querySelector('.hero-carousel-prev');
+    const heroNextBtn = heroCarousel.querySelector('.hero-carousel-next');
+
+    /* Tracks the currently visible slide; starts at 0 to match the slide
+       that is already visible (no [hidden] attribute) in the HTML. */
+    let heroActiveIndex = 0;
+
+    /**
+     * showHeroSlide
+     * Shows only the slide at `index` (hides the rest via the [hidden]
+     * attribute) and syncs each dot's visual + aria-current state to match.
+     */
+    function showHeroSlide(index) {
+        heroSlides.forEach(function (slide, i) {
+            slide.hidden = i !== index;
+        });
+
+        heroDots.forEach(function (dot, i) {
+            const isActive = i === index;
+            dot.classList.toggle('is-active', isActive);
+            /* aria-current tells assistive tech which item in the set is
+               the current one — same pattern used for pagination controls. */
+            dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+
+        heroActiveIndex = index;
+    }
+
+    /* % wraps the index around: on the last slide, (last + 1) % length = 0 */
+    function showNextHeroSlide() {
+        showHeroSlide((heroActiveIndex + 1) % heroSlides.length);
+    }
+
+    /* + length before % keeps the result positive when wrapping backward
+       from the first slide (JS % can otherwise return a negative number) */
+    function showPrevHeroSlide() {
+        showHeroSlide((heroActiveIndex - 1 + heroSlides.length) % heroSlides.length);
+    }
+
+    heroPrevBtn.addEventListener('click', showPrevHeroSlide);
+    heroNextBtn.addEventListener('click', showNextHeroSlide);
+
+    /* Each dot reads its own target index from data-slide-index rather than
+       closing over a loop variable, so there's no stale-index risk. */
+    heroDots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+            showHeroSlide(Number(dot.dataset.slideIndex));
+        });
+    });
+}
+
+
+/* ==========================================================================
+   4. RESUME SECTION — FRACTAL BACKGROUND
    Renders a Mandelbrot set in monochromatic dark navy blue onto the canvas
    element (#resume-fractal-canvas) inside #resume-section.  The gradient
    overlay (matching the site's blue palette) is composited directly onto

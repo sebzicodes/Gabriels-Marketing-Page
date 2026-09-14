@@ -91,6 +91,51 @@
         </div>
 
 
+        <!-- Hero carousel: three "About Gabriel" paragraphs overlaid on the
+             hero photo, one visible at a time. All three paragraphs live in
+             the HTML (real, crawlable text — never baked into an image) so
+             script.js only toggles which one is shown.
+             role/aria-roledescription mark this as a carousel landmark for
+             assistive tech; aria-live="polite" on the viewport announces the
+             new paragraph each time the visible slide changes. -->
+        <div class="hero-carousel" role="region" aria-roledescription="carousel" aria-label="About Gabriel">
+
+          <!-- Prev/next arrows now live inside this wrapper, pinned to the
+               left/right edges of the viewport itself (slide-library style)
+               instead of stacking below it in their own row. -->
+          <div class="hero-carousel-viewport-wrap">
+            <button type="button" class="hero-carousel-btn hero-carousel-prev" aria-label="Previous slide">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </button>
+
+            <div class="hero-carousel-viewport" aria-live="polite">
+              <p class="hero-carousel-slide" id="hero-slide-0">
+                I believe in people. Ten years in customer service taught me that positive interactions can build confidence, create momentum, and change direction.
+              </p>
+              <p class="hero-carousel-slide" id="hero-slide-1" hidden>
+                I bring that mindset to technology. I listen, understand the goal, and turn ideas into clear, useful digital experiences.
+              </p>
+              <p class="hero-carousel-slide" id="hero-slide-2" hidden>
+                If you have a business, idea, or vision worth sharing, I can help bring it online with a website that feels true to you.
+              </p>
+            </div><!-- /.hero-carousel-viewport -->
+
+            <button type="button" class="hero-carousel-btn hero-carousel-next" aria-label="Next slide">
+              <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </button>
+          </div><!-- /.hero-carousel-viewport-wrap -->
+
+          <!-- Dots only now — every control is a real <button>, so Tab +
+               Enter/Space operate the carousel with no mouse needed. -->
+          <div class="hero-carousel-dots">
+            <button type="button" class="hero-carousel-dot is-active" data-slide-index="0" aria-current="true"  aria-label="Slide 1 of 3"></button>
+            <button type="button" class="hero-carousel-dot"           data-slide-index="1" aria-current="false" aria-label="Slide 2 of 3"></button>
+            <button type="button" class="hero-carousel-dot"           data-slide-index="2" aria-current="false" aria-label="Slide 3 of 3"></button>
+          </div>
+
+        </div><!-- /.hero-carousel -->
+
+
         <!-- Contact button pinned to the bottom light blue bar of the hero section.
              Opens the visitor's default email client addressed to Gabriel's email. -->
         <a

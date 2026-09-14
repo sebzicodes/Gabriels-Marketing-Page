@@ -463,6 +463,209 @@ a {
 
 
 /* ==========================================================================
+   6e. HERO CAROUSEL — ABOUT PARAGRAPHS
+   Manually-advanced carousel overlaid on the hero photo. Written mobile-first
+   per this project's convention: the base rules below are the small-screen
+   layout; the min-width query at the bottom only adds desktop breathing room.
+
+   Positioned with top/bottom insets (not top:50%+translate) so it is always
+   confined to the same image "frame" as .hero-bg (12.5vh top/bottom bars) —
+   it can never visually collide with .hero-intro or .hero-contact-btn
+   regardless of viewport height (short landscape phones included).
+   justify-content: flex-end anchors it to the bottom edge of that frame,
+   with only a small padding-bottom gap so the carousel sits just off the
+   bottom of the hero photo rather than floating mid-frame.
+========================================================================== */
+.hero-carousel {
+    position: absolute;
+    top: 12.5vh;
+    bottom: 12.5vh;
+    left: 0;
+    right: 0;
+    z-index: 1; /* Same layer as .hero-intro / .hero-contact-btn, above .hero-overlay (0) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; /* Anchor to the bottom of the hero image, not vertical centre */
+    gap: 0.6rem;
+    padding: 1rem 1.25rem 0.75rem;
+    pointer-events: none; /* Empty space around the centred content lets clicks pass through */
+}
+
+/* Re-enable interaction on the actual carousel UI (overrides the parent's none) */
+.hero-carousel-viewport-wrap,
+.hero-carousel-dots {
+    pointer-events: auto;
+}
+
+/* Wrapper sized to match the viewport so the prev/next arrows — positioned
+   absolutely at its left/right edges — sit right on (and slightly overlap)
+   the viewport's own edges, like a classic slide-carousel's side arrows,
+   instead of stacking in a row underneath it. */
+.hero-carousel-viewport-wrap {
+    position: relative;
+    width: min(92%, 560px);
+}
+
+/* Lighter, more transparent scrim behind the paragraph text — 0.6 alpha is
+   the floor tested against the darkest patches of the hero photo (hair/coat)
+   that still clears WCAG AA (4.5:1 body text) with the dark navy slide text
+   below; going lower risks failing contrast over those darker regions. The
+   freed-up row that used to hold prev/next now only needs to fit the dots,
+   so this can claim a little more vertical space than before. */
+.hero-carousel-viewport {
+    width: 100%;
+    max-height: 50vh; /* Safety net on short/landscape phones — scrolls instead of overflowing the frame */
+    overflow-y: auto;
+    background: rgba(245, 240, 238, 0.6);
+    border: 1px solid rgba(13, 42, 74, 0.18);
+    border-radius: 8px;
+    padding: 1rem 1.15rem;
+}
+
+.hero-carousel-slide {
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-dark-red);
+    text-align: left;
+}
+
+/* Fade the newly-revealed slide in; [hidden] slides are removed from the
+   render tree entirely so this never runs on the outgoing slide. */
+.hero-carousel-slide:not([hidden]) {
+    animation: heroSlideFadeIn 0.4s ease;
+}
+
+@keyframes heroSlideFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Respect reduced-motion preference — swap slides instantly, no fade */
+@media (prefers-reduced-motion: reduce) {
+    .hero-carousel-slide:not([hidden]) {
+        animation: none;
+    }
+}
+
+/* Prev/Next arrows — pinned to the wrap's edges, vertically centred on the
+   viewport, half-overlapping its border for the "slick" side-arrow look.
+   44px square keeps real tap area on mobile regardless of the visual overlap. */
+.hero-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(126, 200, 227, 0.5);
+    background: rgba(13, 42, 74, 0.88);
+    color: var(--color-text-light);
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(5, 13, 26, 0.25);
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.hero-carousel-prev {
+    left: -22px;
+}
+
+.hero-carousel-next {
+    right: -22px;
+}
+
+/* Scoped to real hover-capable pointers (mouse/trackpad) so a tap on touch
+   devices doesn't leave the button stuck in this style — touchscreens fire
+   :hover on tap but never a matching "un-hover" event. */
+@media (hover: hover) and (pointer: fine) {
+    .hero-carousel-btn:hover {
+        background: var(--color-accent);
+        color: #050d1a;
+    }
+}
+
+.hero-carousel-btn:focus-visible {
+    outline: 2px solid var(--color-dark-red);
+    outline-offset: 3px;
+}
+
+.hero-carousel-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+/* Dot buttons: 44px tap target (button box) around a small 10px visible dot
+   (::before), so the tap area is real without an oversized visible marker. */
+.hero-carousel-dot {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.hero-carousel-dot::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(13, 42, 74, 0.35);
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+/* is-active is toggled by script.js to match the currently visible slide;
+   aria-current (also set by script.js) carries the same state to screen readers */
+.hero-carousel-dot.is-active::before {
+    background-color: var(--color-dark-red);
+    transform: scale(1.2);
+}
+
+.hero-carousel-dot:focus-visible {
+    outline: 2px solid var(--color-dark-red);
+    outline-offset: 2px;
+    border-radius: 50%;
+}
+
+/* --- Desktop enhancement --------------------------------------------- */
+/* min-width layers on more breathing room once there's room for it —
+   base rules above already work standalone as the small-screen layout. */
+@media (min-width: 768px) {
+    .hero-carousel-viewport-wrap {
+        width: min(80%, 640px);
+    }
+
+    .hero-carousel-viewport {
+        max-height: 54vh;
+        padding: 1.4rem 1.75rem;
+    }
+
+    .hero-carousel-slide {
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+    .hero-carousel-prev {
+        left: -26px;
+    }
+
+    .hero-carousel-next {
+        right: -26px;
+    }
+}
+
+
+/* ==========================================================================
    7. CONNECT SECTION
    Sits directly above the footer. Displays three large platform icons
    (LinkedIn, GitHub, Email) stacked vertically. On hover the icon slides
