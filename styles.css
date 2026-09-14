@@ -978,6 +978,29 @@ a {
     will-change: scroll-position;
 }
 
+/* Portfolio intro statement — centered, overriding the section's default
+   left-aligned/flex-start layout (which is meant for future left-aligned
+   project listings/cards, not this intro copy). */
+#resume-section .section-inner h2,
+#resume-section .portfolio-intro {
+    align-self: center;
+    text-align: center;
+}
+
+.portfolio-intro {
+    max-width: 700px;
+    margin: 0 auto 2rem;
+}
+
+.portfolio-intro p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.portfolio-intro p:last-child {
+    margin-bottom: 0;
+}
+
 /* Resume header block: name, tagline, contact info stacked vertically */
 .resume-header {
     width: 100%;
