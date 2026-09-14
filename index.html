@@ -36,10 +36,22 @@
       <ul class="nav-links" role="list">
         <!-- Each <li> wraps one jump-link to a page section -->
             <li><a href="#hero-section"        class="nav-link">Home</a></li>
-            <li><a href="#resume-section"      class="nav-link">Resume</a></li>
+            <li><a href="#resume-section"      class="nav-link">Portfolio</a></li>
         <li><a href="#coverletter-section" class="nav-link">About</a></li>
             <li><a href="#connect-section"     class="nav-link">Links</a></li>
       </ul>
+
+      <!-- Mobile-only jump arrows — replace the named section list on small
+             screens. Revealed once the nav bar presents on scroll (script.js
+             toggles #main-nav.scrolled); step to the previous/next section. -->
+      <div class="nav-mobile-arrows" role="group" aria-label="Jump to previous or next section">
+        <button type="button" class="nav-arrow nav-arrow-up" aria-label="Jump to previous section">
+          <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="nav-arrow nav-arrow-down" aria-label="Jump to next section">
+          <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+      </div>
 
       <!-- Mobile-only contact button — the only nav item visible on small screens.
              Positioned top-right via flexbox on the parent <nav> element. -->

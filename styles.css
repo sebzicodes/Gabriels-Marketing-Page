@@ -121,19 +121,20 @@ a {
     box-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); /* Depth shadow */
 }
 
-/* --- Desktop nav links -------------------------------------------------- */
-/* Horizontal list of section jump-links shown only on desktop */
+/* --- Nav links (mobile-first) -------------------------------------------
+   Mobile base state: the named section list is desktop-only — on mobile it
+   stays hidden entirely and .nav-mobile-arrows (below) takes its place.
+   The min-width query further down restores the always-visible horizontal
+   desktop link row. */
 .nav-links {
-    display: flex;  /* Lay list items out in a row */
-    gap: 2rem;      /* Space between each link */
+    display: none;
 }
 
-/* Individual anchor inside the desktop nav list */
+/* Individual anchor inside the nav list (desktop only — see min-width query) */
 .nav-link {
     font-size: 0.9rem;
     letter-spacing: 0.1em;    /* Spaced capitals look refined */
     text-transform: uppercase;
-    color: #000;               /* Black text when nav background is transparent */
     padding: 0.25rem 0;       /* Vertical click-target padding */
     transition: color var(--transition);
 }
@@ -153,6 +154,45 @@ a {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
     border-radius: 2px;
+}
+
+/* --- Mobile section-jump arrows ------------------------------------------
+   Mobile stand-in for the desktop nav-links list: two chevron buttons that
+   step to the previous/next section (script.js). Hidden while the nav bar
+   is transparent at the top; revealed once .scrolled is added, same trigger
+   that makes the bar itself present — keeps the bar at its normal height
+   instead of the previous full-width dropdown. Hidden outright on desktop
+   (min-width query below), where the named .nav-links row is always shown. */
+.nav-mobile-arrows {
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#main-nav.scrolled .nav-mobile-arrows {
+    display: flex;
+}
+
+.nav-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;             /* Real touch target */
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-text-light);
+    font-size: 1rem;
+    transition: background var(--transition);
+}
+
+.nav-arrow:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.nav-arrow:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
 }
 
 /* --- Mobile-only contact button ----------------------------------------- */
@@ -178,16 +218,21 @@ a {
     outline-offset: 4px;
 }
 
-/* --- Mobile breakpoint -------------------------------------------------- */
-/* Screens narrower than 768px switch to mobile layout */
-@media (max-width: 768px) {
-    /* Hide the full desktop link list */
+/* --- Desktop enhancement -------------------------------------------------
+   769px and up: restore the always-visible horizontal link row (no need to
+   scroll first) and hide the mobile jump-arrows, which desktop never shows. */
+@media (min-width: 769px) {
     .nav-links {
-        display: none;
+        display: flex;      /* Always visible, regardless of .scrolled */
+        gap: 2rem;
     }
 
-    /* Hide the contact button on mobile — no nav items shown on small screens */
-    .nav-mobile-contact {
+    .nav-link {
+        color: #000;         /* Black text over the transparent top-of-page nav */
+    }
+
+    .nav-mobile-arrows,
+    #main-nav.scrolled .nav-mobile-arrows {
         display: none;
     }
 }

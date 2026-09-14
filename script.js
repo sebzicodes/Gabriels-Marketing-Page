@@ -66,6 +66,69 @@ handleNavScroll();
 
 
 /* ==========================================================================
+   1B. MOBILE SECTION-JUMP ARROWS
+   Two chevron buttons (visible only once the nav bar presents — see the
+   .nav-mobile-arrows CSS) step up/down through the page's main sections,
+   standing in for the named desktop nav-links list on small screens.
+========================================================================== */
+
+/* Same landmark sections the desktop nav-links jump to, in page order. */
+const jumpSectionIds = ['hero-section', 'resume-section', 'coverletter-section', 'connect-section'];
+
+const navArrowUp   = document.querySelector('.nav-arrow-up');
+const navArrowDown = document.querySelector('.nav-arrow-down');
+
+/* matchMedia: true if the user's OS/browser requests reduced motion —
+   respected here so the jump is instant rather than an animated scroll. */
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/**
+ * currentSectionIndex
+ * Returns the index of the section the viewport is currently inside,
+ * based on which section's top has been scrolled past.
+ */
+function currentSectionIndex(offsets, scrollY) {
+    let index = 0;
+    for (let i = 0; i < offsets.length; i++) {
+        /* -2px tolerance absorbs sub-pixel scroll rounding */
+        if (scrollY >= offsets[i] - 2) index = i;
+    }
+    return index;
+}
+
+/**
+ * jumpToSection
+ * Scrolls to the previous (-1) or next (+1) section relative to the one
+ * currently in view, clamped to the first/last section.
+ */
+function jumpToSection(step) {
+    const offsets = jumpSectionIds
+        .map(function (id) { return document.getElementById(id); })
+        .filter(Boolean)
+        .map(function (el) { return el.offsetTop; });
+
+    if (!offsets.length) return;
+
+    const targetIndex = Math.min(
+        Math.max(currentSectionIndex(offsets, window.scrollY) + step, 0),
+        offsets.length - 1
+    );
+
+    window.scrollTo({
+        top: offsets[targetIndex],
+        behavior: prefersReducedMotion ? 'auto' : 'smooth'
+    });
+}
+
+if (navArrowUp) {
+    navArrowUp.addEventListener('click', function () { jumpToSection(-1); });
+}
+if (navArrowDown) {
+    navArrowDown.addEventListener('click', function () { jumpToSection(1); });
+}
+
+
+/* ==========================================================================
    2. FOOTER YEAR — AUTOMATIC COPYRIGHT YEAR
    Updates the copyright year in the footer automatically so it never
    needs to be manually updated each January.
