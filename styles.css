@@ -811,14 +811,66 @@ a {
     z-index: 0; /* Normal stacking order — no special layering needed */
     border-top: 3px solid #000;    /* Black edge accent where hero meets this section */
     border-bottom: 3px solid #000; /* Black edge accent before the resume section */
+
+    /* Mobile-first default: the bio is long enough to overflow a fixed
+       viewport at any width, so the section grows past 100vh to fit it
+       completely instead of clipping via the .page rule's fixed
+       height/overflow. This applies at every breakpoint — a single text
+       column (mobile or desktop width) is always taller than one screen. */
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+}
+
+#coverletter-section .section-inner {
+    height: auto; /* Grow with content instead of being capped at the section's height */
 }
 
 /* Comfortable reading width for the cover letter text block */
+.coverletter-columns {
+    width: 100%;
+    max-width: 720px; /* Mobile/base: single narrow column */
+}
+
 .coverletter-body {
-    max-width: 720px;
     line-height: 1.8; /* Generous line-height improves readability */
     font-size: 1rem;
     color: var(--color-text-light);
+    text-align: center;
+    margin-bottom: 1.4em; /* Space between paragraphs (global reset zeroes default <p> margins) */
+}
+
+.coverletter-body:last-of-type {
+    margin-bottom: 0;
+}
+
+@media (min-width: 1024px) {
+    /* Desktop: the section is capped at exactly one viewport height (like
+       the other full-screen sections) and stays a single column (no
+       side-by-side split, no internal scrollbar). script.js measures the
+       rendered text and grows .coverletter-columns (inline width, set by
+       fitBioColumnWidth) only as wide as needed so every paragraph fits
+       inside that fixed height — this max-width is just the pre-JS
+       fallback so nothing flashes unstyled. */
+    .coverletter-columns {
+        /* Pre-JS fallback only — script.js's fitBioColumnWidth sets an
+           inline width immediately on load and on resize, which overrides
+           this. max-width:none clears the mobile rule's 720px cap so that
+           inline override isn't clamped back down once JS decides more
+           width is needed. */
+        width: 900px;
+        max-width: none;
+    }
+
+    #coverletter-section {
+        height: 100vh;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    #coverletter-section .section-inner {
+        height: 100%;
+    }
 }
 
 

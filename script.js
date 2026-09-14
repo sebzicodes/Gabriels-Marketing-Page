@@ -302,3 +302,96 @@ window.addEventListener('resize', function () {
        back to the resume section after an orientation flip. */
     fractalResizeTimer = setTimeout(renderResumeFractal, 250);
 });
+
+
+/* ==========================================================================
+   5. ABOUT SECTION — DESKTOP BIO COLUMN WIDTH FIT
+   On desktop (>=1024px, matching the breakpoint in styles.css)
+   #coverletter-section is capped at exactly one viewport height and shows
+   the bio as a single text column — no side-by-side split, no internal
+   scrollbar. CSS alone can't solve "how wide must this column be so its
+   height fits a fixed target" (width determines height in normal flow, not
+   the other way round), so this measures the rendered text and
+   binary-searches the narrowest column width that keeps the full bio
+   inside the available height, then re-applies it on resize.
+   Below 1024px the inline width is cleared so the mobile CSS rule (narrow
+   720px column, section grows past 100vh) is back in full control,
+   unchanged.
+========================================================================== */
+
+const coverletterSection = document.getElementById('coverletter-section');
+
+/**
+ * fitBioColumnWidth
+ * Sets .coverletter-columns' inline width to the narrowest value that keeps
+ * the full bio text within the section's available height on desktop, or
+ * clears it on mobile so CSS's fixed narrow column applies instead.
+ */
+function fitBioColumnWidth() {
+    if (!coverletterSection) return;
+
+    const columns = coverletterSection.querySelector('.coverletter-columns');
+    const heading = coverletterSection.querySelector('h2');
+    const inner   = coverletterSection.querySelector('.section-inner');
+    if (!columns || !heading || !inner) return;
+
+    /* Below the desktop breakpoint, hand control back to CSS's mobile rule
+       (.coverletter-columns { width:100%; max-width:720px }). */
+    if (window.innerWidth < 1024) {
+        columns.style.width = '';
+        return;
+    }
+
+    /* Vertical space actually available for the paragraphs: the section's
+       own (fixed 100vh) height, minus .section-inner's padding and the
+       heading's box (including its margin-bottom). */
+    const innerStyles   = getComputedStyle(inner);
+    const paddingTop    = parseFloat(innerStyles.paddingTop) || 0;
+    const paddingBottom = parseFloat(innerStyles.paddingBottom) || 0;
+    const headingStyles = getComputedStyle(heading);
+    const headingSpace  = heading.getBoundingClientRect().height
+        + (parseFloat(headingStyles.marginBottom) || 0);
+
+    const availableHeight = coverletterSection.getBoundingClientRect().height
+        - paddingTop - paddingBottom - headingSpace;
+
+    /* Search bounds: never narrower than a comfortable reading column,
+       never wider than ~96% of the viewport (keeps a sliver of edge room). */
+    const minWidth = 480;
+    const maxWidth = window.innerWidth * 0.96;
+
+    columns.style.width = maxWidth + 'px';
+    if (columns.scrollHeight > availableHeight) {
+        /* Even at the widest allowed width the bio doesn't fit this
+           particular viewport — that's the closest possible fit, so leave
+           it there rather than searching narrower (which only gets taller). */
+        return;
+    }
+
+    /* Binary search for the narrowest width that still fits: a wider column
+       wraps to fewer lines and is only ever shorter or equal in height, so
+       the search space is monotonic. 14 iterations narrows the bracket to
+       sub-pixel precision — plenty for a visual fit. */
+    let lo = minWidth;
+    let hi = maxWidth;
+    for (let i = 0; i < 14; i++) {
+        const mid = (lo + hi) / 2;
+        columns.style.width = mid + 'px';
+        if (columns.scrollHeight > availableHeight) {
+            lo = mid; /* too narrow — text still overflows */
+        } else {
+            hi = mid; /* fits — try narrower */
+        }
+    }
+    columns.style.width = hi + 'px';
+}
+
+fitBioColumnWidth();
+
+/* Debounced resize listener — same pattern as the fractal resize handler
+   above — re-fits the column width after the viewport settles. */
+let bioFitResizeTimer = null;
+window.addEventListener('resize', function () {
+    clearTimeout(bioFitResizeTimer);
+    bioFitResizeTimer = setTimeout(fitBioColumnWidth, 150);
+});
