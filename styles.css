@@ -1,168 +1,111 @@
-/* ==========================================================================
-   STYLES.CSS — Lovelys Resume Website
-   Vanilla CSS with no frameworks. Every rule is commented to explain
-   what it does and why, per project convention.
-========================================================================== */
 
-
-/* ==========================================================================
-   1. CSS CUSTOM PROPERTIES (VARIABLES)
-   Defined on :root so they are accessible throughout the entire stylesheet.
-   Changing a value here updates every place it is referenced.
-========================================================================== */
 :root {
-    /* Color palette — blue theme to match the hero section */
-    --color-dark-red: #0d2a4a;              /* Cover letter / button background — deep navy blue */
-    --color-mahogany: #071a2e;              /* Media grid card background — darker navy */
-    --color-nav-bg: rgba(5, 15, 30, 0.95); /* Nav solid state (after scroll) — dark navy */
-    --color-text-light: #F5F0EE;            /* Primary text on dark backgrounds */
-    --color-accent: #7ec8e3;               /* Light blue accent for links/hover */
-    --color-footer-bg: #030810;             /* Nearly-black navy footer background */
-    --color-contact-bg: #050d1a;            /* Contact section background — deep navy */
 
-    /* Layout */
-    --nav-height: 64px;   /* Height of the fixed navigation bar */
+    --color-dark-red: #0d2a4a;
+    --color-mahogany: #071a2e;
+    --color-nav-bg: rgba(5, 15, 30, 0.95);
+    --color-text-light: #F5F0EE;
+    --color-accent: #7ec8e3;
+    --color-footer-bg: #030810;
+    --color-contact-bg: #050d1a;
 
-    /* Animation */
-    --transition: 0.35s ease; /* Shared transition duration + easing */
+    --nav-height: 64px;
+
+    --transition: 0.35s ease;
 }
 
-
-/* ==========================================================================
-   2. GLOBAL RESET & BASE STYLES
-   Normalise browser defaults so the design starts from a clean slate.
-========================================================================== */
-
-/* Box-sizing: border-box makes width/height calculations include padding
-   and borders, which is far more predictable than the browser default. */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
-    margin: 0;   /* Remove browser default margins */
-    padding: 0;  /* Remove browser default padding */
+    margin: 0;
+    padding: 0;
 }
 
-/* Smooth anchor scrolling when the user clicks a jump link */
 html {
     scroll-behavior: smooth;
-    font-size: 16px; /* Base size; all rem values are relative to this */
+    font-size: 16px;
 }
 
-/* ==========================================================================
-   UTILITY: Visually hidden (screen-reader only)
-   Hides an element from sighted users while keeping it fully accessible to
-   assistive technology. Standard technique from WebAIM / A11y Project.
-   - position + size collapse the element to 0×0 so it takes no visual space.
-   - clip/clip-path cut the 1px placeholder from appearing on screen.
-   - overflow: hidden ensures nothing bleeds out.
-   - white-space: nowrap prevents line-breaking inside the hidden text.
-   Do NOT use display:none or visibility:hidden — those also hide from AT.
-========================================================================== */
 .sr-only {
-    position: absolute;   /* Remove from normal flow so layout is unaffected */
-    width: 1px;           /* Collapse to a single pixel */
+    position: absolute;
+    width: 1px;
     height: 1px;
     padding: 0;
-    margin: -1px;         /* Pull the 1px stub out of view */
-    overflow: hidden;     /* Clip any overflow from the stub */
-    clip: rect(0, 0, 0, 0);           /* Legacy clip for older browsers */
-    clip-path: inset(50%);            /* Modern equivalent */
-    white-space: nowrap;  /* Keep text on one line inside the stub */
-    border: 0;            /* Remove any potential border rendering */
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
 }
 
 body {
-    font-family: 'Georgia', serif; /* Elegant serif for a professional tone */
+    font-family: 'Georgia', serif;
     color: var(--color-text-light);
-    background-color: #040c1a;     /* Dark navy fallback behind any transparent sections */
-    overflow-x: hidden;            /* Prevent horizontal scroll from wide children */
+    background-color: #040c1a;
+    overflow-x: hidden;
 }
 
-/* Remove bullet points from lists; role="list" in HTML restores a11y semantics */
 ul {
     list-style: none;
 }
 
-/* Remove underline from all anchors by default; individual rules restore styling */
 a {
     text-decoration: none;
-    color: inherit; /* Inherit parent colour so anchors blend unless styled */
+    color: inherit;
 }
 
-
-/* ==========================================================================
-   3. NAVIGATION BAR
-   Fixed to the viewport top; starts transparent; gains a solid background
-   when the user scrolls (the .scrolled class is toggled by script.js).
-========================================================================== */
 #main-nav {
-    position: fixed;              /* Does not scroll with the page */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;                  /* Spans the full viewport width */
+    width: 100%;
     height: var(--nav-height);
     display: flex;
-    align-items: center;          /* Vertically centre the nav children */
-    justify-content: flex-end;    /* Links flush to the right; no name on the left */
-    padding: 0 2rem;              /* Horizontal breathing room */
-    background: transparent;      /* Invisible over the hero image by default */
-    /* Animate both background colour and blur when .scrolled is added */
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 2rem;
+    background: transparent;
+
     transition: background var(--transition),
                 backdrop-filter var(--transition);
-    z-index: 100; /* Sits above all page sections (hero bg is z-index: -1) */
+    z-index: 100;
 }
 
-/* .scrolled is added by script.js when window.scrollY > 10px */
 #main-nav.scrolled {
-    background: var(--color-nav-bg);        /* Solid dark navy background */
-    backdrop-filter: blur(8px);             /* Frosted-glass blur */
-    -webkit-backdrop-filter: blur(8px);     /* Safari prefix */
-    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); /* Depth shadow */
+    background: var(--color-nav-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Nav links (mobile-first) -------------------------------------------
-   Mobile base state: the named section list is desktop-only — on mobile it
-   stays hidden entirely and .nav-mobile-arrows (below) takes its place.
-   The min-width query further down restores the always-visible horizontal
-   desktop link row. */
 .nav-links {
     display: none;
 }
 
-/* Individual anchor inside the nav list (desktop only — see min-width query) */
 .nav-link {
     font-size: 0.9rem;
-    letter-spacing: 0.1em;    /* Spaced capitals look refined */
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 0.25rem 0;       /* Vertical click-target padding */
+    padding: 0.25rem 0;
     transition: color var(--transition);
 }
 
-/* When the nav gains a solid background on scroll, flip link text to white
-   so it stays legible against the dark nav background */
 #main-nav.scrolled .nav-link {
     color: var(--color-text-light);
 }
 
 .nav-link:hover {
-    color: var(--color-accent); /* Warm accent on hover */
+    color: var(--color-accent);
 }
 
-/* Visible focus ring — required for keyboard navigation (a11y) */
 .nav-link:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
     border-radius: 2px;
 }
 
-/* --- Mobile section-jump arrows ------------------------------------------
-   Mobile stand-in for the desktop nav-links list: two chevron buttons that
-   step to the previous/next section (script.js). Hidden while the nav bar
-   is transparent at the top; revealed once .scrolled is added, same trigger
-   that makes the bar itself present — keeps the bar at its normal height
-   instead of the previous full-width dropdown. Hidden outright on desktop
-   (min-width query below), where the named .nav-links row is always shown. */
 .nav-mobile-arrows {
     display: none;
     align-items: center;
@@ -177,7 +120,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;             /* Real touch target */
+    width: 44px;
     height: 44px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
@@ -195,22 +138,20 @@ a {
     outline-offset: 2px;
 }
 
-/* --- Mobile-only contact button ----------------------------------------- */
-/* Only this button appears on small screens (top-right corner) */
 .nav-mobile-contact {
-    display: none;              /* Hidden by default; revealed in media query */
+    display: none;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--color-text-light);
-    background: var(--color-dark-red); /* Deep navy blue — visible against transparent nav */
+    background: var(--color-dark-red);
     padding: 0.45rem 1.1rem;
     border-radius: 4px;
     transition: background var(--transition);
 }
 
 .nav-mobile-contact:hover {
-    background: var(--color-mahogany); /* Darker navy on hover */
+    background: var(--color-mahogany);
 }
 
 .nav-mobile-contact:focus-visible {
@@ -218,17 +159,14 @@ a {
     outline-offset: 4px;
 }
 
-/* --- Desktop enhancement -------------------------------------------------
-   769px and up: restore the always-visible horizontal link row (no need to
-   scroll first) and hide the mobile jump-arrows, which desktop never shows. */
 @media (min-width: 769px) {
     .nav-links {
-        display: flex;      /* Always visible, regardless of .scrolled */
+        display: flex;
         gap: 2rem;
     }
 
     .nav-link {
-        color: #000;         /* Black text over the transparent top-of-page nav */
+        color: #000;
     }
 
     .nav-mobile-arrows,
@@ -237,47 +175,32 @@ a {
     }
 }
 
-
-/* ==========================================================================
-   4. PAGE SECTION SIZING
-   Each .page section fills the full viewport; .page-third is one-third.
-========================================================================== */
-
-/* Full-viewport section — used by Hero, Cover Letter, Resume, Media */
 .page {
-    width: 100%;        /* Full viewport width */
-    height: 100vh;      /* Full viewport height */
-    position: relative; /* Positioning context for absolute children */
-    overflow: hidden;   /* Clip content that extends beyond the section */
-}
-
-/* One-third viewport height — used by Contact/Socials section */
-.page-third {
     width: 100%;
-    height: 33.333vh;   /* Exactly one-third of the viewport height */
+    height: 100vh;
     position: relative;
     overflow: hidden;
 }
 
+.page-third {
+    width: 100%;
+    height: 33.333vh;
+    position: relative;
+    overflow: hidden;
+}
 
-/* ==========================================================================
-   5. GENERIC SECTION INNER WRAPPER
-   .section-inner centres content inside a section and sits above any
-   background pseudo-elements or layered divs (z-index: 1).
-========================================================================== */
 .section-inner {
-    position: relative; /* Creates stacking context above bg layers */
-    z-index: 1;         /* Appear above background gradient/blur divs */
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;        /* Fill the parent section's height */
-    padding: 4rem 2rem;  /* Comfortable internal spacing */
+    height: 100%;
+    padding: 4rem 2rem;
     text-align: center;
 }
 
-/* Fluid heading size: clamp(min, preferred, max) avoids separate media queries */
 .section-inner h2 {
     font-size: clamp(1.8rem, 4vw, 3rem);
     margin-bottom: 1.5rem;
@@ -286,31 +209,20 @@ a {
     color: var(--color-text-light);
 }
 
-
-/* ==========================================================================
-   6. HERO SECTION
-   Fixed background image stays stationary while the rest of the page
-   scrolls over it. Social icons are pushed 25% up from the section bottom.
-========================================================================== */
 #hero-section {
     display: flex;
-    align-items: flex-end;   /* Anchor children to the bottom of the section */
-    justify-content: center; /* Centre them horizontally */
-    padding-bottom: 2rem;    /* Small gap from the very bottom edge */
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 2rem;
 }
 
-/* Frame overlay: grey gradient background revealed only in the bar/strip areas
-   via CSS mask.  The unmasked center stays transparent so the fixed hero-bg
-   (z-index:-1) shows through.  z-index:0 sits above the hero-bg but below
-   content (z-index:1). */
 #hero-section::before {
     content: '';
     position: absolute;
     inset: 0;
-    /* Solid off-white fill for the frame bars and side strips */
+
     background: #f5f1ec;
-    /* Mask: solid-black layers make the background visible only in the four
-       frame strips; the unwanted center area is left unmasked (transparent). */
+
     -webkit-mask:
         linear-gradient(#000, #000) top    / 100% 12.5vh no-repeat,
         linear-gradient(#000, #000) bottom / 100% 12.5vh no-repeat,
@@ -323,135 +235,104 @@ a {
         linear-gradient(#000, #000) right  / 3rem 100%  no-repeat;
     box-sizing: border-box;
     z-index: 0;
-    pointer-events: none; /* never blocks clicks on content above */
+    pointer-events: none;
 }
 
-/* Black border frame drawn at the inner edge of the grey bars — exactly
-   where the frame strips meet the hero image area. */
 #hero-section::after {
     content: '';
     position: absolute;
-    top: 12.5vh;    /* inner edge of top bar */
-    left: 3rem;     /* inner edge of left strip */
-    right: 3rem;    /* inner edge of right strip */
-    bottom: 12.5vh; /* inner edge of bottom bar */
-    border: 2px solid #000; /* visible frame line around the image */
-    z-index: 1;     /* above the grey bars (::before z-index:0) */
+    top: 12.5vh;
+    left: 3rem;
+    right: 3rem;
+    bottom: 12.5vh;
+    border: 2px solid #000;
+    z-index: 1;
     pointer-events: none;
     box-sizing: border-box;
 }
 
-/* The background image div.
-   position:absolute pins it inside #hero-section so it scrolls with the page.
-   Inset matches the grey-bar frame: 12.5vh top/bottom, 3rem left/right — the
-   image fills exactly the opening of the frame box and moves with it on scroll. */
 .hero-bg {
-    position: absolute;           /* Contained within #hero-section (position:relative via .page) */
-    top: 12.5vh;                  /* Inner edge of the top grey bar */
-    bottom: 12.5vh;               /* Inner edge of the bottom grey bar */
-    left: 3rem;                   /* Inner edge of the left grey strip */
-    right: 3rem;                  /* Inner edge of the right grey strip */
-    background-image: url('assets/hero-bg.jpg'); /* overridden by inline style in HTML */
-    background-size: cover;        /* Fill the frame div edge-to-edge — no gaps around the photo */
-    background-position: center;   /* Keep the focal point centred */
+    position: absolute;
+    top: 12.5vh;
+    bottom: 12.5vh;
+    left: 3rem;
+    right: 3rem;
+    background-image: url('assets/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
-    z-index: -1; /* Behind frame overlay (z-index:0) and content (z-index:1) */
+    z-index: -1;
 }
 
-/* Hero overlay: a container div split into two pseudo-element halves.
-   backdrop-filter applies to an entire element, so the blur must live on its
-   own layer (::before) that covers only the top 50%.  A single div with both
-   blur and solid-background cannot blur selectively — splitting into ::before
-   (blurred tinted top) and ::after (solid bottom) solves this. */
 .hero-overlay {
-    position: absolute;   /* Fills the hero section (position:relative via .page) */
+    position: absolute;
     inset: 0;
-    z-index: 0;           /* Above hero-bg (-1); below icons/content (z-index:1) */
-    pointer-events: none; /* Never blocks clicks on icons */
+    z-index: 0;
+    pointer-events: none;
 }
 
-/* Top half — no overlay; photo shows through completely. */
 .hero-overlay::before {
     display: none;
 }
 
-/* Bottom panel removed — the hero section's background-color now provides
-   the light blue bar at the bottom (and top), showing through where the
-   inset .hero-bg does not cover. */
 .hero-overlay::after {
     display: none;
 }
 
-
-/* ==========================================================================
-   6b. HERO INTRO — NAME & TAGLINE
-   Positioned absolutely so it sits centered in the solid (non-blur) bottom
-   half of the hero, which begins at 50% from the top of the section.
-   bottom: 6rem keeps it clear of the social icons anchored at the base.
-========================================================================== */
 .hero-intro {
-    position: absolute;  /* Taken out of flex flow so it doesn't crowd the icons */
-    /* Vertically centered in the top bar (12.5vh tall); left:50% + translateX(-50%)
-       centres horizontally, translateY(-50%) centres vertically on the midpoint. */
-    top: 6.25vh;         /* Midpoint of the 12.5vh top bar */
+    position: absolute;
+
+    top: 6.25vh;
     left: 50%;
-    transform: translate(-50%, -50%); /* Centre both horizontally and vertically */
+    transform: translate(-50%, -50%);
     text-align: center;
-    z-index: 1;          /* Above .hero-overlay (z-index: 0) */
+    z-index: 1;
     width: 90%;
     max-width: 640px;
-    pointer-events: none; /* Decorative text block — clicks pass through to icons */
+    pointer-events: none;
 }
 
-/* Primary h1 displayed in the solid blue area */
 .hero-name {
     font-family: 'Georgia', serif;
-    font-size: clamp(2rem, 6vw, 3.8rem); /* Fluid size across all viewport widths */
+    font-size: clamp(2rem, 6vw, 3.8rem);
     font-weight: bold;
-    color: #111;          /* Dark ink — high contrast on the light blue background */
+    color: #111;
     letter-spacing: 0.04em;
     margin-bottom: 0.4rem;
     line-height: 1.1;
 }
 
-/* Subtitle / role tagline beneath the name */
 .hero-tagline-text {
     font-family: 'Georgia', serif;
     font-size: clamp(0.8rem, 2vw, 1.1rem);
-    color: #333;          /* Slightly lighter than the name for visual hierarchy */
+    color: #333;
     letter-spacing: 0.18em;
     text-transform: uppercase;
 }
 
-
-/* ==========================================================================
-   6c. HERO CONTACT BUTTON
-   Pinned to the bottom of the hero section inside the light blue bar.
-   Links the visitor down to the Contact section with one click.
-========================================================================== */
 .hero-contact-btn {
-    position: absolute;   /* Pin to the hero section (position:relative via .page) */
-    bottom: 2rem;         /* Sits in the bottom light blue bar, matching the old intro position */
+    position: absolute;
+    bottom: 2rem;
     left: 50%;
-    transform: translateX(-50%); /* Horizontally centre */
-    z-index: 1;           /* Above .hero-overlay (z-index: 0) */
+    transform: translateX(-50%);
+    z-index: 1;
     display: inline-block;
     padding: 0.6rem 2rem;
-    background: var(--color-dark-red);        /* Deep navy — consistent with other buttons */
+    background: var(--color-dark-red);
     color: var(--color-text-light);
-    border: 1px solid var(--color-accent);    /* Light blue border accent */
+    border: 1px solid var(--color-accent);
     border-radius: 4px;
     font-size: 0.9rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-family: 'Georgia', serif;
     transition: background var(--transition), color var(--transition);
-    white-space: nowrap;  /* Prevent text wrapping on narrow viewports */
+    white-space: nowrap;
 }
 
 .hero-contact-btn:hover {
-    background: var(--color-accent); /* Light blue fill on hover */
-    color: #050d1a;                  /* Dark navy text — legible on light blue */
+    background: var(--color-accent);
+    color: #050d1a;
 }
 
 .hero-contact-btn:focus-visible {
@@ -460,35 +341,18 @@ a {
     border-radius: 4px;
 }
 
-
-/* ==========================================================================
-   6d. HERO SECTION — MOBILE LAYOUT OVERRIDES
-   These rules MUST appear after the hero base styles above. Both the base
-   rules and these overrides use the same CSS specificity, so the cascade
-   resolves by source order — the later declaration wins. Placing this block
-   here guarantees the mobile overrides always beat the desktop base values.
-========================================================================== */
 @media (max-width: 768px) {
 
-    /* iOS/Android: 100svh excludes the collapsible browser toolbar so the
-       hero section never overflows into the next section on mobile. */
     #hero-section {
-        height: 100vh;   /* Fallback for browsers that don't support svh units */
-        height: 100svh;  /* Mobile-safe: excludes the collapsible browser toolbar */
+        height: 100vh;
+        height: 100svh;
     }
 
-    /* On mobile the side strips are removed so the image fills edge-to-edge
-       horizontally. The top and bottom bars (12.5vh each) stay intact so the
-       frame border and name/button bars remain visible. */
-
-    /* Extend the background image to the left and right viewport edges */
     .hero-bg {
         left: 0;
         right: 0;
     }
 
-    /* Remove the left/right strip layers from the frame-overlay mask;
-       keep only the top and bottom bar layers so they still show the gradient */
     #hero-section::before {
         -webkit-mask:
             linear-gradient(#000, #000) top    / 100% 12.5vh no-repeat,
@@ -498,7 +362,6 @@ a {
             linear-gradient(#000, #000) bottom / 100% 12.5vh no-repeat;
     }
 
-    /* Stretch the black border frame to the viewport edges on mobile */
     #hero-section::after {
         left: 0;
         right: 0;
@@ -506,61 +369,35 @@ a {
 
 }
 
-
-/* ==========================================================================
-   6e. HERO CAROUSEL — ABOUT PARAGRAPHS
-   Manually-advanced carousel overlaid on the hero photo. Written mobile-first
-   per this project's convention: the base rules below are the small-screen
-   layout; the min-width query at the bottom only adds desktop breathing room.
-
-   Positioned with top/bottom insets (not top:50%+translate) so it is always
-   confined to the same image "frame" as .hero-bg (12.5vh top/bottom bars) —
-   it can never visually collide with .hero-intro or .hero-contact-btn
-   regardless of viewport height (short landscape phones included).
-   justify-content: flex-end anchors it to the bottom edge of that frame,
-   with only a small padding-bottom gap so the carousel sits just off the
-   bottom of the hero photo rather than floating mid-frame.
-========================================================================== */
 .hero-carousel {
     position: absolute;
     top: 12.5vh;
     bottom: 12.5vh;
     left: 0;
     right: 0;
-    z-index: 1; /* Same layer as .hero-intro / .hero-contact-btn, above .hero-overlay (0) */
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end; /* Anchor to the bottom of the hero image, not vertical centre */
+    justify-content: flex-end;
     gap: 0.6rem;
     padding: 1rem 1.25rem 0.75rem;
-    pointer-events: none; /* Empty space around the centred content lets clicks pass through */
+    pointer-events: none;
 }
 
-/* Re-enable interaction on the actual carousel UI (overrides the parent's none) */
 .hero-carousel-viewport-wrap,
 .hero-carousel-dots {
     pointer-events: auto;
 }
 
-/* Wrapper sized to match the viewport so the prev/next arrows — positioned
-   absolutely at its left/right edges — sit right on (and slightly overlap)
-   the viewport's own edges, like a classic slide-carousel's side arrows,
-   instead of stacking in a row underneath it. */
 .hero-carousel-viewport-wrap {
     position: relative;
     width: min(92%, 560px);
 }
 
-/* Lighter, more transparent scrim behind the paragraph text — 0.6 alpha is
-   the floor tested against the darkest patches of the hero photo (hair/coat)
-   that still clears WCAG AA (4.5:1 body text) with the dark navy slide text
-   below; going lower risks failing contrast over those darker regions. The
-   freed-up row that used to hold prev/next now only needs to fit the dots,
-   so this can claim a little more vertical space than before. */
 .hero-carousel-viewport {
     width: 100%;
-    max-height: 50vh; /* Safety net on short/landscape phones — scrolls instead of overflowing the frame */
+    max-height: 50vh;
     overflow-y: auto;
     background: rgba(245, 240, 238, 0.6);
     border: 1px solid rgba(13, 42, 74, 0.18);
@@ -576,8 +413,6 @@ a {
     text-align: center;
 }
 
-/* Fade the newly-revealed slide in; [hidden] slides are removed from the
-   render tree entirely so this never runs on the outgoing slide. */
 .hero-carousel-slide:not([hidden]) {
     animation: heroSlideFadeIn 0.4s ease;
 }
@@ -587,16 +422,12 @@ a {
     to   { opacity: 1; }
 }
 
-/* Respect reduced-motion preference — swap slides instantly, no fade */
 @media (prefers-reduced-motion: reduce) {
     .hero-carousel-slide:not([hidden]) {
         animation: none;
     }
 }
 
-/* Prev/Next arrows — pinned to the wrap's edges, vertically centred on the
-   viewport, half-overlapping its border for the "slick" side-arrow look.
-   44px square keeps real tap area on mobile regardless of the visual overlap. */
 .hero-carousel-btn {
     position: absolute;
     top: 50%;
@@ -625,9 +456,6 @@ a {
     right: -22px;
 }
 
-/* Scoped to real hover-capable pointers (mouse/trackpad) so a tap on touch
-   devices doesn't leave the button stuck in this style — touchscreens fire
-   :hover on tap but never a matching "un-hover" event. */
 @media (hover: hover) and (pointer: fine) {
     .hero-carousel-btn:hover {
         background: var(--color-accent);
@@ -647,8 +475,6 @@ a {
     gap: 0.25rem;
 }
 
-/* Dot buttons: 44px tap target (button box) around a small 10px visible dot
-   (::before), so the tap area is real without an oversized visible marker. */
 .hero-carousel-dot {
     width: 44px;
     height: 44px;
@@ -669,8 +495,6 @@ a {
     transition: background-color var(--transition), transform var(--transition);
 }
 
-/* is-active is toggled by script.js to match the currently visible slide;
-   aria-current (also set by script.js) carries the same state to screen readers */
 .hero-carousel-dot.is-active::before {
     background-color: var(--color-dark-red);
     transform: scale(1.2);
@@ -682,9 +506,6 @@ a {
     border-radius: 50%;
 }
 
-/* --- Desktop enhancement --------------------------------------------- */
-/* min-width layers on more breathing room once there's room for it —
-   base rules above already work standalone as the small-screen layout. */
 @media (min-width: 768px) {
     .hero-carousel-viewport-wrap {
         width: min(80%, 640px);
@@ -709,124 +530,88 @@ a {
     }
 }
 
-
-/* ==========================================================================
-   7. CONNECT SECTION
-   Sits directly above the footer. Displays three large platform icons
-   (LinkedIn, GitHub, Email) stacked vertically. On hover the icon slides
-   left and an inviting label slides in from the right; both the icon and
-   label are wrapped in a single <a> so clicking either navigates.
-========================================================================== */
-
-/* Section wrapper — auto height so it grows with content; dark background
-   that echoes the contact/footer palette for a smooth visual transition. */
 #connect-section {
-    background-color: var(--color-contact-bg); /* Deep navy — matches contact section */
-    border-top: 3px solid #000;    /* Consistent black accent edge between sections */
-    border-bottom: 3px solid #000; /* Black accent edge before the footer */
-    padding: 4rem 2rem;            /* Generous breathing room top and bottom */
+    background-color: var(--color-contact-bg);
+    border-top: 3px solid #000;
+    border-bottom: 3px solid #000;
+    padding: 4rem 2rem;
     display: flex;
-    justify-content: center;       /* Centre the inner wrapper horizontally */
+    justify-content: center;
 }
 
-/* Inner wrapper: centres the heading + list and caps the readable width */
 .connect-inner {
     display: flex;
     flex-direction: column;
-    align-items: center;           /* Horizontally centre heading and list */
+    align-items: center;
     width: 100%;
     max-width: 640px;
 }
 
-/* Section heading — uppercase with accent glow, matching other section headings */
 .connect-heading {
     font-size: clamp(1.6rem, 3.5vw, 2.4rem);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--color-text-light);
-    margin-bottom: 3rem;           /* Space between heading and first icon row */
+    margin-bottom: 3rem;
     text-align: center;
 }
 
-/* Vertical list of platform links — each child is one icon + label row.
-   align-items:center collapses each row to its content width so the hover
-   target is only the icon (and label once revealed), not the full container. */
 .connect-list {
     display: flex;
     flex-direction: column;
-    align-items: center;           /* Shrink-wrap each row to content width */
+    align-items: center;
     gap: 2.5rem;
     width: 100%;
 }
 
-/* Each platform row: a flex container that centres icon + label as a group.
-   Both children stay in normal flow. The label starts at max-width:0 (no space,
-   invisible) and expands to max-width:400px on hover. Because the flex parent
-   uses justify-content:center, it re-centres the growing group on every frame —
-   so the icon drifts left naturally as the label width opens up, and the whole
-   group (icon + label) is always centred at every point in the animation. */
 .connect-item {
-    display: inline-flex;          /* Shrink to content width — no phantom hover zone */
+    display: inline-flex;
     align-items: center;
-    gap: 1.5rem;                   /* Visual space between icon and label text */
-    position: relative;            /* Needed for focus-visible outline offset */
+    gap: 1.5rem;
+    position: relative;
     text-decoration: none;
     color: var(--color-text-light);
     cursor: pointer;
 }
 
-/* Focus ring wraps the entire row (icon + label) — a11y requirement */
 .connect-item:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 8px;
     border-radius: 4px;
 }
 
-/* Icon: stays in flow; no transform needed — the flex re-centering moves it
-   left automatically as the label expands. Colour tints on hover for feedback. */
 .connect-icon {
     font-size: 5rem;
     color: var(--color-text-light);
-    flex-shrink: 0;                /* Never squish the icon as the label grows */
+    flex-shrink: 0;
     transition: color 0.35s ease;
 }
 
-/* Label: max-width:0 collapses it to zero width (invisible, no space taken).
-   overflow:hidden clips the text while collapsed. opacity fades it in once
-   max-width has opened enough space so text doesn't flash at width:0.
-   max-width animates from 0 → 400px, driving the expanding group width that
-   causes the flex container to continuously re-centre icon + label together. */
 .connect-label {
     font-family: 'Georgia', serif;
     font-size: clamp(1rem, 2.5vw, 1.4rem);
     letter-spacing: 0.04em;
     color: var(--color-accent);
-    white-space: nowrap;           /* Keep text on one line during the expansion */
-    overflow: hidden;              /* Clip text while max-width is still opening */
-    max-width: 0;                  /* Collapsed: takes no space, icon centres alone */
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 0;
     opacity: 0;
-    /* max-width drives the width expansion that re-centres the group;
-       opacity fades in with a slight delay so text appears once the gap opens */
+
     transition: max-width 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 opacity    0.3s  ease 0.15s;
     pointer-events: none;
 }
 
-/* ── Hover state ── */
-
 .connect-item:hover .connect-icon {
-    color: var(--color-accent);    /* Tint to accent to match the label colour */
+    color: var(--color-accent);
 }
 
-/* Expand label to its full text width; 400px is a safe upper bound for any
-   of the three label strings. opacity fades in after expansion has started. */
 .connect-item:hover .connect-label {
     max-width: 400px;
     opacity: 1;
     pointer-events: auto;
 }
 
-/* Mobile: smaller icon and narrower max-width cap so it fits on phones */
 @media (max-width: 600px) {
     .connect-item {
         gap: 1rem;
@@ -841,48 +626,36 @@ a {
     }
 
     .connect-item:hover .connect-label {
-        max-width: 260px;          /* Narrower cap so label stays on-screen */
+        max-width: 260px;
     }
 }
 
-
-/* ==========================================================================
-   8. COVER LETTER / ABOUT SECTION
-   Solid dark-red background. z-index:0 puts it in normal flow, above the
-   fixed hero image (-1) but below the nav (100).
-========================================================================== */
 #coverletter-section {
-    background-color: var(--color-dark-red); /* Deep navy blue — matches hero blue palette */
-    z-index: 0; /* Normal stacking order — no special layering needed */
-    border-top: 3px solid #000;    /* Black edge accent where hero meets this section */
-    border-bottom: 3px solid #000; /* Black edge accent before the resume section */
+    background-color: var(--color-dark-red);
+    z-index: 0;
+    border-top: 3px solid #000;
+    border-bottom: 3px solid #000;
 
-    /* Mobile-first default: the bio is long enough to overflow a fixed
-       viewport at any width, so the section grows past 100vh to fit it
-       completely instead of clipping via the .page rule's fixed
-       height/overflow. This applies at every breakpoint — a single text
-       column (mobile or desktop width) is always taller than one screen. */
     height: auto;
     min-height: 100vh;
     overflow: visible;
 }
 
 #coverletter-section .section-inner {
-    height: auto; /* Grow with content instead of being capped at the section's height */
+    height: auto;
 }
 
-/* Comfortable reading width for the cover letter text block */
 .coverletter-columns {
     width: 100%;
-    max-width: 720px; /* Mobile/base: single narrow column */
+    max-width: 720px;
 }
 
 .coverletter-body {
-    line-height: 1.8; /* Generous line-height improves readability */
+    line-height: 1.8;
     font-size: 1rem;
     color: var(--color-text-light);
     text-align: center;
-    margin-bottom: 1.4em; /* Space between paragraphs (global reset zeroes default <p> margins) */
+    margin-bottom: 1.4em;
 }
 
 .coverletter-body:last-of-type {
@@ -890,19 +663,9 @@ a {
 }
 
 @media (min-width: 1024px) {
-    /* Desktop: the section is capped at exactly one viewport height (like
-       the other full-screen sections) and stays a single column (no
-       side-by-side split, no internal scrollbar). script.js measures the
-       rendered text and grows .coverletter-columns (inline width, set by
-       fitBioColumnWidth) only as wide as needed so every paragraph fits
-       inside that fixed height — this max-width is just the pre-JS
-       fallback so nothing flashes unstyled. */
+
     .coverletter-columns {
-        /* Pre-JS fallback only — script.js's fitBioColumnWidth sets an
-           inline width immediately on load and on resize, which overrides
-           this. max-width:none clears the mobile rule's 720px cap so that
-           inline override isn't clamped back down once JS decides more
-           width is needed. */
+
         width: 900px;
         max-width: none;
     }
@@ -918,69 +681,38 @@ a {
     }
 }
 
-
-/* ==========================================================================
-   9. RESUME SECTION
-   Visual background is provided by #resume-fractal-canvas — a Mandelbrot
-   set rendered in monochromatic navy blue by script.js.  The canvas sits
-   at z-index:0 inside the section; .section-inner (z-index:1) floats above
-   it.  A dark navy background-color shows during the brief render delay.
-========================================================================== */
 #resume-section {
-    /* Dark navy fallback — shows while the fractal canvas renders on load */
-    background-color: #040c1a;
-    border-top: 3px solid #000;    /* Black accent edge between sections */
-    border-bottom: 3px solid #000; /* Black accent edge before connect section */
 
-    /* content-visibility:auto tells the browser to skip painting this section
-       entirely until it is close to the viewport. Pairs with contain-intrinsic-size
-       so layout reserves the section's height even before it is painted (prevents
-       scroll-position jumps). 100vh matches the .page height rule. */
+    background-color: #040c1a;
+    border-top: 3px solid #000;
+    border-bottom: 3px solid #000;
+
     content-visibility: auto;
     contain-intrinsic-size: 0 100vh;
 }
 
-/* Fractal background canvas — fills the resume section behind .section-inner.
-   z-index:0 places it above the section background-color but below
-   .section-inner (z-index:1) so the resume content is always readable.
-   aria-hidden:true in HTML marks it as decorative; pointer-events:none
-   ensures the canvas never intercepts clicks meant for the content above. */
 #resume-fractal-canvas {
-    position: absolute; /* Fills #resume-section without affecting layout flow */
-    inset: 0;           /* Stretch to all four edges of the section */
-    width: 100%;        /* Explicit size ensures canvas fills even on resize */
+    position: absolute;
+    inset: 0;
+    width: 100%;
     height: 100%;
-    z-index: 0;         /* Above section background; below .section-inner (1) */
-    display: block;     /* Remove the default inline gap below canvas elements */
-    pointer-events: none; /* Clicks pass through to the content layer above */
+    z-index: 0;
+    display: block;
+    pointer-events: none;
 }
 
-
-/* ==========================================================================
-   9b. RESUME SECTION — CONTENT STYLES
-   Typography and layout for the resume content inside #resume-section.
-   Uses a scrollable inner wrapper so the full resume is readable within
-   the 100vh section height.
-========================================================================== */
-
-/* Override the default centered/flex layout so the resume reads top-to-bottom */
 #resume-section .section-inner {
-    justify-content: flex-start; /* Start content from the top, not the centre */
-    align-items: flex-start;     /* Left-align all resume content */
-    text-align: left;            /* Override the centred-text default */
-    overflow-y: auto;            /* Allow scrolling inside the section if content overflows */
-    padding: 5rem 2rem 3rem;     /* Extra top padding clears the fixed nav bar */
-    max-width: 860px;            /* Comfortable reading width */
-    margin: 0 auto;              /* Centre the inner wrapper on wide screens */
-    /* Hint to the browser that this container will scroll, so it can promote
-       the scrollable layer to the GPU compositor thread and avoid main-thread
-       paint work on every inner-scroll frame. */
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    overflow-y: auto;
+    padding: 5rem 2rem 3rem;
+    max-width: 860px;
+    margin: 0 auto;
+
     will-change: scroll-position;
 }
 
-/* Portfolio intro statement — centered, overriding the section's default
-   left-aligned/flex-start layout (which is meant for future left-aligned
-   project listings/cards, not this intro copy). */
 #resume-section .section-inner h2,
 #resume-section .portfolio-intro {
     align-self: center;
@@ -1001,15 +733,13 @@ a {
     margin-bottom: 0;
 }
 
-/* Resume header block: name, tagline, contact info stacked vertically */
 .resume-header {
     width: 100%;
     margin-bottom: 2rem;
-    border-bottom: 1px solid rgba(245, 240, 238, 0.3); /* Subtle rule below header */
+    border-bottom: 1px solid rgba(245, 240, 238, 0.3);
     padding-bottom: 1.25rem;
 }
 
-/* Large display name at the top of the resume */
 .resume-name {
     font-size: clamp(1.6rem, 3.5vw, 2.4rem);
     font-weight: bold;
@@ -1018,27 +748,24 @@ a {
     letter-spacing: 0.04em;
 }
 
-/* Subtitle / professional tagline below the name */
 .resume-tagline {
     font-size: 1rem;
-    color: var(--color-accent); /* Warm copper accent colour */
+    color: var(--color-accent);
     margin-bottom: 0.75rem;
     font-style: italic;
 }
 
-/* Contact line inside the resume header — override global address italic */
 .resume-contact {
     font-style: normal;
     font-size: 0.9rem;
     color: var(--color-text-light);
-    flex-direction: row;         /* Lay items out horizontally */
-    flex-wrap: wrap;             /* Wrap on narrow screens */
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0;                      /* Spacing handled by &nbsp; separators in HTML */
-    display: block;              /* Inline flow so separators sit naturally */
+    gap: 0;
+    display: block;
 }
 
-/* Links inside the resume contact line */
 .resume-contact a {
     color: var(--color-accent);
     transition: color var(--transition);
@@ -1048,36 +775,31 @@ a {
     color: #fff;
 }
 
-/* A labelled group of resume entries (e.g. Work Experience) */
 .resume-section {
     width: 100%;
     margin-bottom: 1.5rem;
 }
 
-/* Section title (e.g. "Work Experience") styled with an underline to match the PDF */
 .resume-section-title {
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-text-light);
-    border-bottom: 2px solid var(--color-text-light); /* Underline matches resume doc */
+    border-bottom: 2px solid var(--color-text-light);
     padding-bottom: 0.3rem;
     margin-bottom: 1.25rem;
 }
 
-/* Each individual job entry */
 .resume-job {
     margin-bottom: 1.5rem;
     padding-bottom: 1.25rem;
-    border-bottom: 1px solid rgba(245, 240, 238, 0.1); /* Faint separator between jobs */
+    border-bottom: 1px solid rgba(245, 240, 238, 0.1);
 }
 
-/* Last job entry has no bottom border — avoids a double-rule at section end */
 .resume-job:last-of-type {
     border-bottom: none;
 }
 
-/* Job title line: employer name + role displayed on one line */
 .resume-job-title {
     font-size: 1rem;
     font-weight: bold;
@@ -1085,26 +807,22 @@ a {
     margin-bottom: 0.2rem;
 }
 
-/* The employer name gets a slightly larger emphasis */
 .resume-employer {
     font-weight: bold;
 }
 
-/* The role / position label next to the employer name */
 .resume-role {
     font-weight: normal;
-    color: rgba(245, 240, 238, 0.75); /* Slightly dimmed to visually separate it */
+    color: rgba(245, 240, 238, 0.75);
     margin-left: 0.2rem;
 }
 
-/* Supervisor / manager line below the job title */
 .resume-manager {
     font-size: 0.85rem;
     color: rgba(245, 240, 238, 0.6);
     margin-bottom: 0.15rem;
 }
 
-/* Manager phone links inherit the muted colour by default */
 .resume-manager a {
     color: var(--color-accent);
     transition: color var(--transition);
@@ -1114,7 +832,6 @@ a {
     color: #fff;
 }
 
-/* Location and date range line */
 .resume-meta {
     font-size: 0.85rem;
     color: rgba(245, 240, 238, 0.6);
@@ -1122,10 +839,9 @@ a {
     font-style: italic;
 }
 
-/* Bullet list of job duties — indented like a standard resume */
 .resume-duties {
-    list-style: disc;              /* Use standard bullet points */
-    padding-left: 1.5rem;          /* Indent the list from the left edge */
+    list-style: disc;
+    padding-left: 1.5rem;
 }
 
 .resume-duties li {
@@ -1135,14 +851,13 @@ a {
     margin-bottom: 0.2rem;
 }
 
-/* PDF download button — anchored below the resume content */
 .resume-download-btn {
     display: inline-block;
     margin-top: 2rem;
     padding: 0.65rem 1.5rem;
-    background: var(--color-dark-red);   /* Deep navy blue — matches cover letter section */
+    background: var(--color-dark-red);
     color: var(--color-text-light);
-    border: 1px solid var(--color-accent); /* Light blue accent border */
+    border: 1px solid var(--color-accent);
     border-radius: 4px;
     font-size: 0.9rem;
     letter-spacing: 0.06em;
@@ -1151,8 +866,8 @@ a {
 }
 
 .resume-download-btn:hover {
-    background: var(--color-accent); /* Light blue fill on hover */
-    color: #050d1a;                  /* Dark navy text — legible on the light blue */
+    background: var(--color-accent);
+    color: #050d1a;
 }
 
 .resume-download-btn:focus-visible {
@@ -1160,7 +875,6 @@ a {
     outline-offset: 4px;
 }
 
-/* On mobile, full-width button is easier to tap */
 @media (max-width: 600px) {
     .resume-download-btn {
         width: 100%;
@@ -1168,46 +882,34 @@ a {
     }
 }
 
-/* ==========================================================================
-   9c. RESUME SECTION — RESTRUCTURED COMPONENTS
-   Work Summary, Skills, References, Quotes, Certifications & Licensing.
-========================================================================== */
-
-/* Container for each named sub-section within the resume */
 .resume-block {
     width: 100%;
-    margin-bottom: 2.5rem; /* Breathing room between sub-sections */
+    margin-bottom: 2.5rem;
 }
 
-/* Sub-section heading: underline style matches the original PDF resume */
 .resume-block-title {
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--color-text-light);
-    border-bottom: 2px solid var(--color-text-light); /* Horizontal rule under heading */
+    border-bottom: 2px solid var(--color-text-light);
     padding-bottom: 0.35rem;
     margin-bottom: 1.25rem;
 }
 
-/* ── Work Experience Summary ── */
-
-/* Two-column grid on desktop so all 7 cards fit compactly */
 .work-summary-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Equal two columns */
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.85rem;
 }
 
-/* Individual job card: subtle glass-style box */
 .work-card {
-    background: rgba(245, 240, 238, 0.05); /* Very faint tinted card background */
-    border: 1px solid rgba(245, 240, 238, 0.12); /* Hairline border for card edge */
+    background: rgba(245, 240, 238, 0.05);
+    border: 1px solid rgba(245, 240, 238, 0.12);
     border-radius: 6px;
     padding: 0.9rem 1rem;
 }
 
-/* Top row: company name and role sit side-by-side, wrap on narrow cards */
 .work-card-top {
     display: flex;
     flex-wrap: wrap;
@@ -1216,20 +918,17 @@ a {
     margin-bottom: 0.25rem;
 }
 
-/* Employer name — bold for visual hierarchy */
 .work-card-company {
     font-weight: bold;
     font-size: 0.95rem;
     color: var(--color-text-light);
 }
 
-/* Role label — accent colour to separate it from the company name */
 .work-card-role {
     font-size: 0.82rem;
     color: var(--color-accent);
 }
 
-/* Location and date range — italic and dimmed, secondary info */
 .work-card-meta {
     font-size: 0.78rem;
     color: rgba(245, 240, 238, 0.5);
@@ -1237,30 +936,24 @@ a {
     margin-bottom: 0.4rem;
 }
 
-/* One-sentence position summary */
 .work-card-desc {
     font-size: 0.85rem;
     color: rgba(245, 240, 238, 0.85);
     line-height: 1.55;
 }
 
-/* ── Skills ── */
-
-/* Outer wrapper stacks all category groups vertically */
 .skills-categories {
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
 }
 
-/* One category: label above its row of pill tags */
 .skill-category {
     display: flex;
     flex-direction: column;
     gap: 0.45rem;
 }
 
-/* Category label — dimmed uppercase, visually subordinate to .resume-block-title */
 .skill-category-label {
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -1268,36 +961,30 @@ a {
     color: rgba(245, 240, 238, 0.45);
 }
 
-/* Pill tag row — wraps naturally when there are many tags */
 .skills-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.45rem;
-    list-style: none; /* Bullets removed; role="list" in HTML restores a11y semantics */
+    list-style: none;
 }
 
-/* Individual skill pill: accent-tinted background and border */
 .skill-tag {
     font-size: 0.78rem;
     padding: 0.28rem 0.7rem;
-    background: rgba(126, 200, 227, 0.1);  /* Faint accent tint */
-    border: 1px solid rgba(126, 200, 227, 0.3); /* Accent-coloured hairline border */
-    border-radius: 999px; /* Full pill shape */
+    background: rgba(126, 200, 227, 0.1);
+    border: 1px solid rgba(126, 200, 227, 0.3);
+    border-radius: 999px;
     color: var(--color-accent);
     letter-spacing: 0.02em;
-    white-space: nowrap; /* Never break a skill name across two lines */
+    white-space: nowrap;
 }
 
-/* ── References ── */
-
-/* Three-column grid on desktop — fits all contacts at a glance */
 .references-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.85rem;
 }
 
-/* Individual reference card */
 .reference-card {
     background: rgba(245, 240, 238, 0.05);
     border: 1px solid rgba(245, 240, 238, 0.1);
@@ -1308,21 +995,18 @@ a {
     gap: 0.2rem;
 }
 
-/* Reference person's name */
 .reference-name {
     font-weight: bold;
     font-size: 0.9rem;
     color: var(--color-text-light);
 }
 
-/* Their role and company — italic and dimmed */
 .reference-relation {
     font-size: 0.78rem;
     color: rgba(245, 240, 238, 0.5);
     font-style: italic;
 }
 
-/* Tap-to-call / tap-to-email link */
 .reference-contact {
     font-size: 0.78rem;
     color: var(--color-accent);
@@ -1340,25 +1024,20 @@ a {
     border-radius: 2px;
 }
 
-/* ── Quotes from References ── */
-
-/* Vertical stack of quote blocks */
 .quotes-list {
     display: flex;
     flex-direction: column;
     gap: 1.1rem;
 }
 
-/* Individual quote block: left accent bar + faint card background */
 .ref-quote {
-    border-left: 3px solid var(--color-accent); /* Coloured left bar marks it as a quote */
+    border-left: 3px solid var(--color-accent);
     padding: 0.75rem 1.25rem;
     background: rgba(245, 240, 238, 0.04);
-    border-radius: 0 6px 6px 0; /* Round right corners only; left edge is the border */
-    margin: 0; /* Reset browser default blockquote margin */
+    border-radius: 0 6px 6px 0;
+    margin: 0;
 }
 
-/* The quoted text — italic signals a direct quotation */
 .ref-quote-text {
     font-size: 0.9rem;
     font-style: italic;
@@ -1367,7 +1046,6 @@ a {
     margin-bottom: 0.45rem;
 }
 
-/* Attribution line — <cite> is inline by default; display:block stacks it below */
 .ref-quote-cite {
     font-size: 0.78rem;
     color: rgba(245, 240, 238, 0.45);
@@ -1375,9 +1053,6 @@ a {
     display: block;
 }
 
-/* ── Certifications & Licensing ── */
-
-/* Vertical list of cert rows */
 .certs-list {
     display: flex;
     flex-direction: column;
@@ -1385,7 +1060,6 @@ a {
     list-style: none;
 }
 
-/* One certification row: name and issuer on the same line with a gap */
 .cert-item {
     display: flex;
     align-items: baseline;
@@ -1396,34 +1070,28 @@ a {
     border-radius: 6px;
 }
 
-/* Certification name */
 .cert-name {
     font-size: 0.9rem;
     font-weight: bold;
     color: var(--color-text-light);
 }
 
-/* Issuing body and year — dimmed and italic */
 .cert-issuer {
     font-size: 0.78rem;
     color: rgba(245, 240, 238, 0.45);
     font-style: italic;
 }
 
-/* ── Mobile overrides for new components ── */
-
 @media (max-width: 768px) {
-    /* Work summary collapses from 2-col to 1-col on mobile */
+
     .work-summary-grid {
         grid-template-columns: 1fr;
     }
 
-    /* References drop to 2-col on tablet-sized mobile */
     .references-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Cert row wraps: name stacks above issuer on narrow screens */
     .cert-item {
         flex-direction: column;
         gap: 0.25rem;
@@ -1431,72 +1099,42 @@ a {
 }
 
 @media (max-width: 480px) {
-    /* References drop to single column on small phones */
+
     .references-grid {
         grid-template-columns: 1fr;
     }
 }
 
-/* ==========================================================================
-   RESUME SECTION — MOBILE LAYOUT OVERRIDE
-   On mobile the resume section must NOT be a fixed-height scroll box.
-   Instead it expands to the natural height of all its content and the
-   user scrolls the whole page past it — no inner scrollbar.
-   ========================================================================== */
 @media (max-width: 768px) {
 
-    /* 1. Let the section grow beyond 100vh.
-          - height: auto replaces the .page rule (height: 100vh).
-          - overflow: visible replaces .page's overflow: hidden so no content
-            is clipped and no scroll container is created on this element.
-          - content-visibility: visible disables the paint-skip optimisation
-            that relied on a fixed contain-intrinsic-size of 100vh; with a
-            variable natural height that reservation would cause layout jumps.
-          - contain-intrinsic-size: none removes the 100vh placeholder because
-            the section now takes exactly as much space as its content needs. */
     #resume-section {
-        height: auto;                  /* Expand to fit all resume content */
-        overflow: visible;             /* No clip — content flows into page scroll */
-        content-visibility: visible;   /* Disable deferred-paint on this section */
-        contain-intrinsic-size: none;  /* No reserved height needed */
-        /* background-color fallback only — the fractal canvas is the visual
-           background on mobile just as on desktop; no photo URL needed */
+        height: auto;
+        overflow: visible;
+        content-visibility: visible;
+        contain-intrinsic-size: none;
+
         background-color: #040c1a;
     }
 
-    /* 2. Remove the inner scroll box from the content wrapper.
-          - height: auto lets the wrapper grow with its children instead of
-            being locked to 100% of the (now auto-height) section.
-          - overflow-y: visible removes the scrollable overflow container that
-            was created when the section was capped at 100vh. */
     #resume-section .section-inner {
-        height: auto;           /* Grow with content, don't cap at 100% section height */
-        overflow-y: visible;    /* No inner scrollbar — page-level scroll only */
+        height: auto;
+        overflow-y: visible;
     }
 }
 
-
-
-/* ==========================================================================
-   11. CONTACT / SOCIALS SECTION
-   Uses .page-third (33.333vh). Dark warm-black background with a red
-   top border as a section divider.
-========================================================================== */
 #contact-section {
-    background-color: var(--color-contact-bg); /* Deep navy blue */
-    border-top: 3px solid #000;    /* Black accent edge — consistent with section dividers */
-    border-bottom: 3px solid #000; /* Black accent edge before footer */
+    background-color: var(--color-contact-bg);
+    border-top: 3px solid #000;
+    border-bottom: 3px solid #000;
 }
 
-/* Horizontal layout on desktop — stacks on narrow screens via flex-wrap */
 #contact-section .section-inner {
     flex-direction: row;
     justify-content: space-around;
-    flex-wrap: wrap; /* Wraps to a column layout on narrow screens */
+    flex-wrap: wrap;
     gap: 1.5rem;
 }
 
-/* <address> defaults to italic in all browsers — override it */
 address {
     font-style: normal;
     display: flex;
@@ -1505,7 +1143,6 @@ address {
     align-items: center;
 }
 
-/* Contact link (email) styling */
 address a {
     color: var(--color-accent);
     font-size: 1rem;
@@ -1521,14 +1158,9 @@ address a:focus-visible {
     outline-offset: 4px;
 }
 
-
-/* ==========================================================================
-   12. FOOTER
-   Slim bar at the very bottom; dimmed text since it is supplementary info.
-========================================================================== */
 footer {
     background-color: var(--color-footer-bg);
-    color: rgba(255, 255, 255, 0.4); /* Dim — footer is secondary content */
+    color: rgba(255, 255, 255, 0.4);
     text-align: center;
     padding: 1rem 2rem;
     font-size: 0.8rem;

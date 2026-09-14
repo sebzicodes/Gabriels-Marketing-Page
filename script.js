@@ -1,54 +1,21 @@
-/* ==========================================================================
-   SCRIPT.JS — Lovelys Resume Website
-   Vanilla JavaScript, no frameworks. Every line is commented per
-   project convention to explain what it does and why.
-========================================================================== */
 
-
-/* ==========================================================================
-   1. NAVIGATION SCROLL BEHAVIOUR
-   The nav bar starts transparent over the hero image.  When the user
-   scrolls more than 10px, the "scrolled" CSS class is added which
-   triggers the solid background + blur transition defined in styles.css.
-========================================================================== */
-
-/* getElementById: retrieves the <nav id="main-nav"> element from the DOM.
-   Stored in a variable so we don't query the DOM on every scroll event. */
 const mainNav  = document.getElementById('main-nav');
 
-/* Cache the hero section — used for tracking scroll context if needed */
 const heroSection = document.getElementById('hero-section');
 
-/**
- * handleNavScroll
- * Checks the vertical scroll position and toggles:
- *   .scrolled on #main-nav — solid background when scrolled past the top.
- * Called on every "scroll" event and once on page load.
- */
 function handleNavScroll() {
-    /* window.scrollY: the number of pixels the document has scrolled
-       vertically from the top.  We use 10 as the threshold so a tiny
-       accidental scroll doesn't immediately trigger the solid nav. */
+
     if (window.scrollY > 10) {
-        /* classList.add: appends "scrolled" to the nav's class list.
-           CSS then transitions background-color and backdrop-filter. */
+
         mainNav.classList.add('scrolled');
     } else {
-        /* classList.remove: removes "scrolled" when back near the top,
-           returning the nav to its transparent state. */
+
         mainNav.classList.remove('scrolled');
     }
 }
 
-/* Throttle flag — ensures both scroll handlers run at most once per
-   animation frame instead of dozens of times per frame. */
 let scrollTicking = false;
 
-/* Combined, throttled scroll dispatcher.
-   passive:true lets the browser commit the scroll to the GPU compositor
-   thread immediately without waiting for this handler to return — the
-   single biggest driver of jank on desktop for scroll listeners that
-   don't call preventDefault(). */
 window.addEventListener('scroll', function () {
     if (!scrollTicking) {
         requestAnimationFrame(function () {
@@ -59,48 +26,24 @@ window.addEventListener('scroll', function () {
     }
 }, { passive: true });
 
-/* Run the handler immediately on page load.
-   Without this, landing on the page via a #hash URL (e.g. #resume-section)
-   could leave the nav in the wrong visual state until the user scrolls. */
 handleNavScroll();
 
-
-/* ==========================================================================
-   1B. MOBILE SECTION-JUMP ARROWS
-   Two chevron buttons (visible only once the nav bar presents — see the
-   .nav-mobile-arrows CSS) step up/down through the page's main sections,
-   standing in for the named desktop nav-links list on small screens.
-========================================================================== */
-
-/* Same landmark sections the desktop nav-links jump to, in page order. */
 const jumpSectionIds = ['hero-section', 'resume-section', 'coverletter-section', 'connect-section'];
 
 const navArrowUp   = document.querySelector('.nav-arrow-up');
 const navArrowDown = document.querySelector('.nav-arrow-down');
 
-/* matchMedia: true if the user's OS/browser requests reduced motion —
-   respected here so the jump is instant rather than an animated scroll. */
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/**
- * currentSectionIndex
- * Returns the index of the section the viewport is currently inside,
- * based on which section's top has been scrolled past.
- */
 function currentSectionIndex(offsets, scrollY) {
     let index = 0;
     for (let i = 0; i < offsets.length; i++) {
-        /* -2px tolerance absorbs sub-pixel scroll rounding */
+
         if (scrollY >= offsets[i] - 2) index = i;
     }
     return index;
 }
 
-/**
- * jumpToSection
- * Scrolls to the previous (-1) or next (+1) section relative to the one
- * currently in view, clamped to the first/last section.
- */
 function jumpToSection(step) {
     const offsets = jumpSectionIds
         .map(function (id) { return document.getElementById(id); })
@@ -127,48 +70,21 @@ if (navArrowDown) {
     navArrowDown.addEventListener('click', function () { jumpToSection(1); });
 }
 
-
-/* ==========================================================================
-   2. FOOTER YEAR — AUTOMATIC COPYRIGHT YEAR
-   Updates the copyright year in the footer automatically so it never
-   needs to be manually updated each January.
-========================================================================== */
-
-/* getElementById: targets the <span id="footer-year"> inside the footer */
 const footerYearSpan = document.getElementById('footer-year');
 
-/* new Date(): creates a Date object for the current moment in time.
-   .getFullYear(): extracts the four-digit year (e.g. 2026).
-   .textContent: sets the span's text to that year value. */
 footerYearSpan.textContent = new Date().getFullYear();
-
-
-/* ==========================================================================
-   3. HERO CAROUSEL — ABOUT PARAGRAPHS
-   Three "About Gabriel" paragraphs are overlaid on the hero photo, one shown
-   at a time (all three exist in the HTML for SEO/crawlability — this script
-   only toggles which one is visible). Next/Previous and the dot buttons all
-   wrap around: clicking Next on the last slide loops back to the first.
-========================================================================== */
 
 const heroCarousel = document.querySelector('.hero-carousel');
 
 if (heroCarousel) {
-    /* Array.from: NodeList -> Array so .length/.indexOf work as expected below */
+
     const heroSlides = Array.from(heroCarousel.querySelectorAll('.hero-carousel-slide'));
     const heroDots   = Array.from(heroCarousel.querySelectorAll('.hero-carousel-dot'));
     const heroPrevBtn = heroCarousel.querySelector('.hero-carousel-prev');
     const heroNextBtn = heroCarousel.querySelector('.hero-carousel-next');
 
-    /* Tracks the currently visible slide; starts at 0 to match the slide
-       that is already visible (no [hidden] attribute) in the HTML. */
     let heroActiveIndex = 0;
 
-    /**
-     * showHeroSlide
-     * Shows only the slide at `index` (hides the rest via the [hidden]
-     * attribute) and syncs each dot's visual + aria-current state to match.
-     */
     function showHeroSlide(index) {
         heroSlides.forEach(function (slide, i) {
             slide.hidden = i !== index;
@@ -177,21 +93,17 @@ if (heroCarousel) {
         heroDots.forEach(function (dot, i) {
             const isActive = i === index;
             dot.classList.toggle('is-active', isActive);
-            /* aria-current tells assistive tech which item in the set is
-               the current one — same pattern used for pagination controls. */
+
             dot.setAttribute('aria-current', isActive ? 'true' : 'false');
         });
 
         heroActiveIndex = index;
     }
 
-    /* % wraps the index around: on the last slide, (last + 1) % length = 0 */
     function showNextHeroSlide() {
         showHeroSlide((heroActiveIndex + 1) % heroSlides.length);
     }
 
-    /* + length before % keeps the result positive when wrapping backward
-       from the first slide (JS % can otherwise return a negative number) */
     function showPrevHeroSlide() {
         showHeroSlide((heroActiveIndex - 1 + heroSlides.length) % heroSlides.length);
     }
@@ -199,8 +111,6 @@ if (heroCarousel) {
     heroPrevBtn.addEventListener('click', showPrevHeroSlide);
     heroNextBtn.addEventListener('click', showNextHeroSlide);
 
-    /* Each dot reads its own target index from data-slide-index rather than
-       closing over a loop variable, so there's no stale-index risk. */
     heroDots.forEach(function (dot) {
         dot.addEventListener('click', function () {
             showHeroSlide(Number(dot.dataset.slideIndex));
@@ -208,188 +118,91 @@ if (heroCarousel) {
     });
 }
 
-
-/* ==========================================================================
-   4. RESUME SECTION — FRACTAL BACKGROUND
-   Renders a Mandelbrot set in monochromatic dark navy blue onto the canvas
-   element (#resume-fractal-canvas) inside #resume-section.  The gradient
-   overlay (matching the site's blue palette) is composited directly onto
-   the canvas so no extra DOM element or CSS pseudo-element is required.
-
-   Design decisions:
-   - Renders at 0.5× physical pixels then lets the GPU upscale to fill the
-     canvas element — keeps pixel count ~4× lower than native resolution so
-     the computation finishes in well under a second on any modern device.
-   - maxIter of 80 gives visible fractal detail without excessive loop cost.
-   - Smooth colouring (fractional escape count) eliminates the hard banding
-     that the basic integer iteration count would produce.
-   - Deferred via requestIdleCallback / setTimeout so the main thread is free
-     for layout and user interaction while the fractal computes.
-   - A debounced resize listener re-renders when the viewport changes size
-     (e.g. orientation flip on mobile) so the canvas always fills correctly.
-========================================================================== */
-
-/* Cache the canvas element once — queried here instead of inside the render
-   function so the DOM lookup only happens once rather than on every resize. */
 const resumeCanvas = document.getElementById('resume-fractal-canvas');
 
-/**
- * renderResumeFractal
- * Sizes the canvas to match its current CSS bounding rect at 0.5× density,
- * then draws a Mandelbrot set (Seahorse Valley region) in a monochromatic
- * navy blue palette and composites a semi-transparent gradient overlay.
- */
 function renderResumeFractal() {
-    /* Guard: exit silently if the canvas element is not in the DOM */
+
     if (!resumeCanvas) return;
 
-    /* getContext('2d'): obtain the 2-D drawing context.  willReadFrequently
-       is not set because we only write pixels once per render call. */
     const ctx = resumeCanvas.getContext('2d');
 
-    /* getBoundingClientRect: read the CSS layout size of the canvas element.
-       This is the pixel count the browser is using to display it, not the
-       internal bitmap resolution — we set width/height below. */
     const rect  = resumeCanvas.getBoundingClientRect();
 
-    /* 0.5× scale: render at half the layout dimensions, let the GPU upscale.
-       Halving both axes reduces pixel count by 75 % while the browser scales
-       the bitmap up to fill the element with CSS width/height:100 %. */
     const scale = 0.5;
     const W     = Math.max(Math.floor(rect.width  * scale), 1);
     const H     = Math.max(Math.floor(rect.height * scale), 1);
 
-    /* Setting canvas.width/height also clears any previous bitmap content */
     resumeCanvas.width  = W;
     resumeCanvas.height = H;
 
-    /* Mandelbrot viewport parameters — Seahorse Valley: a region dense with
-       self-similar spirals that gives a rich, non-trivial visual background. */
-    const centerX   = -0.743643887037151; /* Real-axis centre of the view */
-    const centerY   =  0.131825904205330; /* Imaginary-axis centre */
-    const viewWidth =  0.45;              /* Smaller = deeper zoom */
-    const maxIter   =  80;               /* Max iterations before declaring interior */
+    const centerX   = -0.743643887037151;
+    const centerY   =  0.131825904205330;
+    const viewWidth =  0.45;
+    const maxIter   =  80;
 
-    /* Imaginary height of the viewport, scaled to canvas aspect ratio */
     const viewHeight = viewWidth * (H / W);
 
-    /* createImageData: allocates a W×H buffer of RGBA bytes (4 bytes/pixel).
-       Writing directly to the Uint8ClampedArray is the fastest way to set
-       per-pixel colours — faster than fillRect or putImageData in a loop. */
     const imageData = ctx.createImageData(W, H);
-    const buf       = imageData.data; /* Uint8ClampedArray: R,G,B,A,R,G,B,A,... */
+    const buf       = imageData.data;
 
     for (let py = 0; py < H; py++) {
-        /* Map pixel row to imaginary component of c */
+
         const c_imag = centerY + (py / H - 0.5) * viewHeight;
 
         for (let px = 0; px < W; px++) {
-            /* Map pixel column to real component of c */
+
             const c_real = centerX + (px / W - 0.5) * viewWidth;
 
-            /* Standard escape-time loop: z_(n+1) = z_n² + c
-               Terminate when |z|² > 4 (guaranteed escape) or maxIter is hit */
             let zr = 0, zi = 0, n = 0;
             while (n < maxIter && zr * zr + zi * zi <= 4) {
-                const tmp = zr * zr - zi * zi + c_real; /* Real part of z² + c */
-                zi = 2 * zr * zi + c_imag;              /* Imaginary part of z² + c */
+                const tmp = zr * zr - zi * zi + c_real;
+                zi = 2 * zr * zi + c_imag;
                 zr = tmp;
                 n++;
             }
 
-            /* Smooth colouring (Hubbard-Douady potential approximation):
-               The fractional escape count removes the hard banding produced by
-               integer iteration counts by using the final |z| magnitude to
-               interpolate between iteration levels.
-               Only applied to escaped pixels; interior points stay at t=0. */
             let t = 0;
             if (n < maxIter) {
-                /* log2(log2(|z|)) converts the escape magnitude to a fractional
-                   count that sits in the same range as n, then we normalise.
-                   Math.log(4)/2 = log2(2) — dividing by Math.log(2) converts
-                   the natural log to log base-2. */
+
                 const log2z  = Math.log(zr * zr + zi * zi) / 2;
                 const nu     = Math.log(log2z / Math.log(2)) / Math.log(2);
-                const smooth = n + 1 - nu; /* Fractional iteration count */
-                /* γ=0.45 power curve brightens the mid-range so the fractal
-                   boundary detail is visible against the dark background */
+                const smooth = n + 1 - nu;
+
                 t = Math.pow(smooth / maxIter, 0.45);
             }
 
-            /* Monochromatic navy blue palette:
-               t=0 (interior / deep set) → #040c1a  (r:4,  g:12,  b:26)
-               t=1 (fast escape)         → #1e6fa0  (r:30, g:111, b:160) */
             const idx = (py * W + px) * 4;
-            buf[idx    ] = Math.round(  4 + t *  26); /* R: 4  → 30  */
-            buf[idx + 1] = Math.round( 12 + t *  99); /* G: 12 → 111 */
-            buf[idx + 2] = Math.round( 26 + t * 134); /* B: 26 → 160 */
-            buf[idx + 3] = 255;                        /* A: fully opaque */
+            buf[idx    ] = Math.round(  4 + t *  26);
+            buf[idx + 1] = Math.round( 12 + t *  99);
+            buf[idx + 2] = Math.round( 26 + t * 134);
+            buf[idx + 3] = 255;
         }
     }
 
-    /* putImageData: writes the completed pixel buffer to the canvas bitmap */
     ctx.putImageData(imageData, 0, 0);
 
-    /* Gradient overlay — drawn on top of the fractal using the same colour
-       values as the former CSS background gradient so the transition between
-       the old design and the new is visually seamless.
-       fillStyle must be set before globalCompositeOperation so the gradient
-       blends over the fractal rather than replacing it. */
     const grad = ctx.createLinearGradient(0, 0, W, H);
-    grad.addColorStop(0, 'rgba(5,15,40,0.78)');   /* Dark navy — top-left */
-    grad.addColorStop(1, 'rgba(15,45,80,0.72)');  /* Slightly lighter — bottom-right */
+    grad.addColorStop(0, 'rgba(5,15,40,0.78)');
+    grad.addColorStop(1, 'rgba(15,45,80,0.72)');
     ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H); /* Fill the entire canvas with the gradient */
+    ctx.fillRect(0, 0, W, H);
 }
 
-/* Defer first render: requestIdleCallback waits for the browser's next idle
-   slot so fractal computation doesn't delay the initial paint.  The 2000 ms
-   timeout forces execution even if the browser never reaches a true idle state
-   (e.g. continuous animation on the page).  setTimeout(,0) is the fallback
-   for browsers that do not implement requestIdleCallback (Edge < 79, Safari). */
 if (typeof requestIdleCallback === 'function') {
     requestIdleCallback(renderResumeFractal, { timeout: 2000 });
 } else {
     setTimeout(renderResumeFractal, 0);
 }
 
-/* Debounced resize listener — re-renders the fractal after the viewport
-   settles following a resize or orientation change.  clearTimeout cancels
-   any pending re-render so only the last event in a rapid burst triggers
-   a full redraw, preventing multiple overlapping renders during a drag-resize. */
 let fractalResizeTimer = null;
 window.addEventListener('resize', function () {
     clearTimeout(fractalResizeTimer);
-    /* 250 ms debounce — long enough for the viewport to finish resizing,
-       short enough that the canvas looks correct before the user can scroll
-       back to the resume section after an orientation flip. */
+
     fractalResizeTimer = setTimeout(renderResumeFractal, 250);
 });
 
-
-/* ==========================================================================
-   5. ABOUT SECTION — DESKTOP BIO COLUMN WIDTH FIT
-   On desktop (>=1024px, matching the breakpoint in styles.css)
-   #coverletter-section is capped at exactly one viewport height and shows
-   the bio as a single text column — no side-by-side split, no internal
-   scrollbar. CSS alone can't solve "how wide must this column be so its
-   height fits a fixed target" (width determines height in normal flow, not
-   the other way round), so this measures the rendered text and
-   binary-searches the narrowest column width that keeps the full bio
-   inside the available height, then re-applies it on resize.
-   Below 1024px the inline width is cleared so the mobile CSS rule (narrow
-   720px column, section grows past 100vh) is back in full control,
-   unchanged.
-========================================================================== */
-
 const coverletterSection = document.getElementById('coverletter-section');
 
-/**
- * fitBioColumnWidth
- * Sets .coverletter-columns' inline width to the narrowest value that keeps
- * the full bio text within the section's available height on desktop, or
- * clears it on mobile so CSS's fixed narrow column applies instead.
- */
 function fitBioColumnWidth() {
     if (!coverletterSection) return;
 
@@ -398,16 +211,11 @@ function fitBioColumnWidth() {
     const inner   = coverletterSection.querySelector('.section-inner');
     if (!columns || !heading || !inner) return;
 
-    /* Below the desktop breakpoint, hand control back to CSS's mobile rule
-       (.coverletter-columns { width:100%; max-width:720px }). */
     if (window.innerWidth < 1024) {
         columns.style.width = '';
         return;
     }
 
-    /* Vertical space actually available for the paragraphs: the section's
-       own (fixed 100vh) height, minus .section-inner's padding and the
-       heading's box (including its margin-bottom). */
     const innerStyles   = getComputedStyle(inner);
     const paddingTop    = parseFloat(innerStyles.paddingTop) || 0;
     const paddingBottom = parseFloat(innerStyles.paddingBottom) || 0;
@@ -418,32 +226,24 @@ function fitBioColumnWidth() {
     const availableHeight = coverletterSection.getBoundingClientRect().height
         - paddingTop - paddingBottom - headingSpace;
 
-    /* Search bounds: never narrower than a comfortable reading column,
-       never wider than ~96% of the viewport (keeps a sliver of edge room). */
     const minWidth = 480;
     const maxWidth = window.innerWidth * 0.96;
 
     columns.style.width = maxWidth + 'px';
     if (columns.scrollHeight > availableHeight) {
-        /* Even at the widest allowed width the bio doesn't fit this
-           particular viewport — that's the closest possible fit, so leave
-           it there rather than searching narrower (which only gets taller). */
+
         return;
     }
 
-    /* Binary search for the narrowest width that still fits: a wider column
-       wraps to fewer lines and is only ever shorter or equal in height, so
-       the search space is monotonic. 14 iterations narrows the bracket to
-       sub-pixel precision — plenty for a visual fit. */
     let lo = minWidth;
     let hi = maxWidth;
     for (let i = 0; i < 14; i++) {
         const mid = (lo + hi) / 2;
         columns.style.width = mid + 'px';
         if (columns.scrollHeight > availableHeight) {
-            lo = mid; /* too narrow — text still overflows */
+            lo = mid;
         } else {
-            hi = mid; /* fits — try narrower */
+            hi = mid;
         }
     }
     columns.style.width = hi + 'px';
@@ -451,8 +251,6 @@ function fitBioColumnWidth() {
 
 fitBioColumnWidth();
 
-/* Debounced resize listener — same pattern as the fractal resize handler
-   above — re-fits the column width after the viewport settles. */
 let bioFitResizeTimer = null;
 window.addEventListener('resize', function () {
     clearTimeout(bioFitResizeTimer);

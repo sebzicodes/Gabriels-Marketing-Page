@@ -1,370 +1,314 @@
-<!DOCTYPE html>
-<!-- lang="en" tells screen readers and search engines the page language is English -->
+<!doctype html>
+
 <html lang="en">
   <head>
-    <!-- UTF-8 character encoding supports all standard characters and symbols -->
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
 
-    <!-- viewport meta tag: ensures the page scales correctly on mobile devices -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Page title shown in browser tab and used by search engines -->
     <title>Gabriel Davis — Resume &amp; Portfolio</title>
 
-    <!-- Font Awesome CDN: provides social media and general-purpose icon fonts -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
       crossorigin="anonymous"
-    >
+    />
 
-    <!-- External stylesheet: all visual styles live in styles.css -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-
-    <!-- =====================================================================
-         NAVIGATION BAR
-         <nav> is a semantic HTML5 landmark — screen readers jump here with a
-         single key press. aria-label distinguishes it from other <nav> elements
-         on the same page.
-    ===================================================================== -->
     <nav id="main-nav" aria-label="Main navigation">
-
-      <!-- Desktop link list — hidden on mobile via CSS media query -->
-      <!-- role="list" restores list semantics stripped by list-style:none in CSS -->
       <ul class="nav-links" role="list">
-        <!-- Each <li> wraps one jump-link to a page section -->
-            <li><a href="#hero-section"        class="nav-link">Home</a></li>
-            <li><a href="#resume-section"      class="nav-link">Portfolio</a></li>
+        <li><a href="#hero-section" class="nav-link">Home</a></li>
+        <li><a href="#resume-section" class="nav-link">Portfolio</a></li>
         <li><a href="#coverletter-section" class="nav-link">About</a></li>
-            <li><a href="#connect-section"     class="nav-link">Links</a></li>
+        <li><a href="#connect-section" class="nav-link">Links</a></li>
       </ul>
 
-      <!-- Mobile-only jump arrows — replace the named section list on small
-             screens. Revealed once the nav bar presents on scroll (script.js
-             toggles #main-nav.scrolled); step to the previous/next section. -->
-      <div class="nav-mobile-arrows" role="group" aria-label="Jump to previous or next section">
-        <button type="button" class="nav-arrow nav-arrow-up" aria-label="Jump to previous section">
+      <div
+        class="nav-mobile-arrows"
+        role="group"
+        aria-label="Jump to previous or next section"
+      >
+        <button
+          type="button"
+          class="nav-arrow nav-arrow-up"
+          aria-label="Jump to previous section"
+        >
           <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
         </button>
-        <button type="button" class="nav-arrow nav-arrow-down" aria-label="Jump to next section">
+        <button
+          type="button"
+          class="nav-arrow nav-arrow-down"
+          aria-label="Jump to next section"
+        >
           <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
         </button>
       </div>
 
-      <!-- Mobile-only contact button — the only nav item visible on small screens.
-             Positioned top-right via flexbox on the parent <nav> element. -->
       <a
         href="#connect-section"
         class="nav-mobile-contact"
         aria-label="Jump to Links section"
-        >Links</a>
+        >Links</a
+      >
+    </nav>
 
-    </nav><!-- /#main-nav -->
-
-
-    <!-- =====================================================================
-         MAIN CONTENT
-         <main> is the primary semantic landmark — contains everything that is
-         unique to this page (not shared header/footer boilerplate).
-    ===================================================================== -->
     <main>
-
-      <!-- ==============================================================
-             HERO SECTION
-             Full-viewport section. A fixed <div> acts as the background
-             image, sitting behind everything via z-index. Social icon links
-             are pinned 25% up from the bottom of the section.
-        ============================================================== -->
       <section class="page" id="hero-section" aria-label="Hero — introduction">
+        <div
+          class="hero-bg"
+          style="
+            background-image: url(&quot;https://raw.githubusercontent.com/sebzicodes/assets/main/350DC896-2DD8-43A0-AE96-9713A9359419_1_105_c.jpeg&quot;);
+          "
+          role="img"
+          aria-label="Background portrait of Gabriel Davis"
+        ></div>
 
-        <!-- Background image element:
-                 position:fixed in CSS so it stays stationary while scrolling.
-                 role="img" + aria-label makes it meaningful to screen readers. -->
-       <div class="hero-bg"
-             style="background-image: url('https://raw.githubusercontent.com/sebzicodes/assets/main/350DC896-2DD8-43A0-AE96-9713A9359419_1_105_c.jpeg');"
-             role="img"
-            aria-label="Background portrait of Gabriel Davis">
-        </div>
-
-        <!-- Hero overlay: top half is a 135deg light blue gradient (photo shows through);
-             bottom half is fully opaque light blue, creating a solid panel. -->
         <div class="hero-overlay" aria-hidden="true"></div>
 
-
-        <!-- Hero intro: name + tagline sit in the solid (non-blur) bottom half of the hero.
-             position:absolute in CSS pins it to the solid area above the social icons. -->
         <div class="hero-intro">
-          <!-- h1 is the page's primary heading — screen readers treat this as the document title -->
           <h1 class="hero-name">Gabriel.S.Davis</h1>
-          <!-- Role tagline directly beneath the name -->
-          <p class="hero-tagline-text">Full-Stack-Engineer &nbsp;|&nbsp; Content-Creator</p>
+
+          <p class="hero-tagline-text">
+            Full-Stack-Engineer &nbsp;|&nbsp; Content-Creator
+          </p>
         </div>
 
-
-        <!-- Hero carousel: three "About Gabriel" paragraphs overlaid on the
-             hero photo, one visible at a time. All three paragraphs live in
-             the HTML (real, crawlable text — never baked into an image) so
-             script.js only toggles which one is shown.
-             role/aria-roledescription mark this as a carousel landmark for
-             assistive tech; aria-live="polite" on the viewport announces the
-             new paragraph each time the visible slide changes. -->
-        <div class="hero-carousel" role="region" aria-roledescription="carousel" aria-label="About Gabriel">
-
-          <!-- Prev/next arrows now live inside this wrapper, pinned to the
-               left/right edges of the viewport itself (slide-library style)
-               instead of stacking below it in their own row. -->
+        <div
+          class="hero-carousel"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="About Gabriel"
+        >
           <div class="hero-carousel-viewport-wrap">
-            <button type="button" class="hero-carousel-btn hero-carousel-prev" aria-label="Previous slide">
+            <button
+              type="button"
+              class="hero-carousel-btn hero-carousel-prev"
+              aria-label="Previous slide"
+            >
               <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
             </button>
 
             <div class="hero-carousel-viewport" aria-live="polite">
               <p class="hero-carousel-slide" id="hero-slide-0">
-                I believe in people. Ten years in customer service taught me that positive interactions can build confidence, create momentum, and change direction.
+                I believe in people. Ten years in customer service taught me
+                that positive interactions can build confidence, create
+                momentum, and change direction.
               </p>
               <p class="hero-carousel-slide" id="hero-slide-1" hidden>
-                I bring that mindset to technology. I listen, understand the goal, and turn ideas into clear, useful digital experiences.
+                I bring that mindset to technology. I listen, understand the
+                goal, and turn ideas into clear, useful digital experiences.
               </p>
               <p class="hero-carousel-slide" id="hero-slide-2" hidden>
-                If you have a business, idea, or vision worth sharing, I can help bring it online with a website that feels true to you.
+                If you have a business, idea, or vision worth sharing, I can
+                help bring it online with a website that feels true to you.
               </p>
-            </div><!-- /.hero-carousel-viewport -->
+            </div>
 
-            <button type="button" class="hero-carousel-btn hero-carousel-next" aria-label="Next slide">
+            <button
+              type="button"
+              class="hero-carousel-btn hero-carousel-next"
+              aria-label="Next slide"
+            >
               <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
             </button>
-          </div><!-- /.hero-carousel-viewport-wrap -->
-
-          <!-- Dots only now — every control is a real <button>, so Tab +
-               Enter/Space operate the carousel with no mouse needed. -->
-          <div class="hero-carousel-dots">
-            <button type="button" class="hero-carousel-dot is-active" data-slide-index="0" aria-current="true"  aria-label="Slide 1 of 3"></button>
-            <button type="button" class="hero-carousel-dot"           data-slide-index="1" aria-current="false" aria-label="Slide 2 of 3"></button>
-            <button type="button" class="hero-carousel-dot"           data-slide-index="2" aria-current="false" aria-label="Slide 3 of 3"></button>
           </div>
 
-        </div><!-- /.hero-carousel -->
+          <div class="hero-carousel-dots">
+            <button
+              type="button"
+              class="hero-carousel-dot is-active"
+              data-slide-index="0"
+              aria-current="true"
+              aria-label="Slide 1 of 3"
+            ></button>
+            <button
+              type="button"
+              class="hero-carousel-dot"
+              data-slide-index="1"
+              aria-current="false"
+              aria-label="Slide 2 of 3"
+            ></button>
+            <button
+              type="button"
+              class="hero-carousel-dot"
+              data-slide-index="2"
+              aria-current="false"
+              aria-label="Slide 3 of 3"
+            ></button>
+          </div>
+        </div>
 
-
-        <!-- Contact button pinned to the bottom light blue bar of the hero section.
-             Opens the visitor's default email client addressed to Gabriel's email. -->
         <a
           href="mailto:gabriel.sebzi.davis@gmail.com"
           class="hero-contact-btn"
           aria-label="Send Gabriel an email"
-        >Contact</a>
+          >Contact</a
+        >
+      </section>
 
-        </section><!-- /#hero-section -->
-
-
-      <!-- ==============================================================
-             RESUME SECTION
-             Background: a Mandelbrot fractal rendered on #resume-fractal-canvas
-             in monochromatic navy blue.  script.js computes and composites
-             the fractal + gradient overlay onto the canvas once on page load
-             and again on viewport resize (orientation changes on mobile).
-        ============================================================== -->
       <section class="page" id="resume-section" aria-label="Resume">
-
-        <!-- Fractal canvas — Mandelbrot set in monochromatic navy blue.
-             position:absolute (CSS) fills the section; z-index:0 keeps it
-             behind .section-inner (z-index:1).  aria-hidden:true marks it
-             as decorative so screen readers skip it entirely. -->
         <canvas id="resume-fractal-canvas" aria-hidden="true"></canvas>
 
         <div class="section-inner">
-
           <h2>Portfolio</h2>
 
           <div class="portfolio-intro">
-            <p>Every project I build is shaped around the person, business, or idea behind it. I don&rsquo;t rely on one-size-fits-all templates&mdash;each site is designed to reflect the client&rsquo;s identity, goals, and audience.</p>
-            <p>Take a look through some of the projects I&rsquo;ve created for others that are in use today. Each one is different because every client brings something different to the table.</p>
-            <p><strong>Your website should look like it belongs to you.</strong></p>
+            <p>
+              Every project I build is shaped around the person, business, or
+              idea behind it. I don&rsquo;t rely on one-size-fits-all
+              templates&mdash;each site is designed to reflect the
+              client&rsquo;s identity, goals, and audience.
+            </p>
+            <p>
+              Take a look through some of the projects I&rsquo;ve created for
+              others that are in use today. Each one is different because every
+              client brings something different to the table.
+            </p>
+            <p>
+              <strong>Your website should look like it belongs to you.</strong>
+            </p>
           </div>
+        </div>
+      </section>
 
-          <!-- Project cards/grid to be added here. -->
-
-        </div><!-- /.section-inner -->
-
-        </section><!-- /#resume-section -->
-
-
-      <!-- ==============================================================
-             COVER LETTER / ABOUT SECTION
-             Solid dark-red background (z-index: 0 — sits above hero photo).
-             Contains a viewable version of the cover letter document.
-             A second set of social icons sits statically at the section bottom.
-        ============================================================== -->
-        <section class="page" id="coverletter-section" aria-label="Cover letter and about me">
-
-        <!-- .section-inner: reusable centering wrapper for section content -->
+      <section
+        class="page"
+        id="coverletter-section"
+        aria-label="Cover letter and about me"
+      >
         <div class="section-inner">
-          <!-- h2: the first heading level below the implicit h1-level hero -->
           <h2>About Me</h2>
 
-          <!-- Cover letter body text.
-               .coverletter-columns caps the reading width of a single text
-               column: narrow on mobile, wider (50vw, ~25% gutter each side)
-               on desktop. Always one column — the section grows past 100vh
-               at every width instead of clipping the bio. -->
           <div class="coverletter-columns">
-          <p class="coverletter-body">
-            I believe in people, sometimes more than they do
-          </p>
+            <p class="coverletter-body">
+              I believe in people, sometimes more than they do
+            </p>
 
-          <p class="coverletter-body">
-            After more than ten years in customer service, I&rsquo;ve learned
-            how much impact people can have on one another through positive
-            interaction and perspective. A conversation, encouragement, or
-            simply helping someone feel understood can change the direction
-            of their day&mdash;and sometimes their life.
-          </p>
+            <p class="coverletter-body">
+              After more than ten years in customer service, I&rsquo;ve learned
+              how much impact people can have on one another through positive
+              interaction and perspective. A conversation, encouragement, or
+              simply helping someone feel understood can change the direction of
+              their day&mdash;and sometimes their life.
+            </p>
 
-          <p class="coverletter-body">
-            Fear of failure can keep talented people from taking the first
-            step toward what they actually want, and I know that feeling
-            because I&rsquo;ve had to push through it myself.
-          </p>
+            <p class="coverletter-body">
+              Fear of failure can keep talented people from taking the first
+              step toward what they actually want, and I know that feeling
+              because I&rsquo;ve had to push through it myself.
+            </p>
 
-          <p class="coverletter-body">
-            I&rsquo;m a self-taught software engineer, bartender, and
-            lifelong learner. I&rsquo;ve built my path by learning,
-            experimenting, failing, adapting, and continuing forward. I try
-            to help others the same way&mdash;not by telling them who to
-            become, but by helping illuminate a path they can choose to
-            walk.
-          </p>
+            <p class="coverletter-body">
+              I&rsquo;m a self-taught software engineer, bartender, and lifelong
+              learner. I&rsquo;ve built my path by learning, experimenting,
+              failing, adapting, and continuing forward. I try to help others
+              the same way&mdash;not by telling them who to become, but by
+              helping illuminate a path they can choose to walk.
+            </p>
 
-          <p class="coverletter-body">Your digital presence should feel like you.</p>
+            <p class="coverletter-body">
+              Your digital presence should feel like you.
+            </p>
 
-          <p class="coverletter-body">
-            Technology is one of the ways I do that. I work with people to
-            turn their ideas, businesses, and ambitions into digital spaces
-            that represent them authentically.
-          </p>
+            <p class="coverletter-body">
+              Technology is one of the ways I do that. I work with people to
+              turn their ideas, businesses, and ambitions into digital spaces
+              that represent them authentically.
+            </p>
 
-          <p class="coverletter-body">
-            I listen first, understand what they want to communicate, and
-            translate that into design, functionality, and content. The goal
-            is simple: create something that feels like a genuine extension
-            of the person or brand behind it.
-          </p>
+            <p class="coverletter-body">
+              I listen first, understand what they want to communicate, and
+              translate that into design, functionality, and content. The goal
+              is simple: create something that feels like a genuine extension of
+              the person or brand behind it.
+            </p>
 
-          <p class="coverletter-body">Let me help you build your brand.</p>
+            <p class="coverletter-body">Let me help you build your brand.</p>
 
-          <p class="coverletter-body">
-            I build custom websites and applications for businesses, individuals, and people
-            with ideas they want to put into the world. As I continue
-            growing my portfolio, I&rsquo;m looking to work with ambitious
-            people who are ready to establish or strengthen their presence
-            online.
-          </p>
+            <p class="coverletter-body">
+              I build custom websites and applications for businesses,
+              individuals, and people with ideas they want to put into the
+              world. As I continue growing my portfolio, I&rsquo;m looking to
+              work with ambitious people who are ready to establish or
+              strengthen their presence online.
+            </p>
 
-          <p class="coverletter-body">
-            The digital world keeps moving whether we feel ready or not. You
-            don&rsquo;t need to wait until you feel completely prepared.
-          </p>
+            <p class="coverletter-body">
+              The digital world keeps moving whether we feel ready or not. You
+              don&rsquo;t need to wait until you feel completely prepared.
+            </p>
 
-          <p class="coverletter-body">
-            If you have a business, an idea, a story, or something
-            you&rsquo;re ready to pursue, I&rsquo;d love to help you bring it
-            to life.
-          </p>
-          </div><!-- /.coverletter-columns -->
-            </div><!-- /.section-inner -->
+            <p class="coverletter-body">
+              If you have a business, an idea, a story, or something
+              you&rsquo;re ready to pursue, I&rsquo;d love to help you bring it
+              to life.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        </section><!-- /#coverletter-section -->
+      <section
+        id="connect-section"
+        aria-label="Connect with Gabriel on social platforms"
+      >
+        <div class="connect-inner">
+          <h2 class="connect-heading">Let's Connect</h2>
 
+          <div class="connect-list" role="list">
+            <a
+              href="https://linkedin.com/in/gabriel-davis-0792423a7"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="connect-item"
+              role="listitem"
+              aria-label="Connect with Gabriel on LinkedIn (opens in new tab)"
+            >
+              <span class="connect-icon" aria-hidden="true">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </span>
 
-      <!-- ==============================================================
-             CONNECT SECTION
-             Sits directly above the footer. Displays large platform icons;
-             hovering slides the icon left and reveals an inviting message.
-             The entire <a> (icon + label) is the clickable link.
-        ============================================================== -->
-      <section id="connect-section" aria-label="Connect with Gabriel on social platforms">
+              <span class="connect-label">Let's connect on LinkedIn</span>
+            </a>
 
-      <!-- Centred inner wrapper — mirrors .section-inner pattern but custom -->
-      <div class="connect-inner">
+            <a
+              href="https://github.com/sebzicodes"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="connect-item"
+              role="listitem"
+              aria-label="View Gabriel's GitHub profile (opens in new tab)"
+            >
+              <span class="connect-icon" aria-hidden="true">
+                <i class="fa-brands fa-github"></i>
+              </span>
+              <span class="connect-label">Check out my work on GitHub</span>
+            </a>
 
-        <!-- Section heading -->
-        <h2 class="connect-heading">Let's Connect</h2>
+            <a
+              href="mailto:gabriel.sebzi.davis@gmail.com"
+              class="connect-item"
+              role="listitem"
+              aria-label="Send Gabriel an email"
+            >
+              <span class="connect-icon" aria-hidden="true">
+                <i class="fa-solid fa-envelope"></i>
+              </span>
+              <span class="connect-label">Drop me an email</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
 
-        <!-- Vertical list of platform links -->
-        <div class="connect-list" role="list">
-
-          <!-- LinkedIn row -->
-          <!-- role="listitem" pairs with role="list" on parent for a11y -->
-          <a
-            href="https://linkedin.com/in/gabriel-davis-0792423a7"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="connect-item"
-            role="listitem"
-            aria-label="Connect with Gabriel on LinkedIn (opens in new tab)"
-          >
-            <!-- Icon wrapper — translated left on hover via CSS -->
-            <span class="connect-icon" aria-hidden="true">
-              <i class="fa-brands fa-linkedin-in"></i>
-            </span>
-            <!-- Inviting label — hidden until hover -->
-            <span class="connect-label">Let's connect on LinkedIn</span>
-          </a>
-
-          <!-- GitHub row -->
-          <a
-            href="https://github.com/sebzicodes"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="connect-item"
-            role="listitem"
-            aria-label="View Gabriel's GitHub profile (opens in new tab)"
-          >
-            <span class="connect-icon" aria-hidden="true">
-              <i class="fa-brands fa-github"></i>
-            </span>
-            <span class="connect-label">Check out my work on GitHub</span>
-          </a>
-
-          <!-- Email row -->
-          <a
-            href="mailto:gabriel.sebzi.davis@gmail.com"
-            class="connect-item"
-            role="listitem"
-            aria-label="Send Gabriel an email"
-          >
-            <span class="connect-icon" aria-hidden="true">
-              <i class="fa-solid fa-envelope"></i>
-            </span>
-            <span class="connect-label">Drop me an email</span>
-          </a>
-
-        </div><!-- /.connect-list -->
-      </div><!-- /.connect-inner -->
-
-      </section><!-- /#connect-section -->
-
-    </main><!-- /#main -->
-
-
-    <!-- =====================================================================
-         FOOTER
-         <footer> is the semantic landmark for page-level footer content such
-         as copyright, legal links, or supplementary information.
-    ===================================================================== -->
     <footer aria-label="Site footer">
-      <!-- Copyright line — the year is injected dynamically by script.js -->
       <p>
-            &copy; <span id="footer-year"></span> Gabriel Davis. All rights reserved.
+        &copy; <span id="footer-year"></span> Gabriel Davis. All rights
+        reserved.
       </p>
-    </footer><!-- /footer -->
+    </footer>
 
-
-    <!-- script.js is loaded at the end of <body> so the DOM is fully parsed
-         before the JavaScript runs, avoiding "element not found" errors. -->
     <script src="script.js"></script>
-
   </body>
 </html>
