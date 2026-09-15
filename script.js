@@ -28,114 +28,26 @@ window.addEventListener(
 
 handleNavScroll();
 
-const jumpSectionIds = [
-  "hero-section",
-  "resume-section",
-  "coverletter-section",
-  "connect-section",
-];
+const navHamburger = document.querySelector(".nav-hamburger");
+const navLinks = document.getElementById("nav-links");
 
-const navArrowUp = document.querySelector(".nav-arrow-up");
-const navArrowDown = document.querySelector(".nav-arrow-down");
+if (navHamburger && navLinks) {
+  navHamburger.addEventListener("click", function () {
+    const isOpen = navLinks.classList.toggle("is-open");
+    navHamburger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  });
 
-const prefersReducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)",
-).matches;
-
-function currentSectionIndex(offsets, scrollY) {
-  let index = 0;
-  for (let i = 0; i < offsets.length; i++) {
-    if (scrollY >= offsets[i] - 2) index = i;
-  }
-  return index;
-}
-
-function jumpToSection(step) {
-  const offsets = jumpSectionIds
-    .map(function (id) {
-      return document.getElementById(id);
-    })
-    .filter(Boolean)
-    .map(function (el) {
-      return el.offsetTop;
+  navLinks.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      navLinks.classList.remove("is-open");
+      navHamburger.setAttribute("aria-expanded", "false");
     });
-
-  if (!offsets.length) return;
-
-  const targetIndex = Math.min(
-    Math.max(currentSectionIndex(offsets, window.scrollY) + step, 0),
-    offsets.length - 1,
-  );
-
-  window.scrollTo({
-    top: offsets[targetIndex],
-    behavior: prefersReducedMotion ? "auto" : "smooth",
-  });
-}
-
-if (navArrowUp) {
-  navArrowUp.addEventListener("click", function () {
-    jumpToSection(-1);
-  });
-}
-if (navArrowDown) {
-  navArrowDown.addEventListener("click", function () {
-    jumpToSection(1);
   });
 }
 
 const footerYearSpan = document.getElementById("footer-year");
 
 footerYearSpan.textContent = new Date().getFullYear();
-
-const heroCarousel = document.querySelector(".hero-carousel");
-
-if (heroCarousel) {
-  const heroSlides = Array.from(
-    heroCarousel.querySelectorAll(".hero-carousel-slide"),
-  );
-  const heroDots = Array.from(
-    heroCarousel.querySelectorAll(".hero-carousel-dot"),
-  );
-  const heroPrevBtn = heroCarousel.querySelector(".hero-carousel-prev");
-  const heroNextBtn = heroCarousel.querySelector(".hero-carousel-next");
-
-  let heroActiveIndex = 0;
-
-  function showHeroSlide(index) {
-    heroSlides.forEach(function (slide, i) {
-      slide.hidden = i !== index;
-    });
-
-    heroDots.forEach(function (dot, i) {
-      const isActive = i === index;
-      dot.classList.toggle("is-active", isActive);
-
-      dot.setAttribute("aria-current", isActive ? "true" : "false");
-    });
-
-    heroActiveIndex = index;
-  }
-
-  function showNextHeroSlide() {
-    showHeroSlide((heroActiveIndex + 1) % heroSlides.length);
-  }
-
-  function showPrevHeroSlide() {
-    showHeroSlide(
-      (heroActiveIndex - 1 + heroSlides.length) % heroSlides.length,
-    );
-  }
-
-  heroPrevBtn.addEventListener("click", showPrevHeroSlide);
-  heroNextBtn.addEventListener("click", showNextHeroSlide);
-
-  heroDots.forEach(function (dot) {
-    dot.addEventListener("click", function () {
-      showHeroSlide(Number(dot.dataset.slideIndex));
-    });
-  });
-}
 
 const resumeCanvas = document.getElementById("resume-fractal-canvas");
 
@@ -216,63 +128,4 @@ window.addEventListener("resize", function () {
   clearTimeout(fractalResizeTimer);
 
   fractalResizeTimer = setTimeout(renderResumeFractal, 250);
-});
-
-const coverletterSection = document.getElementById("coverletter-section");
-
-function fitBioColumnWidth() {
-  if (!coverletterSection) return;
-
-  const columns = coverletterSection.querySelector(".coverletter-columns");
-  const heading = coverletterSection.querySelector("h2");
-  const inner = coverletterSection.querySelector(".section-inner");
-  if (!columns || !heading || !inner) return;
-
-  if (window.innerWidth < 1024) {
-    columns.style.width = "";
-    return;
-  }
-
-  const innerStyles = getComputedStyle(inner);
-  const paddingTop = parseFloat(innerStyles.paddingTop) || 0;
-  const paddingBottom = parseFloat(innerStyles.paddingBottom) || 0;
-  const headingStyles = getComputedStyle(heading);
-  const headingSpace =
-    heading.getBoundingClientRect().height +
-    (parseFloat(headingStyles.marginBottom) || 0);
-
-  const availableHeight =
-    coverletterSection.getBoundingClientRect().height -
-    paddingTop -
-    paddingBottom -
-    headingSpace;
-
-  const minWidth = 480;
-  const maxWidth = window.innerWidth * 0.96;
-
-  columns.style.width = maxWidth + "px";
-  if (columns.scrollHeight > availableHeight) {
-    return;
-  }
-
-  let lo = minWidth;
-  let hi = maxWidth;
-  for (let i = 0; i < 14; i++) {
-    const mid = (lo + hi) / 2;
-    columns.style.width = mid + "px";
-    if (columns.scrollHeight > availableHeight) {
-      lo = mid;
-    } else {
-      hi = mid;
-    }
-  }
-  columns.style.width = hi + "px";
-}
-
-fitBioColumnWidth();
-
-let bioFitResizeTimer = null;
-window.addEventListener("resize", function () {
-  clearTimeout(bioFitResizeTimer);
-  bioFitResizeTimer = setTimeout(fitBioColumnWidth, 150);
 });
